@@ -1,3 +1,5 @@
+// https://claude.ai/chat/4d405205-afd6-46eb-90a7-17dad13df91c
+
 import React, { useState } from 'react';
 import './App.css';
 import { CampaignLineChart, SegmentedBarChart, FilterControls } from './components/CampaignCharts';
