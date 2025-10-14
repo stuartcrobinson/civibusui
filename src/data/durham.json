@@ -1,7 +1,7 @@
 {
   "industry": [
     {
-      "label": "ANDREA CAZALES",
+      "label": "Andrea Cazales",
       "imageUrl": "/img/andrea.jpeg",
       "position": "CITY COUNCIL",
       "subregion_value": "I",
@@ -40,7 +40,7 @@
       ]
     },
     {
-      "label": "ANJANEE BELL",
+      "label": "Anjanee Bell",
       "imageUrl": "/img/anjanee.jpeg",
       "position": "MAYOR",
       "subregion_value": null,
@@ -59,7 +59,7 @@
       ]
     },
     {
-      "label": "DEDREANA FREEMAN",
+      "label": "Dedreana Freeman",
       "imageUrl": "/img/dedreana.png",
       "position": "CITY COUNCIL",
       "subregion_value": "I",
@@ -108,7 +108,7 @@
       ]
     },
     {
-      "label": "DIANA MEDOFF",
+      "label": "Diana Medoff",
       "imageUrl": "/img/diana.png",
       "position": "CITY COUNCIL",
       "subregion_value": "III",
@@ -162,7 +162,7 @@
       ]
     },
     {
-      "label": "ELIJAH KING",
+      "label": "Elijah King",
       "imageUrl": "/img/elijah.jpeg",
       "position": "CITY COUNCIL",
       "subregion_value": "I",
@@ -206,7 +206,7 @@
       ]
     },
     {
-      "label": "LEONARDO WILLIAMS",
+      "label": "Leonardo Williams",
       "imageUrl": "/img/leowilliams.jpeg",
       "position": "MAYOR",
       "subregion_value": null,
@@ -309,7 +309,7 @@
       ]
     },
     {
-      "label": "MATT KOPAC",
+      "label": "Matt Kopac",
       "imageUrl": "/img/kopac.jpeg",
       "position": "CITY COUNCIL",
       "subregion_value": "I",
@@ -363,7 +363,7 @@
       ]
     },
     {
-      "label": "TERRY MCCANN",
+      "label": "Terry Mccann",
       "imageUrl": "/img/terry-mccann.jpeg",
       "position": "CITY COUNCIL",
       "subregion_value": "III",
@@ -394,7 +394,7 @@
   ],
   "location": [
     {
-      "label": "ANDREA CAZALES",
+      "label": "Andrea Cazales",
       "imageUrl": "/img/andrea.jpeg",
       "position": "CITY COUNCIL",
       "subregion_value": "I",
@@ -423,7 +423,7 @@
       ]
     },
     {
-      "label": "ANJANEE BELL",
+      "label": "Anjanee Bell",
       "imageUrl": "/img/anjanee.jpeg",
       "position": "MAYOR",
       "subregion_value": null,
@@ -452,7 +452,7 @@
       ]
     },
     {
-      "label": "DEDREANA FREEMAN",
+      "label": "Dedreana Freeman",
       "imageUrl": "/img/dedreana.png",
       "position": "CITY COUNCIL",
       "subregion_value": "I",
@@ -481,7 +481,7 @@
       ]
     },
     {
-      "label": "DIANA MEDOFF",
+      "label": "Diana Medoff",
       "imageUrl": "/img/diana.png",
       "position": "CITY COUNCIL",
       "subregion_value": "III",
@@ -510,7 +510,7 @@
       ]
     },
     {
-      "label": "ELIJAH KING",
+      "label": "Elijah King",
       "imageUrl": "/img/elijah.jpeg",
       "position": "CITY COUNCIL",
       "subregion_value": "I",
@@ -539,7 +539,7 @@
       ]
     },
     {
-      "label": "LEONARDO WILLIAMS",
+      "label": "Leonardo Williams",
       "imageUrl": "/img/leowilliams.jpeg",
       "position": "MAYOR",
       "subregion_value": null,
@@ -597,7 +597,7 @@
       ]
     },
     {
-      "label": "MATT KOPAC",
+      "label": "Matt Kopac",
       "imageUrl": "/img/kopac.jpeg",
       "position": "CITY COUNCIL",
       "subregion_value": "I",
@@ -626,7 +626,7 @@
       ]
     },
     {
-      "label": "TERRY MCCANN",
+      "label": "Terry Mccann",
       "imageUrl": "/img/terry-mccann.jpeg",
       "position": "CITY COUNCIL",
       "subregion_value": "III",
@@ -652,7 +652,7 @@
   ],
   "size": [
     {
-      "label": "ANDREA CAZALES",
+      "label": "Andrea Cazales",
       "imageUrl": "/img/andrea.jpeg",
       "position": "CITY COUNCIL",
       "subregion_value": "I",
@@ -676,7 +676,7 @@
       ]
     },
     {
-      "label": "ANJANEE BELL",
+      "label": "Anjanee Bell",
       "imageUrl": "/img/anjanee.jpeg",
       "position": "MAYOR",
       "subregion_value": null,
@@ -700,7 +700,7 @@
       ]
     },
     {
-      "label": "DEDREANA FREEMAN",
+      "label": "Dedreana Freeman",
       "imageUrl": "/img/dedreana.png",
       "position": "CITY COUNCIL",
       "subregion_value": "I",
@@ -729,7 +729,7 @@
       ]
     },
     {
-      "label": "DIANA MEDOFF",
+      "label": "Diana Medoff",
       "imageUrl": "/img/diana.png",
       "position": "CITY COUNCIL",
       "subregion_value": "III",
@@ -758,7 +758,7 @@
       ]
     },
     {
-      "label": "ELIJAH KING",
+      "label": "Elijah King",
       "imageUrl": "/img/elijah.jpeg",
       "position": "CITY COUNCIL",
       "subregion_value": "I",
@@ -787,7 +787,7 @@
       ]
     },
     {
-      "label": "LEONARDO WILLIAMS",
+      "label": "Leonardo Williams",
       "imageUrl": "/img/leowilliams.jpeg",
       "position": "MAYOR",
       "subregion_value": null,
@@ -840,7 +840,7 @@
       ]
     },
     {
-      "label": "MATT KOPAC",
+      "label": "Matt Kopac",
       "imageUrl": "/img/kopac.jpeg",
       "position": "CITY COUNCIL",
       "subregion_value": "I",
@@ -869,7 +869,7 @@
       ]
     },
     {
-      "label": "TERRY MCCANN",
+      "label": "Terry Mccann",
       "imageUrl": "/img/terry-mccann.jpeg",
       "position": "CITY COUNCIL",
       "subregion_value": "III",
@@ -901,7 +901,7 @@
   "timeline": {
     "lines": [
       {
-        "label": "ANDREA CAZALES",
+        "label": "Andrea Cazales",
         "dataKey": "andrea_cazales",
         "position": "CITY COUNCIL",
         "subregion_value": "I",
@@ -1078,7 +1078,7 @@
         "color": "#3b82f6"
       },
       {
-        "label": "ANJANEE BELL",
+        "label": "Anjanee Bell",
         "dataKey": "anjanee_bell",
         "position": "MAYOR",
         "subregion_value": null,
@@ -1255,7 +1255,7 @@
         "color": "#ef4444"
       },
       {
-        "label": "DEDREANA FREEMAN",
+        "label": "Dedreana Freeman",
         "dataKey": "dedreana_freeman",
         "position": "CITY COUNCIL",
         "subregion_value": "I",
@@ -1432,7 +1432,7 @@
         "color": "#10b981"
       },
       {
-        "label": "DIANA MEDOFF",
+        "label": "Diana Medoff",
         "dataKey": "diana_medoff",
         "position": "CITY COUNCIL",
         "subregion_value": "III",
@@ -1609,7 +1609,7 @@
         "color": "#a855f7"
       },
       {
-        "label": "ELIJAH KING",
+        "label": "Elijah King",
         "dataKey": "elijah_king",
         "position": "CITY COUNCIL",
         "subregion_value": "I",
@@ -1786,7 +1786,7 @@
         "color": "#f97316"
       },
       {
-        "label": "LEONARDO WILLIAMS",
+        "label": "Leonardo Williams",
         "dataKey": "leonardo_williams",
         "position": "MAYOR",
         "subregion_value": null,
@@ -2140,7 +2140,7 @@
         "color": "#eab308"
       },
       {
-        "label": "MATT KOPAC",
+        "label": "Matt Kopac",
         "dataKey": "matt_kopac",
         "position": "CITY COUNCIL",
         "subregion_value": "I",
@@ -2317,7 +2317,7 @@
         "color": "#ec4899"
       },
       {
-        "label": "TERRY MCCANN",
+        "label": "Terry Mccann",
         "dataKey": "terry_mccann",
         "position": "CITY COUNCIL",
         "subregion_value": "III",

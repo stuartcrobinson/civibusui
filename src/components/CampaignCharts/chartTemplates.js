@@ -91,8 +91,11 @@ function CampaignLineChart({ data, title, yAxisLabel, xAxisLabel, activeFilter }
           },
             React.createElement('div', { className: 'w-4 h-4 flex-shrink-0', style: { backgroundColor: line.color } }),
             React.createElement('span', { 
-              className: 'text-sm text-gray-900 ' + (isHighlighted ? 'font-bold' : '')
-            }, line.label)
+              className: 'text-sm text-gray-900 relative inline-block'
+            }, 
+              React.createElement('span', { className: 'font-bold invisible', 'aria-hidden': 'true' }, line.label),
+              React.createElement('span', { className: 'absolute inset-0 ' + (isHighlighted ? 'font-bold' : '') }, line.label)
+            )
           );
         })
       )
@@ -105,13 +108,23 @@ function CampaignLineChart({ data, title, yAxisLabel, xAxisLabel, activeFilter }
           tickFormatter: formatXAxis,
           tick: { fontSize: 12, fill: '#6b7280' },
           stroke: '#9ca3af',
-          label: xAxisLabel ? { value: xAxisLabel, position: 'insideBottom', offset: -10, style: { fontSize: 11, fill: '#6b7280', fontWeight: 600 } } : undefined
+          label: xAxisLabel ? { 
+            value: xAxisLabel, 
+            position: 'insideBottom', 
+            offset: -10, 
+            style: { fontSize: 11, fill: '#6b7280', fontWeight: 600, textTransform: 'uppercase' } 
+          } : undefined
         }),
         React.createElement(YAxis, {
           tickFormatter: formatYAxis,
           tick: { fontSize: 12, fill: '#6b7280' },
           stroke: '#9ca3af',
-          label: { value: yAxisLabel, angle: -90, position: 'insideLeft', style: { fontSize: 11, fill: '#6b7280', fontWeight: 600, textAnchor: 'middle' } }
+          label: { 
+            value: yAxisLabel, 
+            angle: -90, 
+            position: 'insideLeft', 
+            style: { fontSize: 11, fill: '#6b7280', fontWeight: 600, textTransform: 'uppercase', textAnchor: 'middle' } 
+          }
         }),
         React.createElement(Tooltip, { content: React.createElement(CustomTooltip) }),
         filteredLines.map((line) =>
@@ -129,7 +142,8 @@ function CampaignLineChart({ data, title, yAxisLabel, xAxisLabel, activeFilter }
               onMouseLeave: () => { setHoveredDot(null); setHoveredLine(null); }
             },
             onMouseEnter: () => setHoveredLine(line.dataKey),
-            onMouseLeave: () => setHoveredLine(null)
+            onMouseLeave: () => setHoveredLine(null),
+            isAnimationActive: false
           })
         )
       )
@@ -141,6 +155,7 @@ export const BAR_CHART_TEMPLATE = `
 function SegmentedBarChart({ data, title, legendLabel, activeFilter }) {
   const [hoveredSegment, setHoveredSegment] = React.useState(null);
   const [hoveredLabel, setHoveredLabel] = React.useState(null);
+  const [hoveredLabelSource, setHoveredLabelSource] = React.useState(null);
 
   const allSegmentTypes = {};
   data.forEach(item => {
@@ -189,11 +204,16 @@ function SegmentedBarChart({ data, title, legendLabel, activeFilter }) {
           return React.createElement('div', {
             key: idx,
             className: 'flex items-center gap-2 transition-all duration-200 cursor-pointer ' + (hoveredLabel && !isHighlighted ? 'opacity-50' : 'opacity-100'),
-            onMouseEnter: () => setHoveredLabel(item.label),
-            onMouseLeave: () => setHoveredLabel(null)
+            onMouseEnter: () => { setHoveredLabel(item.label); setHoveredLabelSource('legend'); },
+            onMouseLeave: () => { setHoveredLabel(null); setHoveredLabelSource(null); }
           },
             React.createElement('div', { className: 'w-4 h-4 flex-shrink-0', style: { backgroundColor: item.color } }),
-            React.createElement('span', { className: 'text-sm text-gray-900' }, item.label)
+            React.createElement('span', { 
+              className: 'text-sm text-gray-900 relative inline-block'
+            },
+              React.createElement('span', { className: 'font-bold invisible', 'aria-hidden': 'true' }, item.label),
+              React.createElement('span', { className: 'absolute inset-0 ' + (isHighlighted ? 'font-bold' : '') }, item.label)
+            )
           );
         })
       )
@@ -234,13 +254,15 @@ function SegmentedBarChart({ data, title, legendLabel, activeFilter }) {
                   onMouseEnter: () => {
                     setHoveredSegment(segmentId);
                     setHoveredLabel(seg.label);
+                    setHoveredLabelSource('segment');
                   },
                   onMouseLeave: () => {
                     setHoveredSegment(null);
                     setHoveredLabel(null);
+                    setHoveredLabelSource(null);
                   }
                 },
-                  isHighlighted && React.createElement('div', {
+                  isHighlighted && hoveredLabelSource === 'segment' && React.createElement('div', {
                     className: 'absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-3 py-2 rounded shadow-lg z-20 whitespace-nowrap'
                   },
                     React.createElement('p', { className: 'text-xs font-semibold' }, seg.label),
