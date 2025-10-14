@@ -4,7 +4,7 @@ import FilterControls from './FilterControls';
 import ExportModal from './ExportModal';
 import { useChartExport } from './useChartExport';
 
-export default function SegmentedBarChart({ 
+function SegmentedBarChart({ 
   data, 
   title, 
   legendLabel,
@@ -298,3 +298,5 @@ export default function SegmentedBarChart({
     </div>
   );
 }
+
+export default React.memo(SegmentedBarChart);

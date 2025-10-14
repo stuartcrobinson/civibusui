@@ -6,7 +6,7 @@ import ExportModal from './ExportModal';
 import { useChartExport } from './useChartExport';
 
 
-export default function CampaignLineChart({ 
+function CampaignLineChart({ 
   data, 
   title, 
   yAxisLabel, 
@@ -307,3 +307,5 @@ export default function CampaignLineChart({
     </div>
   );
 }
+
+export default React.memo(CampaignLineChart);
