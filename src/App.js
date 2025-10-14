@@ -159,9 +159,10 @@ function App() {
 
           <div className="p-4 bg-red-50 dark:bg-red-900 rounded-lg border border-red-200 dark:border-red-700">
             <p className="text-sm text-red-900 dark:text-red-100">
-              <strong>Warning:</strong> Anjanee Bell is weeks behind on submitting multiple 
-              required campaign finance reports. Her fundraising data displayed here is incomplete 
-              and unreliable.
+              <strong>Data reliability warning:</strong> Anjanee Bell has not submitted the 
+              2025 35-Day Report (due Aug. 5, 2025) or the 2025 Pre-Primary Report (due Sept. 2, 2025). 
+              Her fundraising data displayed here is incomplete and unreliable. State law imposes 
+              fines of $50 per report per day, up to $500 per report.
             </p>
           </div>
 
@@ -203,6 +204,13 @@ function App() {
                      className="text-blue-600 dark:text-blue-400 hover:underline" 
                      target="_blank" rel="noopener noreferrer">
                   NCSBE - Campaign Finance Organization Lookup
+                </a>
+              </li>
+              <li>
+                • <a href="https://www.ncsbe.gov/campaign-finance/penalties" 
+                     className="text-blue-600 dark:text-blue-400 hover:underline" 
+                     target="_blank" rel="noopener noreferrer">
+                  NCSBE - Campaign Finance Penalties
                 </a>
               </li>
             </ul>
