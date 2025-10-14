@@ -148,12 +148,65 @@ function App() {
           />
         </div>
 
-        <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
-          <p className="text-sm text-blue-900 dark:text-blue-100">
-            <strong>Data notes:</strong> Amounts include starting cash on hand and all receipts 
-            from June 1, 2025 onward. Industry categorization covers ~68.5% of donations; 
-            unmatched contributions appear in Other/Unknown.
-          </p>
+        <div className="mt-8 space-y-4">
+          <div className="p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
+            <p className="text-sm text-blue-900 dark:text-blue-100">
+              <strong>Data notes:</strong> Amounts include starting cash on hand and all receipts 
+              from June 1, 2025 onward. Industry categorization covers ~68.5% of donations; 
+              unmatched contributions appear in Other/Unknown.
+            </p>
+          </div>
+
+          <div className="p-4 bg-red-50 dark:bg-red-900 rounded-lg border border-red-200 dark:border-red-700">
+            <p className="text-sm text-red-900 dark:text-red-100">
+              <strong>Warning:</strong> Anjanee Bell is weeks behind on submitting multiple 
+              required campaign finance reports. Her fundraising data displayed here is incomplete 
+              and unreliable.
+            </p>
+          </div>
+
+          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <p className="text-xs text-gray-700 dark:text-gray-300 mb-2">
+              <strong>Data sources:</strong>
+            </p>
+            <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+              <li>
+                • <a href="https://www.ncsbe.gov/results-data/candidate-lists" 
+                     className="text-blue-600 dark:text-blue-400 hover:underline" 
+                     target="_blank" rel="noopener noreferrer">
+                  NC State Board of Elections - Candidate Lists
+                </a>
+              </li>
+              <li>
+                • <a href="https://www.ncsbe.gov/campaign-finance/reporting-schedules/municipal-election-reporting-schedule" 
+                     className="text-blue-600 dark:text-blue-400 hover:underline" 
+                     target="_blank" rel="noopener noreferrer">
+                  NCSBE - Municipal Election Reporting Schedule
+                </a>
+              </li>
+              <li>
+                • <a href="https://dcoftp.net/boe-ftp/Campaign%20Finance/Open%20Committees/Candidate%20Committees/" 
+                     className="text-blue-600 dark:text-blue-400 hover:underline" 
+                     target="_blank" rel="noopener noreferrer">
+                  Durham County BOE - Campaign Finance Files
+                </a>
+              </li>
+              <li>
+                • <a href="https://cf.ncsbe.gov/CFDocLkup" 
+                     className="text-blue-600 dark:text-blue-400 hover:underline" 
+                     target="_blank" rel="noopener noreferrer">
+                  NCSBE - Campaign Finance Document Lookup
+                </a>
+              </li>
+              <li>
+                • <a href="https://cf.ncsbe.gov/CFOrgLkup" 
+                     className="text-blue-600 dark:text-blue-400 hover:underline" 
+                     target="_blank" rel="noopener noreferrer">
+                  NCSBE - Campaign Finance Organization Lookup
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
