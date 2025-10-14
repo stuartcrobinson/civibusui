@@ -1,0 +1,2498 @@
+{
+  "industry": [
+    {
+      "label": "ANDREA CAZALES",
+      "imageUrl": "/img/andrea.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "I",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Other/Unknown",
+          "value": 1670,
+          "color": "#a855f7"
+        },
+        {
+          "label": "Business & Industry",
+          "value": 150,
+          "color": "#22c55e"
+        },
+        {
+          "label": "Finance Law & Consulting",
+          "value": 100,
+          "color": "#f97316"
+        },
+        {
+          "label": "Healthcare",
+          "value": 2335,
+          "color": "#eab308"
+        },
+        {
+          "label": "Retired",
+          "value": 100,
+          "color": "#3b82f6"
+        },
+        {
+          "label": "Technology",
+          "value": 100,
+          "color": "#84cc16"
+        }
+      ]
+    },
+    {
+      "label": "ANJANEE BELL",
+      "imageUrl": "/img/anjanee.jpeg",
+      "position": "MAYOR",
+      "subregion_value": null,
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Other/Unknown",
+          "value": 912.75,
+          "color": "#a855f7"
+        },
+        {
+          "label": "Finance Law & Consulting",
+          "value": 420.93,
+          "color": "#f97316"
+        }
+      ]
+    },
+    {
+      "label": "DEDREANA FREEMAN",
+      "imageUrl": "/img/dedreana.png",
+      "position": "CITY COUNCIL",
+      "subregion_value": "I",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Other/Unknown",
+          "value": 9380.8,
+          "color": "#a855f7"
+        },
+        {
+          "label": "Business & Industry",
+          "value": 350,
+          "color": "#22c55e"
+        },
+        {
+          "label": "Finance Law & Consulting",
+          "value": 2100,
+          "color": "#f97316"
+        },
+        {
+          "label": "Education & Public Sector",
+          "value": 1101.25,
+          "color": "#06b6d4"
+        },
+        {
+          "label": "Labor & Service",
+          "value": 850,
+          "color": "#10b981"
+        },
+        {
+          "label": "Healthcare",
+          "value": 100,
+          "color": "#eab308"
+        },
+        {
+          "label": "Real Estate",
+          "value": 100,
+          "color": "#ef4444"
+        },
+        {
+          "label": "Technology",
+          "value": 100,
+          "color": "#84cc16"
+        }
+      ]
+    },
+    {
+      "label": "DIANA MEDOFF",
+      "imageUrl": "/img/diana.png",
+      "position": "CITY COUNCIL",
+      "subregion_value": "III",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Other/Unknown",
+          "value": 12720,
+          "color": "#a855f7"
+        },
+        {
+          "label": "Business & Industry",
+          "value": 4950,
+          "color": "#22c55e"
+        },
+        {
+          "label": "Finance Law & Consulting",
+          "value": 4850,
+          "color": "#f97316"
+        },
+        {
+          "label": "Education & Public Sector",
+          "value": 5968.27,
+          "color": "#06b6d4"
+        },
+        {
+          "label": "Labor & Service",
+          "value": 5950,
+          "color": "#10b981"
+        },
+        {
+          "label": "Healthcare",
+          "value": 4710,
+          "color": "#eab308"
+        },
+        {
+          "label": "Real Estate",
+          "value": 1800,
+          "color": "#ef4444"
+        },
+        {
+          "label": "Retired",
+          "value": 450,
+          "color": "#3b82f6"
+        },
+        {
+          "label": "Technology",
+          "value": 100,
+          "color": "#84cc16"
+        }
+      ]
+    },
+    {
+      "label": "ELIJAH KING",
+      "imageUrl": "/img/elijah.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "I",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Other/Unknown",
+          "value": 5491.97,
+          "color": "#a855f7"
+        },
+        {
+          "label": "Business & Industry",
+          "value": 1130,
+          "color": "#22c55e"
+        },
+        {
+          "label": "Finance Law & Consulting",
+          "value": 575,
+          "color": "#f97316"
+        },
+        {
+          "label": "Education & Public Sector",
+          "value": 525,
+          "color": "#06b6d4"
+        },
+        {
+          "label": "Labor & Service",
+          "value": 100,
+          "color": "#10b981"
+        },
+        {
+          "label": "Healthcare",
+          "value": 670,
+          "color": "#eab308"
+        },
+        {
+          "label": "Retired",
+          "value": 150,
+          "color": "#3b82f6"
+        }
+      ]
+    },
+    {
+      "label": "LEONARDO WILLIAMS",
+      "imageUrl": "/img/leowilliams.jpeg",
+      "position": "MAYOR",
+      "subregion_value": null,
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Other/Unknown",
+          "value": 6807.36,
+          "color": "#a855f7"
+        },
+        {
+          "label": "Business & Industry",
+          "value": 11020.2,
+          "color": "#22c55e"
+        },
+        {
+          "label": "Finance Law & Consulting",
+          "value": 3656,
+          "color": "#f97316"
+        },
+        {
+          "label": "Education & Public Sector",
+          "value": 1933.32,
+          "color": "#06b6d4"
+        },
+        {
+          "label": "Labor & Service",
+          "value": 3310.15,
+          "color": "#10b981"
+        },
+        {
+          "label": "Healthcare",
+          "value": 609.65,
+          "color": "#eab308"
+        },
+        {
+          "label": "Real Estate",
+          "value": 905.08,
+          "color": "#ef4444"
+        },
+        {
+          "label": "Retired",
+          "value": 1505.28,
+          "color": "#3b82f6"
+        },
+        {
+          "label": "Technology",
+          "value": 2600,
+          "color": "#84cc16"
+        }
+      ]
+    },
+    {
+      "label": "Mark Anthony Middleton",
+      "imageUrl": "/img/MAM.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "II",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Other/Unknown",
+          "value": 2986,
+          "color": "#a855f7"
+        },
+        {
+          "label": "Business & Industry",
+          "value": 600,
+          "color": "#22c55e"
+        },
+        {
+          "label": "Finance Law & Consulting",
+          "value": 1004,
+          "color": "#f97316"
+        },
+        {
+          "label": "Education & Public Sector",
+          "value": 2720.27,
+          "color": "#06b6d4"
+        },
+        {
+          "label": "Labor & Service",
+          "value": 1000,
+          "color": "#10b981"
+        },
+        {
+          "label": "Real Estate",
+          "value": 200,
+          "color": "#ef4444"
+        },
+        {
+          "label": "Retired",
+          "value": 100,
+          "color": "#3b82f6"
+        },
+        {
+          "label": "Technology",
+          "value": 750,
+          "color": "#84cc16"
+        }
+      ]
+    },
+    {
+      "label": "MATT KOPAC",
+      "imageUrl": "/img/kopac.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "I",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Other/Unknown",
+          "value": 23105.12,
+          "color": "#a855f7"
+        },
+        {
+          "label": "Business & Industry",
+          "value": 6700,
+          "color": "#22c55e"
+        },
+        {
+          "label": "Finance Law & Consulting",
+          "value": 10800,
+          "color": "#f97316"
+        },
+        {
+          "label": "Education & Public Sector",
+          "value": 5510,
+          "color": "#06b6d4"
+        },
+        {
+          "label": "Labor & Service",
+          "value": 3380,
+          "color": "#10b981"
+        },
+        {
+          "label": "Healthcare",
+          "value": 2571,
+          "color": "#eab308"
+        },
+        {
+          "label": "Real Estate",
+          "value": 5450,
+          "color": "#ef4444"
+        },
+        {
+          "label": "Retired",
+          "value": 2050,
+          "color": "#3b82f6"
+        },
+        {
+          "label": "Technology",
+          "value": 3300,
+          "color": "#84cc16"
+        }
+      ]
+    },
+    {
+      "label": "TERRY MCCANN",
+      "imageUrl": "/img/terry-mccann.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "III",
+      "leftLabel": "R",
+      "segments": [
+        {
+          "label": "Other/Unknown",
+          "value": 12355,
+          "color": "#a855f7"
+        },
+        {
+          "label": "Education & Public Sector",
+          "value": 4928.81,
+          "color": "#06b6d4"
+        },
+        {
+          "label": "Retired",
+          "value": 3175,
+          "color": "#3b82f6"
+        },
+        {
+          "label": "Technology",
+          "value": 200,
+          "color": "#84cc16"
+        }
+      ]
+    }
+  ],
+  "location": [
+    {
+      "label": "ANDREA CAZALES",
+      "imageUrl": "/img/andrea.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "I",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Out of State",
+          "value": 935,
+          "color": "#2534bdff"
+        },
+        {
+          "label": "In NC (not Durham)",
+          "value": 200,
+          "color": "#6671daff"
+        },
+        {
+          "label": "In Durham",
+          "value": 2110,
+          "color": "#b2bafcff"
+        },
+        {
+          "label": "Unknown",
+          "value": 1770,
+          "color": "#ef4444"
+        }
+      ]
+    },
+    {
+      "label": "ANJANEE BELL",
+      "imageUrl": "/img/anjanee.jpeg",
+      "position": "MAYOR",
+      "subregion_value": null,
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Out of State",
+          "value": 5610.5,
+          "color": "#2534bdff"
+        },
+        {
+          "label": "In NC (not Durham)",
+          "value": 7297.36,
+          "color": "#6671daff"
+        },
+        {
+          "label": "In Durham",
+          "value": 5873.95,
+          "color": "#b2bafcff"
+        },
+        {
+          "label": "Unknown",
+          "value": 902.75,
+          "color": "#ef4444"
+        }
+      ]
+    },
+    {
+      "label": "DEDREANA FREEMAN",
+      "imageUrl": "/img/dedreana.png",
+      "position": "CITY COUNCIL",
+      "subregion_value": "I",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Out of State",
+          "value": 549.25,
+          "color": "#2534bdff"
+        },
+        {
+          "label": "In NC (not Durham)",
+          "value": 1776,
+          "color": "#6671daff"
+        },
+        {
+          "label": "In Durham",
+          "value": 10933.99,
+          "color": "#b2bafcff"
+        },
+        {
+          "label": "Unknown",
+          "value": 1108,
+          "color": "#ef4444"
+        }
+      ]
+    },
+    {
+      "label": "DIANA MEDOFF",
+      "imageUrl": "/img/diana.png",
+      "position": "CITY COUNCIL",
+      "subregion_value": "III",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Out of State",
+          "value": 7660,
+          "color": "#2534bdff"
+        },
+        {
+          "label": "In NC (not Durham)",
+          "value": 9840,
+          "color": "#6671daff"
+        },
+        {
+          "label": "In Durham",
+          "value": 23488.27,
+          "color": "#b2bafcff"
+        },
+        {
+          "label": "Unknown",
+          "value": 510,
+          "color": "#ef4444"
+        }
+      ]
+    },
+    {
+      "label": "ELIJAH KING",
+      "imageUrl": "/img/elijah.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "I",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Out of State",
+          "value": 2215,
+          "color": "#2534bdff"
+        },
+        {
+          "label": "In NC (not Durham)",
+          "value": 4225,
+          "color": "#6671daff"
+        },
+        {
+          "label": "In Durham",
+          "value": 6006.97,
+          "color": "#b2bafcff"
+        },
+        {
+          "label": "Unknown",
+          "value": 1425,
+          "color": "#ef4444"
+        }
+      ]
+    },
+    {
+      "label": "LEONARDO WILLIAMS",
+      "imageUrl": "/img/leowilliams.jpeg",
+      "position": "MAYOR",
+      "subregion_value": null,
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Out of State",
+          "value": 10267.97,
+          "color": "#2534bdff"
+        },
+        {
+          "label": "In NC (not Durham)",
+          "value": 8843.05,
+          "color": "#6671daff"
+        },
+        {
+          "label": "In Durham",
+          "value": 13128.66,
+          "color": "#b2bafcff"
+        },
+        {
+          "label": "Unknown",
+          "value": 107.36,
+          "color": "#ef4444"
+        }
+      ]
+    },
+    {
+      "label": "Mark Anthony Middleton",
+      "imageUrl": "/img/MAM.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "II",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Out of State",
+          "value": 1804,
+          "color": "#2534bdff"
+        },
+        {
+          "label": "In NC (not Durham)",
+          "value": 1700,
+          "color": "#6671daff"
+        },
+        {
+          "label": "In Durham",
+          "value": 5245.27,
+          "color": "#b2bafcff"
+        },
+        {
+          "label": "Unknown",
+          "value": 611,
+          "color": "#ef4444"
+        }
+      ]
+    },
+    {
+      "label": "MATT KOPAC",
+      "imageUrl": "/img/kopac.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "I",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "Out of State",
+          "value": 15475,
+          "color": "#2534bdff"
+        },
+        {
+          "label": "In NC (not Durham)",
+          "value": 3470,
+          "color": "#6671daff"
+        },
+        {
+          "label": "In Durham",
+          "value": 41408.12,
+          "color": "#b2bafcff"
+        },
+        {
+          "label": "Unknown",
+          "value": 2513,
+          "color": "#ef4444"
+        }
+      ]
+    },
+    {
+      "label": "TERRY MCCANN",
+      "imageUrl": "/img/terry-mccann.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "III",
+      "leftLabel": "R",
+      "segments": [
+        {
+          "label": "In NC (not Durham)",
+          "value": 2600,
+          "color": "#6671daff"
+        },
+        {
+          "label": "In Durham",
+          "value": 17053.81,
+          "color": "#b2bafcff"
+        },
+        {
+          "label": "Unknown",
+          "value": 1005,
+          "color": "#ef4444"
+        }
+      ]
+    }
+  ],
+  "size": [
+    {
+      "label": "ANDREA CAZALES",
+      "imageUrl": "/img/andrea.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "I",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": ">$1000",
+          "value": 1500,
+          "color": "#ef4444"
+        },
+        {
+          "label": "$51-250",
+          "value": 1300,
+          "color": "#22c55e"
+        },
+        {
+          "label": "≤$50",
+          "value": 1655,
+          "color": "#eab308"
+        }
+      ]
+    },
+    {
+      "label": "ANJANEE BELL",
+      "imageUrl": "/img/anjanee.jpeg",
+      "position": "MAYOR",
+      "subregion_value": null,
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": ">$1000",
+          "value": null,
+          "color": "#ef4444"
+        },
+        {
+          "label": "$251-1000",
+          "value": 1220.53,
+          "color": "#3b82f6"
+        },
+        {
+          "label": "$51-250",
+          "value": 113.15,
+          "color": "#22c55e"
+        }
+      ]
+    },
+    {
+      "label": "DEDREANA FREEMAN",
+      "imageUrl": "/img/dedreana.png",
+      "position": "CITY COUNCIL",
+      "subregion_value": "I",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": ">$1000",
+          "value": 2500,
+          "color": "#ef4444"
+        },
+        {
+          "label": "$251-1000",
+          "value": 4700,
+          "color": "#3b82f6"
+        },
+        {
+          "label": "$51-250",
+          "value": 5518.25,
+          "color": "#22c55e"
+        },
+        {
+          "label": "≤$50",
+          "value": 1363.8,
+          "color": "#eab308"
+        }
+      ]
+    },
+    {
+      "label": "DIANA MEDOFF",
+      "imageUrl": "/img/diana.png",
+      "position": "CITY COUNCIL",
+      "subregion_value": "III",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": ">$1000",
+          "value": 5600,
+          "color": "#ef4444"
+        },
+        {
+          "label": "$251-1000",
+          "value": 22030.27,
+          "color": "#3b82f6"
+        },
+        {
+          "label": "$51-250",
+          "value": 13258,
+          "color": "#22c55e"
+        },
+        {
+          "label": "≤$50",
+          "value": 610,
+          "color": "#eab308"
+        }
+      ]
+    },
+    {
+      "label": "ELIJAH KING",
+      "imageUrl": "/img/elijah.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "I",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": ">$1000",
+          "value": 3537,
+          "color": "#ef4444"
+        },
+        {
+          "label": "$251-1000",
+          "value": 1419.25,
+          "color": "#3b82f6"
+        },
+        {
+          "label": "$51-250",
+          "value": 2408.74,
+          "color": "#22c55e"
+        },
+        {
+          "label": "≤$50",
+          "value": 1276.98,
+          "color": "#eab308"
+        }
+      ]
+    },
+    {
+      "label": "LEONARDO WILLIAMS",
+      "imageUrl": "/img/leowilliams.jpeg",
+      "position": "MAYOR",
+      "subregion_value": null,
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": ">$1000",
+          "value": 14465.2,
+          "color": "#ef4444"
+        },
+        {
+          "label": "$251-1000",
+          "value": 12066.64,
+          "color": "#3b82f6"
+        },
+        {
+          "label": "$51-250",
+          "value": 5707.84,
+          "color": "#22c55e"
+        },
+        {
+          "label": "≤$50",
+          "value": 107.36,
+          "color": "#eab308"
+        }
+      ]
+    },
+    {
+      "label": "Mark Anthony Middleton",
+      "imageUrl": "/img/MAM.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "II",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": "$251-1000",
+          "value": 6220.27,
+          "color": "#3b82f6"
+        },
+        {
+          "label": "$51-250",
+          "value": 2450,
+          "color": "#22c55e"
+        },
+        {
+          "label": "≤$50",
+          "value": 690,
+          "color": "#eab308"
+        }
+      ]
+    },
+    {
+      "label": "MATT KOPAC",
+      "imageUrl": "/img/kopac.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "I",
+      "leftLabel": "D",
+      "segments": [
+        {
+          "label": ">$1000",
+          "value": 12093.12,
+          "color": "#ef4444"
+        },
+        {
+          "label": "$251-1000",
+          "value": 23850,
+          "color": "#3b82f6"
+        },
+        {
+          "label": "$51-250",
+          "value": 23710,
+          "color": "#22c55e"
+        },
+        {
+          "label": "≤$50",
+          "value": 3213,
+          "color": "#eab308"
+        }
+      ]
+    },
+    {
+      "label": "TERRY MCCANN",
+      "imageUrl": "/img/terry-mccann.jpeg",
+      "position": "CITY COUNCIL",
+      "subregion_value": "III",
+      "leftLabel": "R",
+      "segments": [
+        {
+          "label": ">$1000",
+          "value": 8000,
+          "color": "#ef4444"
+        },
+        {
+          "label": "$251-1000",
+          "value": 6429.53,
+          "color": "#3b82f6"
+        },
+        {
+          "label": "$51-250",
+          "value": 5349.28,
+          "color": "#22c55e"
+        },
+        {
+          "label": "≤$50",
+          "value": 880,
+          "color": "#eab308"
+        }
+      ]
+    }
+  ],
+  "timeline": {
+    "lines": [
+      {
+        "label": "ANDREA CAZALES",
+        "dataKey": "andrea_cazales",
+        "position": "CITY COUNCIL",
+        "subregion_value": "I",
+        "points": [
+          {
+            "date": "2024-12-30T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-01-06T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-01-13T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-01-20T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-01-27T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-02-03T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-02-10T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-02-17T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-02-24T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-03-03T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-03-10T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-03-17T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-03-24T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-03-31T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-04-07T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-04-14T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-04-21T00:00:00.000Z",
+            "value": 2124.9
+          },
+          {
+            "date": "2025-04-28T00:00:00.000Z",
+            "value": 2149.9
+          },
+          {
+            "date": "2025-05-05T00:00:00.000Z",
+            "value": 2509.9
+          },
+          {
+            "date": "2025-05-12T00:00:00.000Z",
+            "value": 2659.9
+          },
+          {
+            "date": "2025-05-19T00:00:00.000Z",
+            "value": 2684.9
+          },
+          {
+            "date": "2025-05-26T00:00:00.000Z",
+            "value": 2684.9
+          },
+          {
+            "date": "2025-06-02T00:00:00.000Z",
+            "value": 2709.9
+          },
+          {
+            "date": "2025-06-09T00:00:00.000Z",
+            "value": 2834.9
+          },
+          {
+            "date": "2025-06-16T00:00:00.000Z",
+            "value": 2834.9
+          },
+          {
+            "date": "2025-06-23T00:00:00.000Z",
+            "value": 3169.9
+          },
+          {
+            "date": "2025-06-30T00:00:00.000Z",
+            "value": 4954.9
+          },
+          {
+            "date": "2025-07-07T00:00:00.000Z",
+            "value": 5009.9
+          },
+          {
+            "date": "2025-07-14T00:00:00.000Z",
+            "value": 5134.9
+          },
+          {
+            "date": "2025-07-21T00:00:00.000Z",
+            "value": 5564.9
+          },
+          {
+            "date": "2025-07-28T00:00:00.000Z",
+            "value": 5999.9
+          },
+          {
+            "date": "2025-08-04T00:00:00.000Z",
+            "value": 6684.9
+          },
+          {
+            "date": "2025-08-11T00:00:00.000Z",
+            "value": 6739.9
+          },
+          {
+            "date": "2025-08-18T00:00:00.000Z",
+            "value": 7139.9
+          },
+          {
+            "date": "2025-08-25T00:00:00.000Z",
+            "value": 7139.9
+          },
+          {
+            "date": "2025-09-01T00:00:00.000Z",
+            "value": 7139.9
+          },
+          {
+            "date": "2025-09-08T00:00:00.000Z",
+            "value": 7139.9
+          },
+          {
+            "date": "2025-09-15T00:00:00.000Z",
+            "value": 7139.9
+          },
+          {
+            "date": "2025-09-22T00:00:00.000Z",
+            "value": 7139.9
+          },
+          {
+            "date": "2025-09-29T00:00:00.000Z",
+            "value": 7139.9
+          },
+          {
+            "date": "2025-10-06T00:00:00.000Z",
+            "value": 7139.9
+          },
+          {
+            "date": "2025-10-13T00:00:00.000Z",
+            "value": 7139.9
+          }
+        ],
+        "color": "#3b82f6"
+      },
+      {
+        "label": "ANJANEE BELL",
+        "dataKey": "anjanee_bell",
+        "position": "MAYOR",
+        "subregion_value": null,
+        "points": [
+          {
+            "date": "2024-12-30T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-01-06T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-01-13T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-01-20T00:00:00.000Z",
+            "value": 2501.72
+          },
+          {
+            "date": "2025-01-27T00:00:00.000Z",
+            "value": 2888.72
+          },
+          {
+            "date": "2025-02-03T00:00:00.000Z",
+            "value": 2888.72
+          },
+          {
+            "date": "2025-02-10T00:00:00.000Z",
+            "value": 3961.96
+          },
+          {
+            "date": "2025-02-17T00:00:00.000Z",
+            "value": 5003.4
+          },
+          {
+            "date": "2025-02-24T00:00:00.000Z",
+            "value": 5159.88
+          },
+          {
+            "date": "2025-03-03T00:00:00.000Z",
+            "value": 7253.88
+          },
+          {
+            "date": "2025-03-10T00:00:00.000Z",
+            "value": 8253.88
+          },
+          {
+            "date": "2025-03-17T00:00:00.000Z",
+            "value": 8416.75
+          },
+          {
+            "date": "2025-03-24T00:00:00.000Z",
+            "value": 11528.96
+          },
+          {
+            "date": "2025-03-31T00:00:00.000Z",
+            "value": 11939.58
+          },
+          {
+            "date": "2025-04-07T00:00:00.000Z",
+            "value": 14489.58
+          },
+          {
+            "date": "2025-04-14T00:00:00.000Z",
+            "value": 15489.58
+          },
+          {
+            "date": "2025-04-21T00:00:00.000Z",
+            "value": 15489.58
+          },
+          {
+            "date": "2025-04-28T00:00:00.000Z",
+            "value": 15921.65
+          },
+          {
+            "date": "2025-05-05T00:00:00.000Z",
+            "value": 16884
+          },
+          {
+            "date": "2025-05-12T00:00:00.000Z",
+            "value": 18292.73
+          },
+          {
+            "date": "2025-05-19T00:00:00.000Z",
+            "value": 18292.73
+          },
+          {
+            "date": "2025-05-26T00:00:00.000Z",
+            "value": 18350.88
+          },
+          {
+            "date": "2025-06-02T00:00:00.000Z",
+            "value": 18350.88
+          },
+          {
+            "date": "2025-06-09T00:00:00.000Z",
+            "value": 18771.81
+          },
+          {
+            "date": "2025-06-16T00:00:00.000Z",
+            "value": 18771.81
+          },
+          {
+            "date": "2025-06-23T00:00:00.000Z",
+            "value": 18884.96
+          },
+          {
+            "date": "2025-06-30T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-07-07T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-07-14T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-07-21T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-07-28T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-08-04T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-08-11T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-08-18T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-08-25T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-09-01T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-09-08T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-09-15T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-09-22T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-09-29T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-10-06T00:00:00.000Z",
+            "value": 19684.56
+          },
+          {
+            "date": "2025-10-13T00:00:00.000Z",
+            "value": 19684.56
+          }
+        ],
+        "color": "#ef4444"
+      },
+      {
+        "label": "DEDREANA FREEMAN",
+        "dataKey": "dedreana_freeman",
+        "position": "CITY COUNCIL",
+        "subregion_value": "I",
+        "points": [
+          {
+            "date": "2024-12-30T00:00:00.000Z",
+            "value": 7185.59
+          },
+          {
+            "date": "2025-01-06T00:00:00.000Z",
+            "value": 7185.59
+          },
+          {
+            "date": "2025-01-13T00:00:00.000Z",
+            "value": 7185.59
+          },
+          {
+            "date": "2025-01-20T00:00:00.000Z",
+            "value": 7185.59
+          },
+          {
+            "date": "2025-01-27T00:00:00.000Z",
+            "value": 7202.36
+          },
+          {
+            "date": "2025-02-03T00:00:00.000Z",
+            "value": 7202.36
+          },
+          {
+            "date": "2025-02-10T00:00:00.000Z",
+            "value": 7202.36
+          },
+          {
+            "date": "2025-02-17T00:00:00.000Z",
+            "value": 7202.36
+          },
+          {
+            "date": "2025-02-24T00:00:00.000Z",
+            "value": 7229.3
+          },
+          {
+            "date": "2025-03-03T00:00:00.000Z",
+            "value": 7239.4
+          },
+          {
+            "date": "2025-03-10T00:00:00.000Z",
+            "value": 7375.4
+          },
+          {
+            "date": "2025-03-17T00:00:00.000Z",
+            "value": 7375.4
+          },
+          {
+            "date": "2025-03-24T00:00:00.000Z",
+            "value": 7375.4
+          },
+          {
+            "date": "2025-03-31T00:00:00.000Z",
+            "value": 7376.44
+          },
+          {
+            "date": "2025-04-07T00:00:00.000Z",
+            "value": 7440.55
+          },
+          {
+            "date": "2025-04-14T00:00:00.000Z",
+            "value": 7440.55
+          },
+          {
+            "date": "2025-04-21T00:00:00.000Z",
+            "value": 7440.55
+          },
+          {
+            "date": "2025-04-28T00:00:00.000Z",
+            "value": 7454.39
+          },
+          {
+            "date": "2025-05-05T00:00:00.000Z",
+            "value": 7454.39
+          },
+          {
+            "date": "2025-05-12T00:00:00.000Z",
+            "value": 7454.39
+          },
+          {
+            "date": "2025-05-19T00:00:00.000Z",
+            "value": 7454.39
+          },
+          {
+            "date": "2025-05-26T00:00:00.000Z",
+            "value": 7470.78
+          },
+          {
+            "date": "2025-06-02T00:00:00.000Z",
+            "value": 7470.78
+          },
+          {
+            "date": "2025-06-09T00:00:00.000Z",
+            "value": 7520.78
+          },
+          {
+            "date": "2025-06-16T00:00:00.000Z",
+            "value": 7770.78
+          },
+          {
+            "date": "2025-06-23T00:00:00.000Z",
+            "value": 9966.43
+          },
+          {
+            "date": "2025-06-30T00:00:00.000Z",
+            "value": 12945.38
+          },
+          {
+            "date": "2025-07-07T00:00:00.000Z",
+            "value": 13070.38
+          },
+          {
+            "date": "2025-07-14T00:00:00.000Z",
+            "value": 13770.38
+          },
+          {
+            "date": "2025-07-21T00:00:00.000Z",
+            "value": 13882.04
+          },
+          {
+            "date": "2025-07-28T00:00:00.000Z",
+            "value": 13925.47
+          },
+          {
+            "date": "2025-08-04T00:00:00.000Z",
+            "value": 14625.47
+          },
+          {
+            "date": "2025-08-11T00:00:00.000Z",
+            "value": 15435.47
+          },
+          {
+            "date": "2025-08-18T00:00:00.000Z",
+            "value": 16749.06
+          },
+          {
+            "date": "2025-08-25T00:00:00.000Z",
+            "value": 18828.83
+          },
+          {
+            "date": "2025-09-01T00:00:00.000Z",
+            "value": 19951.83
+          },
+          {
+            "date": "2025-09-08T00:00:00.000Z",
+            "value": 20797.83
+          },
+          {
+            "date": "2025-09-15T00:00:00.000Z",
+            "value": 21402.83
+          },
+          {
+            "date": "2025-09-22T00:00:00.000Z",
+            "value": 21552.83
+          },
+          {
+            "date": "2025-09-29T00:00:00.000Z",
+            "value": 21552.83
+          },
+          {
+            "date": "2025-10-06T00:00:00.000Z",
+            "value": 21552.83
+          },
+          {
+            "date": "2025-10-13T00:00:00.000Z",
+            "value": 21552.83
+          }
+        ],
+        "color": "#10b981"
+      },
+      {
+        "label": "DIANA MEDOFF",
+        "dataKey": "diana_medoff",
+        "position": "CITY COUNCIL",
+        "subregion_value": "III",
+        "points": [
+          {
+            "date": "2024-12-30T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-01-06T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-01-13T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-01-20T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-01-27T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-02-03T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-02-10T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-02-17T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-02-24T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-03-03T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-03-10T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-03-17T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-03-24T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-03-31T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-04-07T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-04-14T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-04-21T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-04-28T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-05-05T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-05-12T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-05-19T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-05-26T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-06-02T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-06-09T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-06-16T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-06-23T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-06-30T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-07-07T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-07-14T00:00:00.000Z",
+            "value": 420.27
+          },
+          {
+            "date": "2025-07-21T00:00:00.000Z",
+            "value": 620.27
+          },
+          {
+            "date": "2025-07-28T00:00:00.000Z",
+            "value": 1870.27
+          },
+          {
+            "date": "2025-08-04T00:00:00.000Z",
+            "value": 7020.27
+          },
+          {
+            "date": "2025-08-11T00:00:00.000Z",
+            "value": 12380.27
+          },
+          {
+            "date": "2025-08-18T00:00:00.000Z",
+            "value": 19048.27
+          },
+          {
+            "date": "2025-08-25T00:00:00.000Z",
+            "value": 22113.27
+          },
+          {
+            "date": "2025-09-01T00:00:00.000Z",
+            "value": 23728.27
+          },
+          {
+            "date": "2025-09-08T00:00:00.000Z",
+            "value": 31998.27
+          },
+          {
+            "date": "2025-09-15T00:00:00.000Z",
+            "value": 38398.27
+          },
+          {
+            "date": "2025-09-22T00:00:00.000Z",
+            "value": 41498.27
+          },
+          {
+            "date": "2025-09-29T00:00:00.000Z",
+            "value": 41498.27
+          },
+          {
+            "date": "2025-10-06T00:00:00.000Z",
+            "value": 41498.27
+          },
+          {
+            "date": "2025-10-13T00:00:00.000Z",
+            "value": 41498.27
+          }
+        ],
+        "color": "#a855f7"
+      },
+      {
+        "label": "ELIJAH KING",
+        "dataKey": "elijah_king",
+        "position": "CITY COUNCIL",
+        "subregion_value": "I",
+        "points": [
+          {
+            "date": "2024-12-30T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-01-06T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-01-13T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-01-20T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-01-27T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-02-03T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-02-10T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-02-17T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-02-24T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-03-03T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-03-10T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-03-17T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-03-24T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-03-31T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-04-07T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-04-14T00:00:00.000Z",
+            "value": 9043.54
+          },
+          {
+            "date": "2025-04-21T00:00:00.000Z",
+            "value": 9353.54
+          },
+          {
+            "date": "2025-04-28T00:00:00.000Z",
+            "value": 12603.54
+          },
+          {
+            "date": "2025-05-05T00:00:00.000Z",
+            "value": 13053.54
+          },
+          {
+            "date": "2025-05-12T00:00:00.000Z",
+            "value": 13503.54
+          },
+          {
+            "date": "2025-05-19T00:00:00.000Z",
+            "value": 13573.54
+          },
+          {
+            "date": "2025-05-26T00:00:00.000Z",
+            "value": 14448.54
+          },
+          {
+            "date": "2025-06-02T00:00:00.000Z",
+            "value": 14809.26
+          },
+          {
+            "date": "2025-06-09T00:00:00.000Z",
+            "value": 15069.26
+          },
+          {
+            "date": "2025-06-16T00:00:00.000Z",
+            "value": 15189.26
+          },
+          {
+            "date": "2025-06-23T00:00:00.000Z",
+            "value": 16028.51
+          },
+          {
+            "date": "2025-06-30T00:00:00.000Z",
+            "value": 19980.51
+          },
+          {
+            "date": "2025-07-07T00:00:00.000Z",
+            "value": 21285.51
+          },
+          {
+            "date": "2025-07-14T00:00:00.000Z",
+            "value": 21490.51
+          },
+          {
+            "date": "2025-07-21T00:00:00.000Z",
+            "value": 21670.51
+          },
+          {
+            "date": "2025-07-28T00:00:00.000Z",
+            "value": 21965.51
+          },
+          {
+            "date": "2025-08-04T00:00:00.000Z",
+            "value": 22125.51
+          },
+          {
+            "date": "2025-08-11T00:00:00.000Z",
+            "value": 22840.51
+          },
+          {
+            "date": "2025-08-18T00:00:00.000Z",
+            "value": 22915.51
+          },
+          {
+            "date": "2025-08-25T00:00:00.000Z",
+            "value": 22915.51
+          },
+          {
+            "date": "2025-09-01T00:00:00.000Z",
+            "value": 22915.51
+          },
+          {
+            "date": "2025-09-08T00:00:00.000Z",
+            "value": 22915.51
+          },
+          {
+            "date": "2025-09-15T00:00:00.000Z",
+            "value": 22915.51
+          },
+          {
+            "date": "2025-09-22T00:00:00.000Z",
+            "value": 22915.51
+          },
+          {
+            "date": "2025-09-29T00:00:00.000Z",
+            "value": 22915.51
+          },
+          {
+            "date": "2025-10-06T00:00:00.000Z",
+            "value": 22915.51
+          },
+          {
+            "date": "2025-10-13T00:00:00.000Z",
+            "value": 22915.51
+          }
+        ],
+        "color": "#f97316"
+      },
+      {
+        "label": "LEONARDO WILLIAMS",
+        "dataKey": "leonardo_williams",
+        "position": "MAYOR",
+        "subregion_value": null,
+        "points": [
+          {
+            "date": "2024-12-30T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-01-06T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-01-13T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-01-20T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-01-27T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-02-03T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-02-10T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-02-17T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-02-24T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-03-03T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-03-10T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-03-17T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-03-24T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-03-31T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-04-07T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-04-14T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-04-21T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-04-28T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-05-05T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-05-12T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-05-19T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-05-26T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-06-02T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-06-09T00:00:00.000Z",
+            "value": 1852.12
+          },
+          {
+            "date": "2025-06-16T00:00:00.000Z",
+            "value": 3304.12
+          },
+          {
+            "date": "2025-06-23T00:00:00.000Z",
+            "value": 3304.12
+          },
+          {
+            "date": "2025-06-30T00:00:00.000Z",
+            "value": 3304.12
+          },
+          {
+            "date": "2025-07-07T00:00:00.000Z",
+            "value": 8426.51
+          },
+          {
+            "date": "2025-07-14T00:00:00.000Z",
+            "value": 8426.51
+          },
+          {
+            "date": "2025-07-21T00:00:00.000Z",
+            "value": 8879.96
+          },
+          {
+            "date": "2025-07-28T00:00:00.000Z",
+            "value": 9035.04
+          },
+          {
+            "date": "2025-08-04T00:00:00.000Z",
+            "value": 10000.69
+          },
+          {
+            "date": "2025-08-11T00:00:00.000Z",
+            "value": 18267.33
+          },
+          {
+            "date": "2025-08-18T00:00:00.000Z",
+            "value": 22297.33
+          },
+          {
+            "date": "2025-08-25T00:00:00.000Z",
+            "value": 23097.33
+          },
+          {
+            "date": "2025-09-01T00:00:00.000Z",
+            "value": 24197.33
+          },
+          {
+            "date": "2025-09-08T00:00:00.000Z",
+            "value": 30647.33
+          },
+          {
+            "date": "2025-09-15T00:00:00.000Z",
+            "value": 34199.16
+          },
+          {
+            "date": "2025-09-22T00:00:00.000Z",
+            "value": 34199.16
+          },
+          {
+            "date": "2025-09-29T00:00:00.000Z",
+            "value": 34199.16
+          },
+          {
+            "date": "2025-10-06T00:00:00.000Z",
+            "value": 34199.16
+          },
+          {
+            "date": "2025-10-13T00:00:00.000Z",
+            "value": 34199.16
+          }
+        ],
+        "color": "#06b6d4"
+      },
+      {
+        "label": "Mark Anthony Middleton",
+        "dataKey": "mark_anthony_middleton",
+        "position": "CITY COUNCIL",
+        "subregion_value": "II",
+        "points": [
+          {
+            "date": "2024-12-30T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-01-06T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-01-13T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-01-20T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-01-27T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-02-03T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-02-10T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-02-17T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-02-24T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-03-03T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-03-10T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-03-17T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-03-24T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-03-31T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-04-07T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-04-14T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-04-21T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-04-28T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-05-05T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-05-12T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-05-19T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-05-26T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-06-02T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-06-09T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-06-16T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-06-23T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-06-30T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-07-07T00:00:00.000Z",
+            "value": 1766.72
+          },
+          {
+            "date": "2025-07-14T00:00:00.000Z",
+            "value": 2186.99
+          },
+          {
+            "date": "2025-07-21T00:00:00.000Z",
+            "value": 2186.99
+          },
+          {
+            "date": "2025-07-28T00:00:00.000Z",
+            "value": 2186.99
+          },
+          {
+            "date": "2025-08-04T00:00:00.000Z",
+            "value": 2186.99
+          },
+          {
+            "date": "2025-08-11T00:00:00.000Z",
+            "value": 6023.99
+          },
+          {
+            "date": "2025-08-18T00:00:00.000Z",
+            "value": 6693.99
+          },
+          {
+            "date": "2025-08-25T00:00:00.000Z",
+            "value": 7793.99
+          },
+          {
+            "date": "2025-09-01T00:00:00.000Z",
+            "value": 9403.99
+          },
+          {
+            "date": "2025-09-08T00:00:00.000Z",
+            "value": 9976.99
+          },
+          {
+            "date": "2025-09-15T00:00:00.000Z",
+            "value": 11026.99
+          },
+          {
+            "date": "2025-09-22T00:00:00.000Z",
+            "value": 11126.99
+          },
+          {
+            "date": "2025-09-29T00:00:00.000Z",
+            "value": 11126.99
+          },
+          {
+            "date": "2025-10-06T00:00:00.000Z",
+            "value": 11126.99
+          },
+          {
+            "date": "2025-10-13T00:00:00.000Z",
+            "value": 11126.99
+          }
+        ],
+        "color": "#eab308"
+      },
+      {
+        "label": "MATT KOPAC",
+        "dataKey": "matt_kopac",
+        "position": "CITY COUNCIL",
+        "subregion_value": "I",
+        "points": [
+          {
+            "date": "2024-12-30T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-01-06T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-01-13T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-01-20T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-01-27T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-02-03T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-02-10T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-02-17T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-02-24T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-03-03T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-03-10T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-03-17T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-03-24T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-03-31T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-04-07T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-04-14T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-04-21T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-04-28T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-05-05T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-05-12T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-05-19T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-05-26T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-06-02T00:00:00.000Z",
+            "value": 0
+          },
+          {
+            "date": "2025-06-09T00:00:00.000Z",
+            "value": 5000
+          },
+          {
+            "date": "2025-06-16T00:00:00.000Z",
+            "value": 13351
+          },
+          {
+            "date": "2025-06-23T00:00:00.000Z",
+            "value": 18756
+          },
+          {
+            "date": "2025-06-30T00:00:00.000Z",
+            "value": 20386
+          },
+          {
+            "date": "2025-07-07T00:00:00.000Z",
+            "value": 21236
+          },
+          {
+            "date": "2025-07-14T00:00:00.000Z",
+            "value": 30316
+          },
+          {
+            "date": "2025-07-21T00:00:00.000Z",
+            "value": 35191
+          },
+          {
+            "date": "2025-07-28T00:00:00.000Z",
+            "value": 40552
+          },
+          {
+            "date": "2025-08-04T00:00:00.000Z",
+            "value": 44002
+          },
+          {
+            "date": "2025-08-11T00:00:00.000Z",
+            "value": 46587
+          },
+          {
+            "date": "2025-08-18T00:00:00.000Z",
+            "value": 49122
+          },
+          {
+            "date": "2025-08-25T00:00:00.000Z",
+            "value": 52187
+          },
+          {
+            "date": "2025-09-01T00:00:00.000Z",
+            "value": 59555.12
+          },
+          {
+            "date": "2025-09-08T00:00:00.000Z",
+            "value": 60354.12
+          },
+          {
+            "date": "2025-09-15T00:00:00.000Z",
+            "value": 61016.12
+          },
+          {
+            "date": "2025-09-22T00:00:00.000Z",
+            "value": 62866.12
+          },
+          {
+            "date": "2025-09-29T00:00:00.000Z",
+            "value": 62866.12
+          },
+          {
+            "date": "2025-10-06T00:00:00.000Z",
+            "value": 62866.12
+          },
+          {
+            "date": "2025-10-13T00:00:00.000Z",
+            "value": 62866.12
+          }
+        ],
+        "color": "#ec4899"
+      },
+      {
+        "label": "TERRY MCCANN",
+        "dataKey": "terry_mccann",
+        "position": "CITY COUNCIL",
+        "subregion_value": "III",
+        "points": [
+          {
+            "date": "2024-12-30T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-01-06T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-01-13T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-01-20T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-01-27T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-02-03T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-02-10T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-02-17T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-02-24T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-03-03T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-03-10T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-03-17T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-03-24T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-03-31T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-04-07T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-04-14T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-04-21T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-04-28T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-05-05T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-05-12T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-05-19T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-05-26T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-06-02T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-06-09T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-06-16T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-06-23T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-06-30T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-07-07T00:00:00.000Z",
+            "value": 650
+          },
+          {
+            "date": "2025-07-14T00:00:00.000Z",
+            "value": 11374.12
+          },
+          {
+            "date": "2025-07-21T00:00:00.000Z",
+            "value": 14034.12
+          },
+          {
+            "date": "2025-07-28T00:00:00.000Z",
+            "value": 16210.16
+          },
+          {
+            "date": "2025-08-04T00:00:00.000Z",
+            "value": 17758.4
+          },
+          {
+            "date": "2025-08-11T00:00:00.000Z",
+            "value": 18868.4
+          },
+          {
+            "date": "2025-08-18T00:00:00.000Z",
+            "value": 20168.4
+          },
+          {
+            "date": "2025-08-25T00:00:00.000Z",
+            "value": 21058.81
+          },
+          {
+            "date": "2025-09-01T00:00:00.000Z",
+            "value": 21058.81
+          },
+          {
+            "date": "2025-09-08T00:00:00.000Z",
+            "value": 21308.81
+          },
+          {
+            "date": "2025-09-15T00:00:00.000Z",
+            "value": 21308.81
+          },
+          {
+            "date": "2025-09-22T00:00:00.000Z",
+            "value": 21308.81
+          },
+          {
+            "date": "2025-09-29T00:00:00.000Z",
+            "value": 21308.81
+          },
+          {
+            "date": "2025-10-06T00:00:00.000Z",
+            "value": 21308.81
+          },
+          {
+            "date": "2025-10-13T00:00:00.000Z",
+            "value": 21308.81
+          }
+        ],
+        "color": "#8b5cf6"
+      }
+    ]
+  }
+}

@@ -19,6 +19,7 @@ function SegmentedBarChart({
   const [internalHoveredFilter, setInternalHoveredFilter] = useState(null);
   const [hoveredSegment, setHoveredSegment] = useState(null);
   const [hoveredLabel, setHoveredLabel] = useState(null);
+  const [hoveredLabelSource, setHoveredLabelSource] = useState(null); // 'legend' or 'segment'
   const [isNarrowScreen, setIsNarrowScreen] = useState(false);
 
   // Check screen width
@@ -159,8 +160,14 @@ function SegmentedBarChart({
                 className={`flex items-center gap-2 transition-all duration-200 cursor-pointer ${
                   hoveredLabel && !isHighlighted ? 'opacity-50' : 'opacity-100'
                 }`}
-                onMouseEnter={() => setHoveredLabel(item.label)}
-                onMouseLeave={() => setHoveredLabel(null)}
+                onMouseEnter={() => {
+                  setHoveredLabel(item.label);
+                  setHoveredLabelSource('legend');
+                }}
+                onMouseLeave={() => {
+                  setHoveredLabel(null);
+                  setHoveredLabelSource(null);
+                }}
               >
                 <div 
                   className="w-4 h-4 flex-shrink-0"
@@ -240,13 +247,15 @@ function SegmentedBarChart({
                         onMouseEnter={() => {
                           setHoveredSegment(segmentId);
                           setHoveredLabel(seg.label);
+                          setHoveredLabelSource('segment');
                         }}
                         onMouseLeave={() => {
                           setHoveredSegment(null);
                           setHoveredLabel(null);
+                          setHoveredLabelSource(null);
                         }}
                       >
-                        {isHighlighted && (
+                        {isHighlighted && hoveredLabelSource === 'segment' && (
                           <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 dark:bg-gray-700 text-white px-3 py-2 rounded shadow-lg z-20 whitespace-nowrap">
                             <p className="text-xs font-semibold">{seg.label}</p>
                             <p className="text-xs text-gray-300">{formatDollars(seg.value)}</p>
