@@ -5,3 +5,5 @@
 export { default as CampaignLineChart } from './CampaignLineChart';
 export { default as SegmentedBarChart } from './SegmentedBarChart';
 export { default as FilterControls } from './FilterControls';
+export { default as ExportModal } from './ExportModal';
+export { useChartExport } from './useChartExport';
