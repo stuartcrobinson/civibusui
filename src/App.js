@@ -166,6 +166,14 @@ function App() {
             </p>
           </div>
 
+          <div className="p-4 bg-yellow-50 dark:bg-yellow-900 rounded-lg border border-yellow-200 dark:border-yellow-700">
+            <p className="text-sm text-yellow-900 dark:text-yellow-100">
+              <strong>Data incomplete:</strong> Chelsea Cook (City Council) submitted her reports 
+              manually rather than through the online system, so her data is not in the state-wide 
+              digitized database. We are currently digitizing her PDF reports for inclusion in this analysis.
+            </p>
+          </div>
+
           <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
             <p className="text-xs text-gray-700 dark:text-gray-300 mb-2">
               <strong>Data sources:</strong>
