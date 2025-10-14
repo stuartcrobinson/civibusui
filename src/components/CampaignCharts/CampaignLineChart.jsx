@@ -277,6 +277,9 @@ function CampaignLineChart({
               }}
               onMouseEnter={() => setHoveredLine(line.dataKey)}
               onMouseLeave={() => setHoveredLine(null)}
+              isAnimationActive={false}
+            //   no idea if this does anything or not:  probably not:
+              style={{ transition: 'stroke-width 1000ms cubic-bezier(0.4, 0, 0.2, 1), stroke-opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1)' }}
             />
           ))}
         </LineChart>
