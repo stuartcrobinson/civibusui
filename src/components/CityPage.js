@@ -4,6 +4,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { CampaignLineChart, SegmentedBarChart, FilterControls } from './CampaignCharts';
 import CandidateSelector from './CandidateSelector';
+import CandidateFinancialDetails from './CandidateFinancialDetails';
 import { useCityData } from '../hooks/useCityData';
 import {
   transformBarChart,
@@ -260,6 +261,19 @@ function CityPage() {
             showLocalFilters={true}
             showExport={true}
             hideEndLabels={true}
+          />
+        </div>
+
+        {/* Candidate Financial Details */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+            Detailed Financial Information
+          </h2>
+          <CandidateFinancialDetails
+            topDonors={data.topDonors || []}
+            topExpenditures={data.topExpenditures || []}
+            topSpendingByRecipient={data.topSpendingByRecipient || []}
+            mutedCandidates={mutedCandidates}
           />
         </div>
 

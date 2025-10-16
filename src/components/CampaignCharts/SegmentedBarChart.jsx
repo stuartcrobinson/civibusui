@@ -88,8 +88,19 @@ function SegmentedBarChart({
 
   const filteredData = getFilteredData();
 
+  // Separate candidates with and without data
+  const candidatesWithData = filteredData.filter(item => {
+    const total = item.segments.reduce((sum, seg) => sum + seg.value, 0);
+    return total > 0;
+  });
+
+  const candidatesWithoutData = filteredData.filter(item => {
+    const total = item.segments.reduce((sum, seg) => sum + seg.value, 0);
+    return total === 0;
+  });
+
   // Group data by contest
-  const groupedData = filteredData.reduce((acc, item) => {
+  const groupedData = candidatesWithData.reduce((acc, item) => {
     const contestKey = item.subregion_value 
       ? `${item.position} ${item.subregion_value}`
       : item.position;
@@ -101,9 +112,9 @@ function SegmentedBarChart({
     return acc;
   }, {});
 
-  const maxTotal = Math.max(...filteredData.map(item => 
+  const maxTotal = Math.max(...candidatesWithData.map(item => 
     item.segments.reduce((sum, seg) => sum + seg.value, 0)
-  ));
+  ), 1);
 
   const matchesFilter = (item, filterId) => {
     if (filterId === 'all') return true;
@@ -125,7 +136,7 @@ function SegmentedBarChart({
     return `$${val}`;
   };
 
-  const processedLabels = filteredData.map(item => getDisplayLabel(item.label));
+  const processedLabels = candidatesWithData.map(item => getDisplayLabel(item.label));
   const longestNameLength = Math.max(...processedLabels.map(label => label.length));
   const nameWidth = Math.max(longestNameLength * 8 + 8, 80);
 
@@ -202,7 +213,15 @@ function SegmentedBarChart({
 
       {/* Grouped Bars */}
       <div className="space-y-8">
-        {Object.entries(groupedData).map(([contestName, items]) => (
+        {Object.entries(groupedData).map(([contestName, items]) => {
+          const contestCandidatesWithoutData = candidatesWithoutData.filter(item => {
+            const contestKey = item.subregion_value 
+              ? `${item.position} ${item.subregion_value}`
+              : item.position;
+            return contestKey === contestName;
+          });
+
+          return (
           <div key={contestName}>
             <div className="flex items-center gap-4 mb-3">
               <span className="inline-block text-xs font-bold text-gray-800 dark:text-gray-100 uppercase tracking-wide px-3 py-1.5 bg-gray-200 dark:bg-gray-700 rounded">
@@ -217,6 +236,55 @@ function SegmentedBarChart({
                 const shouldDim = hoveredFilter && !isHighlightedByFilter;
                 const itemTotal = item.segments.reduce((sum, s) => sum + s.value, 0);
                 const displayLabel = getDisplayLabel(item.label);
+                
+                // Handle candidates with no data
+                if (item.hasNoData) {
+                  return (
+                    <div 
+                      key={idx} 
+                      className={`flex items-center gap-4 transition-opacity duration-200 ${
+                        shouldDim ? 'opacity-40' : 'opacity-100'
+                      }`}
+                    >
+                      {item.imageUrl && (
+                        <img 
+                          src={item.imageUrl} 
+                          alt={item.label}
+                          className="w-10 h-10 object-cover rounded flex-shrink-0"
+                        />
+                      )}
+                      
+                      <div className="flex items-center flex-shrink-0" style={{ width: `${nameWidth}px` }}>
+                        {item.linkUrl ? (
+                          <a href={item.linkUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:underline"
+                          >
+                            {displayLabel}
+                          </a>
+                        ) : (
+                          <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis">
+                            {displayLabel}
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="text-xs text-gray-500 dark:text-gray-400 w-3 flex-shrink-0 text-right">
+                      </div>
+                      
+                      <div className="flex-1 min-w-0 relative flex items-center">
+                        <div className="flex h-10 w-full items-center">
+                          <div className="text-xs italic text-gray-400 dark:text-gray-500">
+                            No financial data submitted
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="w-20 flex-shrink-0" />
+                    </div>
+                  );
+                }
                 
                 return (
                   <div 
@@ -317,8 +385,66 @@ function SegmentedBarChart({
                 );
               })}
             </div>
+
+            {/* Candidates without data */}
+            {contestCandidatesWithoutData.length > 0 && (
+              <div className="mt-6 space-y-3">
+                {contestCandidatesWithoutData.map((item, idx) => {
+                  const displayLabel = getDisplayLabel(item.label);
+                  const isHighlightedByFilter = hoveredFilter && matchesFilter(item, hoveredFilter);
+                  const shouldDim = hoveredFilter && !isHighlightedByFilter;
+                  
+                  return (
+                    <div 
+                      key={`no-data-${idx}`}
+                      className={`flex items-center gap-4 transition-opacity duration-200 ${
+                        shouldDim ? 'opacity-40' : 'opacity-100'
+                      }`}
+                    >
+                      {item.imageUrl && (
+                        <img 
+                          src={item.imageUrl} 
+                          alt={item.label}
+                          className="w-10 h-10 object-cover rounded flex-shrink-0"
+                        />
+                      )}
+                      
+                      <div className="flex items-center flex-shrink-0" style={{ width: `${nameWidth}px` }}>
+                        {item.linkUrl ? (
+                          <a href={item.linkUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:underline"
+                          >
+                            {displayLabel}
+                          </a>
+                        ) : (
+                          <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis">
+                            {displayLabel}
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="text-xs text-gray-500 dark:text-gray-400 w-3 flex-shrink-0 text-right">
+                      </div>
+                      
+                      <div className="flex-1 min-w-0 relative flex items-center">
+                        <div className="flex h-10 w-full items-center">
+                          <div className="text-xs italic text-gray-900 dark:text-gray-100">
+                            No financial data submitted
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="w-20 flex-shrink-0" />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
-        ))}
+        );
+        })}
       </div>
 
       {showLocalFilters && (

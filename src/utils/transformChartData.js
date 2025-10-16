@@ -17,7 +17,8 @@ const DURHAM_CANDIDATE_IMAGES = {
   'Andrea Cazales': '/img/andrea.jpeg',
   'Anjanee Bell': '/img/anjanee.jpeg',
   'Terry McCann': '/img/terry-mccann.jpeg',
-  'Chelsea Cook': '/img/chelseacook.jpeg'
+  'Chelsea Cook': '/img/chelseacook.jpeg',
+  'Shanetta Burris': '/img/shanetta.jpeg'
 };
 
 // Predefined color schemes
@@ -117,8 +118,26 @@ function compareContests(a, b) {
 export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = null, geoName = null) {
   if (!rows || rows.length === 0) return [];
 
+  // Separate candidates with and without data
+  const candidatesWithData = new Set();
+  const candidatesWithoutData = new Map();
+  
+  rows.forEach(row => {
+    const total = parseFloat(row.total);
+    if (total > 0) {
+      candidatesWithData.add(row.candidate_name);
+    } else if (total === 0) {
+      if (!candidatesWithoutData.has(row.candidate_name)) {
+        candidatesWithoutData.set(row.candidate_name, row);
+      }
+    }
+  });
+
+  // Filter to only rows with actual data
+  const rowsWithData = rows.filter(row => candidatesWithData.has(row.candidate_name));
+
   // Group by candidate
-  const grouped = rows.reduce((acc, row) => {
+  const grouped = rowsWithData.reduce((acc, row) => {
     const key = row.candidate_name;
     if (!acc[key]) {
       acc[key] = {
@@ -186,6 +205,22 @@ export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = n
       ...candidate,
       segments: segmentArray
     };
+  });
+
+  // Add candidates without data
+  candidatesWithoutData.forEach((row, candidateName) => {
+    if (!candidatesWithData.has(candidateName)) {
+      result.push({
+        label: candidateName,
+        imageUrl: DURHAM_CANDIDATE_IMAGES[candidateName] || null,
+        position: row.position,
+        subregion_value: row.subregion_value,
+        linkUrl: SPECIAL_CANDIDATE_LINKS[candidateName] || 
+                 (row.sboe_id && row.org_group_id ? `https://cf.ncsbe.gov/CFOrgLkup/DocumentGeneralResult/?SID=${row.sboe_id}&OGID=${row.org_group_id}` : null),
+        segments: [],
+        hasNoData: true
+      });
+    }
   });
 
   // Sort by contest hierarchy, then by total value within each contest
