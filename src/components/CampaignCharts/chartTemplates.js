@@ -83,19 +83,30 @@ function CampaignLineChart({ data, title, yAxisLabel, xAxisLabel, activeFilter }
         filteredLines.map((line, idx) => {
           const isHighlighted = hoveredLine === line.dataKey;
           const shouldDim = hoveredLine && !isHighlighted;
+          const linkUrl = line.linkUrl;
           return React.createElement('div', {
             key: idx,
-            className: 'flex items-center gap-2 transition-all duration-200 cursor-pointer ' + (shouldDim ? 'opacity-50' : 'opacity-100'),
+            className: 'flex items-center gap-2 transition-all duration-200 ' + (linkUrl ? 'cursor-pointer' : '') + ' ' + (shouldDim ? 'opacity-50' : 'opacity-100'),
             onMouseEnter: () => setHoveredLine(line.dataKey),
             onMouseLeave: () => setHoveredLine(null)
           },
             React.createElement('div', { className: 'w-4 h-4 flex-shrink-0', style: { backgroundColor: line.color } }),
-            React.createElement('span', { 
-              className: 'text-sm text-gray-900 relative inline-block'
-            }, 
-              React.createElement('span', { className: 'font-bold invisible', 'aria-hidden': 'true' }, line.label),
-              React.createElement('span', { className: 'absolute inset-0 ' + (isHighlighted ? 'font-bold' : '') }, line.label)
-            )
+            linkUrl ? 
+              React.createElement('a', {
+                href: linkUrl,
+                target: '_blank',
+                rel: 'noopener noreferrer',
+                className: 'text-sm text-gray-900 relative inline-block hover:underline'
+              },
+                React.createElement('span', { className: 'font-bold invisible', 'aria-hidden': 'true' }, line.label),
+                React.createElement('span', { className: 'absolute inset-0 ' + (isHighlighted ? 'font-bold' : '') }, line.label)
+              ) :
+              React.createElement('span', { 
+                className: 'text-sm text-gray-900 relative inline-block'
+              }, 
+                React.createElement('span', { className: 'font-bold invisible', 'aria-hidden': 'true' }, line.label),
+                React.createElement('span', { className: 'absolute inset-0 ' + (isHighlighted ? 'font-bold' : '') }, line.label)
+              )
           );
         })
       )
@@ -152,7 +163,7 @@ function CampaignLineChart({ data, title, yAxisLabel, xAxisLabel, activeFilter }
 }`;
 
 export const BAR_CHART_TEMPLATE = `
-function SegmentedBarChart({ data, title, legendLabel, activeFilter }) {
+function SegmentedBarChart({ data, title, legendLabel, activeFilter, hideEndLabels }) {
   const [hoveredSegment, setHoveredSegment] = React.useState(null);
   const [hoveredLabel, setHoveredLabel] = React.useState(null);
   const [hoveredLabelSource, setHoveredLabelSource] = React.useState(null);
@@ -228,7 +239,16 @@ function SegmentedBarChart({ data, title, legendLabel, activeFilter }) {
             className: 'w-10 h-10 object-cover rounded flex-shrink-0'
           }),
           React.createElement('div', { className: 'flex items-center flex-shrink-0', style: { width: nameWidth + 'px' } },
-            React.createElement('div', { className: 'text-sm font-semibold text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis' }, item.label)
+            item.linkUrl ?
+              React.createElement('a', {
+                href: item.linkUrl,
+                target: '_blank',
+                rel: 'noopener noreferrer',
+                className: 'text-sm font-semibold text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:underline'
+              }, item.label) :
+              React.createElement('div', { 
+                className: 'text-sm font-semibold text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis' 
+              }, item.label)
           ),
           React.createElement('div', { className: 'text-xs text-gray-500 w-3 flex-shrink-0 text-right' }, item.leftLabel || ''),
           React.createElement('div', { className: 'flex-1 min-w-0 relative flex items-center' },
@@ -266,12 +286,16 @@ function SegmentedBarChart({ data, title, legendLabel, activeFilter }) {
                     className: 'absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-3 py-2 rounded shadow-lg z-20 whitespace-nowrap'
                   },
                     React.createElement('p', { className: 'text-xs font-semibold' }, seg.label),
-                    React.createElement('p', { className: 'text-xs text-gray-300' }, formatDollars(seg.value))
+                    React.createElement('p', { className: 'text-xs text-gray-300' },
+                      seg.originalValue !== undefined
+                        ? seg.value.toFixed(1) + '% (' + formatDollars(seg.originalValue) + ')'
+                        : formatDollars(seg.value)
+                    )
                   )
                 );
               })
             ),
-            React.createElement('div', {
+            !hideEndLabels && React.createElement('div', {
               className: 'absolute text-sm font-semibold text-gray-900 whitespace-nowrap ml-2',
               style: { left: ((itemTotal / maxTotal) * 100) + '%' }
             }, formatDollars(itemTotal))

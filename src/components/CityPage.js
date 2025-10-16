@@ -1,8 +1,9 @@
 // /Users/stuart/repos/civibusui/src/components/CityPage.js
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { CampaignLineChart, SegmentedBarChart, FilterControls } from './CampaignCharts';
+import CandidateSelector from './CandidateSelector';
 import { useCityData } from '../hooks/useCityData';
 import {
   transformBarChart,
@@ -32,6 +33,8 @@ function CityPage() {
     realestate: 'all'
   });
 
+  const [mutedCandidates, setMutedCandidates] = useState(new Set());
+
   const handleGlobalFilterClick = (filterId) => {
     setGlobalFilterActive(true);
     setGlobalActiveFilter(filterId);
@@ -54,6 +57,36 @@ function CityPage() {
       [chartId]: filterId
     }));
   };
+
+  const toggleCandidate = (candidateName) => {
+    setMutedCandidates(prev => {
+      const next = new Set(prev);
+      if (next.has(candidateName)) {
+        next.delete(candidateName);
+      } else {
+        next.add(candidateName);
+      }
+      return next;
+    });
+  };
+
+  const filterBySelectedCandidates = (rows) => {
+    if (!rows) return rows;
+    return rows.filter(row => !mutedCandidates.has(row.candidate_name));
+  };
+
+  const allCandidates = useMemo(() => {
+    if (!data || !data.location) return [];
+    const candidateMap = new Map();
+    data.location.forEach(row => {
+      if (!candidateMap.has(row.candidate_name)) {
+        candidateMap.set(row.candidate_name, {
+          name: row.candidate_name
+        });
+      }
+    });
+    return Array.from(candidateMap.values()).sort((a, b) => a.name.localeCompare(b.name));
+  }, [data]);
 
   if (loading) {
     return (
@@ -79,12 +112,14 @@ function CityPage() {
     );
   }
 
-  // Transform data
-  const locationData = transformBarChart(data.location, 'location_bucket', null, null, cityName);
-  const sizeData = transformBarChart(data.size, 'size_bucket', SIZE_COLORS, SIZE_ORDER, cityName);
-  const realEstateRaw = transformBarChart(data.realestate, 're_bucket', REALESTATE_COLORS, REALESTATE_ORDER, cityName);
+  // Transform data with candidate filtering
+  const locationData = transformBarChart(filterBySelectedCandidates(data.location), 'location_bucket', null, null, cityName);
+  const sizeData = transformBarChart(filterBySelectedCandidates(data.size), 'size_bucket', SIZE_COLORS, SIZE_ORDER, cityName);
+  const realEstateRaw = transformBarChart(filterBySelectedCandidates(data.realestate), 're_bucket', REALESTATE_COLORS, REALESTATE_ORDER, cityName);
   const realEstateData = normalizeToPercentages(realEstateRaw);
-  const timelineData = transformLineChart(data.timeline);
+  const timelineData = transformLineChart(filterBySelectedCandidates(data.timeline));
+  const expenditureTimelineData = transformLineChart(filterBySelectedCandidates(data.expenditureTimeline));
+  const cashOnHandTimelineData = transformLineChart(filterBySelectedCandidates(data.cashOnHandTimeline));
   const candidateData = extractCandidateData(locationData);
 
   return (
@@ -108,6 +143,12 @@ function CityPage() {
           />
         </div>
 
+        <CandidateSelector
+          candidates={allCandidates}
+          mutedCandidates={mutedCandidates}
+          onToggleCandidate={toggleCandidate}
+        />
+
         <p className="text-gray-700 dark:text-gray-300">
           Campaign finance data for {cityName} municipal races. Use global filters above to compare 
           all charts simultaneously, or interact with individual chart filters for independent analysis.
@@ -118,7 +159,37 @@ function CityPage() {
           <CampaignLineChart
             data={timelineData}
             title="Cumulative Fundraising Over Time"
-            yAxisLabel="Total Cash on Hand ($)"
+            yAxisLabel="Total Raised ($)"
+            xAxisLabel="Week Starting"
+            activeFilter={chartFilters.timeline}
+            hoveredFilter={globalHoveredFilter}
+            onActiveFilterChange={(filterId) => handleChartFilterChange('timeline', filterId)}
+            showLocalFilters={true}
+            showExport={true}
+          />
+        </div>
+
+        {/* Expenditure Timeline Chart */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <CampaignLineChart
+            data={expenditureTimelineData}
+            title="Cumulative Expenditures Over Time"
+            yAxisLabel="Total Spent ($)"
+            xAxisLabel="Week Starting"
+            activeFilter={chartFilters.timeline}
+            hoveredFilter={globalHoveredFilter}
+            onActiveFilterChange={(filterId) => handleChartFilterChange('timeline', filterId)}
+            showLocalFilters={true}
+            showExport={true}
+          />
+        </div>
+
+        {/* Cash on Hand Timeline Chart */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <CampaignLineChart
+            data={cashOnHandTimelineData}
+            title="Cash on Hand Over Time"
+            yAxisLabel="Available Funds ($)"
             xAxisLabel="Week Starting"
             activeFilter={chartFilters.timeline}
             hoveredFilter={globalHoveredFilter}

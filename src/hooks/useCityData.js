@@ -35,10 +35,12 @@ export function useCityData(geoName) {
       setError(null);
 
       try {
-        const [locationData, sizeData, timelineData, realestateData] = await Promise.all([
+        const [locationData, sizeData, timelineData, expenditureTimelineData, cashOnHandTimelineData, realestateData] = await Promise.all([
           fetchSupabase('v_location_data', geoName),
           fetchSupabase('v_size_data', geoName),
           fetchSupabase('v_timeline_data', geoName),
+          fetchSupabase('v_expenditure_timeline', geoName),
+          fetchSupabase('v_cash_on_hand_timeline', geoName),
           fetchSupabase('v_realestate_data', geoName)
         ]);
 
@@ -51,6 +53,8 @@ export function useCityData(geoName) {
           location: locationData,
           size: sizeData,
           timeline: timelineData,
+          expenditureTimeline: expenditureTimelineData,
+          cashOnHandTimeline: cashOnHandTimelineData,
           realestate: realestateData,
           lastUpdated
         });

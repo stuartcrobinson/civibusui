@@ -92,7 +92,6 @@ export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = n
         subregion_value: row.subregion_value,
         linkUrl: SPECIAL_CANDIDATE_LINKS[row.candidate_name] || 
                  (row.sboe_id && row.org_group_id ? `https://cf.ncsbe.gov/CFOrgLkup/DocumentGeneralResult/?SID=${row.sboe_id}&OGID=${row.org_group_id}` : null),
-        leftLabel: row.candidate_name.toLowerCase().includes('mccann') ? 'R' : 'D',
         segments: {}
       };
     }
@@ -108,13 +107,11 @@ export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = n
 
   // Determine segment order
   let segmentOrder;
-  if (categoryOrder) {
-    // For dynamic location buckets, expand the order
-    if (categoryKey === 'location_bucket') {
-      segmentOrder = getLocationOrder(rows);
-    } else {
-      segmentOrder = categoryOrder;
-    }
+  if (categoryKey === 'location_bucket') {
+    // Always use geographic order for location buckets
+    segmentOrder = getLocationOrder(rows);
+  } else if (categoryOrder) {
+    segmentOrder = categoryOrder;
   } else {
     // Calculate global totals
     const categoryTotals = {};

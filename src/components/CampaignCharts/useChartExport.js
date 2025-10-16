@@ -80,6 +80,7 @@ export function useChartExport(chartType, data, title, currentFilter) {
       props.xAxisLabel = 'Date';
     } else {
       props.legendLabel = 'Donor Industries';
+      props.hideEndLabels = false;
     }
     
     return generateStandaloneHTML({
