@@ -13,7 +13,8 @@ function SegmentedBarChart({
   onActiveFilterChange,
   onHoveredFilterChange,
   showLocalFilters = true,
-  showExport = false
+  showExport = false,
+  hideEndLabels = false
 }) {
   const [internalActiveFilter, setInternalActiveFilter] = useState('all');
   const [internalHoveredFilter, setInternalHoveredFilter] = useState(null);
@@ -271,7 +272,12 @@ function SegmentedBarChart({
                         {isHighlighted && hoveredLabelSource === 'segment' && (
                           <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 dark:bg-gray-700 text-white px-3 py-2 rounded shadow-lg z-20 whitespace-nowrap">
                             <p className="text-xs font-semibold">{seg.label}</p>
-                            <p className="text-xs text-gray-300">{formatDollars(seg.value)}</p>
+                            <p className="text-xs text-gray-300">
+                              {seg.originalValue !== undefined
+                                ? `${seg.value.toFixed(1)}% (${formatDollars(seg.originalValue)})`
+                                : formatDollars(seg.value)
+                              }
+                            </p>
                           </div>
                         )}
                       </div>
@@ -280,12 +286,14 @@ function SegmentedBarChart({
                 </div>
                 
                 {/* Total amount */}
-                <div 
-                  className="absolute text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap ml-2"
-                  style={{ left: `${(itemTotal / maxTotal) * 100}%` }}
-                >
-                  {formatDollars(itemTotal)}
-                </div>
+                {!hideEndLabels && (
+                  <div 
+                    className="absolute text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap ml-2"
+                    style={{ left: `${(itemTotal / maxTotal) * 100}%` }}
+                  >
+                    {formatDollars(itemTotal)}
+                  </div>
+                )}
               </div>
               
               {/* Right padding */}

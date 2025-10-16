@@ -35,7 +35,8 @@ function App() {
     timeline: 'all',
     industry: 'all',
     location: 'all',
-    size: 'all'
+    size: 'all',
+    realestate: 'all'
   });
 
   // Prepare data
@@ -43,6 +44,8 @@ function App() {
   const industryData = sortByTotal(durhamData.industry);
   const locationData = sortByTotal(durhamData.location);
   const sizeData = sortByTotal(durhamData.size);
+  const realEstateData = durhamData.realestate.data;
+  const realEstateIsNormalized = durhamData.realestate.isNormalized;
   const candidateData = extractCandidateData(durhamData.industry);
 
   const handleGlobalFilterClick = (filterId) => {
@@ -52,7 +55,8 @@ function App() {
       timeline: filterId,
       industry: filterId,
       location: filterId,
-      size: filterId
+      size: filterId,
+      realestate: filterId
     });
   };
 
@@ -145,6 +149,21 @@ function App() {
             onActiveFilterChange={(filterId) => handleChartFilterChange('size', filterId)}
             showLocalFilters={true}
             showExport={true}
+          />
+        </div>
+
+        {/* Real Estate Bar Chart */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <SegmentedBarChart
+            data={realEstateData}
+            title="Real Estate as % of Total Fundraising"
+            legendLabel="Source"
+            activeFilter={chartFilters.realestate}
+            hoveredFilter={globalHoveredFilter}
+            onActiveFilterChange={(filterId) => handleChartFilterChange('realestate', filterId)}
+            showLocalFilters={true}
+            showExport={true}
+            hideEndLabels={realEstateIsNormalized}
           />
         </div>
 
