@@ -52,7 +52,7 @@ function HomePage() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {cities.map((city) => {
+          {cities.filter(city => city.has_data).map((city) => {
             const urlPath = city.geo_name.replace(/\s+/g, '_');
             
             return (
