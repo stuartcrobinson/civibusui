@@ -113,8 +113,10 @@ function CityPage() {
   }
 
   // Transform data with candidate filtering
-  const locationData = transformBarChart(filterBySelectedCandidates(data.location), 'location_bucket', null, null, cityName);
-  const sizeData = transformBarChart(filterBySelectedCandidates(data.size), 'size_bucket', SIZE_COLORS, SIZE_ORDER, cityName);
+  const locationRaw = transformBarChart(filterBySelectedCandidates(data.location), 'location_bucket', null, null, cityName);
+  const locationData = normalizeToPercentages(locationRaw);
+  const sizeRaw = transformBarChart(filterBySelectedCandidates(data.size), 'size_bucket', SIZE_COLORS, SIZE_ORDER, cityName);
+  const sizeData = normalizeToPercentages(sizeRaw);
   const realEstateRaw = transformBarChart(filterBySelectedCandidates(data.realestate), 're_bucket', REALESTATE_COLORS, REALESTATE_ORDER, cityName);
   const realEstateData = normalizeToPercentages(realEstateRaw);
   const timelineData = transformLineChart(filterBySelectedCandidates(data.timeline));
@@ -210,6 +212,7 @@ function CityPage() {
             onActiveFilterChange={(filterId) => handleChartFilterChange('location', filterId)}
             showLocalFilters={true}
             showExport={true}
+            hideEndLabels={true}
           />
         </div>
 
@@ -224,6 +227,7 @@ function CityPage() {
             onActiveFilterChange={(filterId) => handleChartFilterChange('size', filterId)}
             showLocalFilters={true}
             showExport={true}
+            hideEndLabels={true}
           />
         </div>
 

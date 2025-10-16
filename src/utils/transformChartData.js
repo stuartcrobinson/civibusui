@@ -35,7 +35,7 @@ const SIZE_COLORS = {
   '>$1000': '#ef4444'
 };
 
-const SIZE_ORDER = ['>$1000', '$251-1000', '$51-250', '≤$50'];
+const SIZE_ORDER = ['≤$50', '$51-250', '$251-1000', '>$1000'];
 
 const REALESTATE_COLORS = {
   'Real Estate': '#a94e4eff',
@@ -61,16 +61,16 @@ function getLocationOrder(locationData) {
   const buckets = [...new Set(locationData.map(d => d.location_bucket))];
   const order = [];
   
-  // Always start with Out of State if present
-  if (buckets.some(b => b === 'Out of State')) order.push('Out of State');
+  // Start with "In X" (the city itself)
+  const inCityBucket = buckets.find(b => b.startsWith('In ') && !b.startsWith('In NC'));
+  if (inCityBucket) order.push(inCityBucket);
   
   // Then "In NC (not X)"
   const ncBucket = buckets.find(b => b.startsWith('In NC (not'));
   if (ncBucket) order.push(ncBucket);
   
-  // Then "In X" (the city itself)
-  const inCityBucket = buckets.find(b => b.startsWith('In ') && !b.startsWith('In NC'));
-  if (inCityBucket) order.push(inCityBucket);
+  // Then Out of State
+  if (buckets.some(b => b === 'Out of State')) order.push('Out of State');
   
   // Finally Unknown
   if (buckets.includes('Unknown')) order.push('Unknown');
