@@ -99,7 +99,9 @@ function CityPage() {
     data.location.forEach(row => {
       if (!candidateMap.has(row.candidate_name)) {
         candidateMap.set(row.candidate_name, {
-          name: row.candidate_name
+          name: row.candidate_name,
+          position: row.position,
+          subregion_value: row.subregion_value
         });
       }
     });
@@ -274,6 +276,7 @@ function CityPage() {
             topExpenditures={data.topExpenditures || []}
             topSpendingByRecipient={data.topSpendingByRecipient || []}
             mutedCandidates={mutedCandidates}
+            allCandidates={allCandidates}
           />
         </div>
 

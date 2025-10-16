@@ -295,6 +295,7 @@ export function extractCandidateData(data) {
   if (!data || data.length === 0) return [];
   
   return data.map(c => ({
+    name: c.label,
     position: c.position,
     subregion_value: c.subregion_value
   }));
