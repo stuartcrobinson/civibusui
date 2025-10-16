@@ -33,7 +33,6 @@ function App() {
 
   const [chartFilters, setChartFilters] = useState({
     timeline: 'all',
-    industry: 'all',
     location: 'all',
     size: 'all',
     realestate: 'all'
@@ -41,19 +40,17 @@ function App() {
 
   // Prepare data
   const timelineData = durhamData.timeline;
-  const industryData = sortByTotal(durhamData.industry);
   const locationData = sortByTotal(durhamData.location);
   const sizeData = sortByTotal(durhamData.size);
   const realEstateData = durhamData.realestate.data;
   const realEstateIsNormalized = durhamData.realestate.isNormalized;
-  const candidateData = extractCandidateData(durhamData.industry);
+  const candidateData = extractCandidateData(durhamData.location);
 
   const handleGlobalFilterClick = (filterId) => {
     setGlobalFilterActive(true);
     setGlobalActiveFilter(filterId);
     setChartFilters({
       timeline: filterId,
-      industry: filterId,
       location: filterId,
       size: filterId,
       realestate: filterId
@@ -105,20 +102,6 @@ function App() {
             activeFilter={chartFilters.timeline}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('timeline', filterId)}
-            showLocalFilters={true}
-            showExport={true}
-          />
-        </div>
-
-        {/* Industry Bar Chart */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-          <SegmentedBarChart
-            data={industryData}
-            title="Fundraising by Donor Industry"
-            legendLabel="Donor Industries"
-            activeFilter={chartFilters.industry}
-            hoveredFilter={globalHoveredFilter}
-            onActiveFilterChange={(filterId) => handleChartFilterChange('industry', filterId)}
             showLocalFilters={true}
             showExport={true}
           />
