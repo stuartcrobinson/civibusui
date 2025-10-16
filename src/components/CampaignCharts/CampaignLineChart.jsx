@@ -195,11 +195,12 @@ function CampaignLineChart({
             const isHighlightedByFilter = hoveredFilter && matchesFilter(line, hoveredFilter);
             const shouldDim = (hoveredLine && !isHighlighted) || (hoveredFilter && !isHighlightedByFilter);
             const shouldBeBold = isHighlighted || isHighlightedByFilter;
+            const linkUrl = line.linkUrl;
             
             return (
               <div 
                 key={idx}
-                className={`flex items-center gap-2 transition-all duration-200 cursor-pointer ${
+                className={`flex items-center gap-2 transition-all duration-200 ${linkUrl ? 'cursor-pointer' : ''} ${
                   shouldDim ? 'opacity-50' : 'opacity-100'
                 }`}
                 onMouseEnter={() => setHoveredLine(line.dataKey)}
@@ -209,12 +210,26 @@ function CampaignLineChart({
                   className="w-4 h-4 flex-shrink-0"
                   style={{ backgroundColor: line.color }}
                 />
-                <span className="text-sm text-gray-900 dark:text-gray-100 relative inline-block">
-                  <span className="font-bold invisible" aria-hidden="true">{line.label}</span>
-                  <span className={`absolute inset-0 ${shouldBeBold ? 'font-bold' : ''}`}>
-                    {line.label}
+                {linkUrl ? (
+                  
+                   <a href={linkUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-900 dark:text-gray-100 relative inline-block hover:underline"
+                  >
+                    <span className="font-bold invisible" aria-hidden="true">{line.label}</span>
+                    <span className={`absolute inset-0 ${shouldBeBold ? 'font-bold' : ''}`}>
+                      {line.label}
+                    </span>
+                  </a>
+                ) : (
+                  <span className="text-sm text-gray-900 dark:text-gray-100 relative inline-block">
+                    <span className="font-bold invisible" aria-hidden="true">{line.label}</span>
+                    <span className={`absolute inset-0 ${shouldBeBold ? 'font-bold' : ''}`}>
+                      {line.label}
+                    </span>
                   </span>
-                </span>
+                )}
               </div>
             );
           })}

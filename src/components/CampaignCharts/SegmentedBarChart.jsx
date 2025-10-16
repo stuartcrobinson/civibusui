@@ -225,9 +225,20 @@ function SegmentedBarChart({
               
               {/* Name label - DYNAMICALLY SIZED to align bars */}
               <div className="flex items-center flex-shrink-0" style={{ width: `${nameWidth}px` }}>
-                <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis">
-                  {displayLabel}
-                </div>
+                {item.linkUrl ? (
+                  
+                   <a href={item.linkUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:underline"
+                  >
+                    {displayLabel}
+                  </a>
+                ) : (
+                  <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis">
+                    {displayLabel}
+                  </div>
+                )}
               </div>
               
               {/* Party label right before bar - tighter spacing */}

@@ -1,5 +1,11 @@
 // /Users/stuart/repos/civibusui/src/utils/transformChartData.js
 
+// Special candidate links for those without proper State Board IDs
+const SPECIAL_CANDIDATE_LINKS = {
+  'Chelsea Cook': 'https://dcoftp.net/boe-ftp/Campaign%20Finance/Open%20Committees/Candidate%20Committees/Cook_Chelsea/',
+  'Anjanee Bell': 'https://dcoftp.net/boe-ftp/Campaign%20Finance/Open%20Committees/Candidate%20Committees/Bell_Anjanee/'
+};
+
 // Durham candidate images - hardcoded for now
 const DURHAM_CANDIDATE_IMAGES = {
   'Matt Kopac': '/img/kopac.jpeg',
@@ -84,6 +90,8 @@ export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = n
         imageUrl: DURHAM_CANDIDATE_IMAGES[row.candidate_name] || null,
         position: row.position,
         subregion_value: row.subregion_value,
+        linkUrl: SPECIAL_CANDIDATE_LINKS[row.candidate_name] || 
+                 (row.sboe_id && row.org_group_id ? `https://cf.ncsbe.gov/CFOrgLkup/DocumentGeneralResult/?SID=${row.sboe_id}&OGID=${row.org_group_id}` : null),
         leftLabel: row.candidate_name.toLowerCase().includes('mccann') ? 'R' : 'D',
         segments: {}
       };
@@ -167,6 +175,8 @@ export function transformLineChart(rows) {
         dataKey: row.candidate_name.toLowerCase().replace(/\s+/g, '_'),
         position: row.position,
         subregion_value: row.subregion_value,
+        linkUrl: SPECIAL_CANDIDATE_LINKS[row.candidate_name] || 
+                 (row.sboe_id && row.org_group_id ? `https://cf.ncsbe.gov/CFOrgLkup/DocumentGeneralResult/?SID=${row.sboe_id}&OGID=${row.org_group_id}` : null),
         points: []
       };
     }
