@@ -9,14 +9,14 @@ const SPECIAL_CANDIDATE_LINKS = {
 // Durham candidate images - hardcoded for now
 const DURHAM_CANDIDATE_IMAGES = {
   'Matt Kopac': '/img/kopac.jpeg',
-  'Leonardo Williams': '/img/leowilliams.jpeg',
+  'Leonardo (Leo) Williams': '/img/leowilliams.jpeg',
   'Diana Medoff': '/img/diana.png',
-  'Dedreana Freeman': '/img/dedreana.png',
-  'Mark Anthony Middleton': '/img/MAM.jpeg',
+  'DeDreana Freeman': '/img/dedreana.png',
+  'Mark-Anthony Middleton': '/img/MAM.jpeg',
   'Elijah King': '/img/elijah.jpeg',
   'Andrea Cazales': '/img/andrea.jpeg',
   'Anjanee Bell': '/img/anjanee.jpeg',
-  'Terry Mccann': '/img/terry-mccann.jpeg',
+  'Terry McCann': '/img/terry-mccann.jpeg',
   'Chelsea Cook': '/img/chelseacook.jpeg'
 };
 
