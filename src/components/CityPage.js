@@ -1,7 +1,7 @@
 // /Users/stuart/repos/civibusui/src/components/CityPage.js
 
-import React, { useState, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { CampaignLineChart, SegmentedBarChart, FilterControls } from './CampaignCharts';
 import CandidateSelector from './CandidateSelector';
 import { useCityData } from '../hooks/useCityData';
@@ -18,6 +18,7 @@ import {
 
 function CityPage() {
   const { geoName } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const cityName = geoName.replace(/_/g, ' ').toUpperCase();
   
   const { data, loading, error } = useCityData(cityName);
@@ -33,7 +34,23 @@ function CityPage() {
     realestate: 'all'
   });
 
-  const [mutedCandidates, setMutedCandidates] = useState(new Set());
+  const [mutedCandidates, setMutedCandidates] = useState(() => {
+    const mutedParam = searchParams.get('muted');
+    if (mutedParam) {
+      return new Set(mutedParam.split(',').map(name => decodeURIComponent(name)));
+    }
+    return new Set();
+  });
+
+  // Sync URL with mutedCandidates state
+  useEffect(() => {
+    if (mutedCandidates.size > 0) {
+      const mutedArray = Array.from(mutedCandidates);
+      setSearchParams({ muted: mutedArray.map(name => encodeURIComponent(name)).join(',') }, { replace: true });
+    } else {
+      setSearchParams({}, { replace: true });
+    }
+  }, [mutedCandidates, setSearchParams]);
 
   const handleGlobalFilterClick = (filterId) => {
     setGlobalFilterActive(true);

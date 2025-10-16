@@ -78,6 +78,42 @@ function getLocationOrder(locationData) {
   return order;
 }
 
+// Position hierarchy for sorting contests
+const POSITION_HIERARCHY = {
+  'Mayor': 1,
+  'City Council': 2,
+  'Council': 2
+};
+
+function getPositionSortValue(position) {
+  return POSITION_HIERARCHY[position] || 999;
+}
+
+function compareContests(a, b) {
+  const aPos = getPositionSortValue(a.position);
+  const bPos = getPositionSortValue(b.position);
+  
+  if (aPos !== bPos) {
+    return aPos - bPos;
+  }
+  
+  if (a.subregion_value && b.subregion_value) {
+    const aNum = parseInt(a.subregion_value.match(/\d+/)?.[0]);
+    const bNum = parseInt(b.subregion_value.match(/\d+/)?.[0]);
+    
+    if (!isNaN(aNum) && !isNaN(bNum)) {
+      return aNum - bNum;
+    }
+    
+    return a.subregion_value.localeCompare(b.subregion_value);
+  }
+  
+  if (a.subregion_value) return 1;
+  if (b.subregion_value) return -1;
+  
+  return 0;
+}
+
 export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = null, geoName = null) {
   if (!rows || rows.length === 0) return [];
 
@@ -152,8 +188,13 @@ export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = n
     };
   });
 
-  // Sort by total value descending
+  // Sort by contest hierarchy, then by total value within each contest
   return result.sort((a, b) => {
+    const contestComparison = compareContests(a, b);
+    if (contestComparison !== 0) {
+      return contestComparison;
+    }
+    
     const aTotal = a.segments.reduce((sum, seg) => sum + seg.value, 0);
     const bTotal = b.segments.reduce((sum, seg) => sum + seg.value, 0);
     return bTotal - aTotal;

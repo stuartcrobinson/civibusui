@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import FilterControls from './FilterControls';
 import ExportModal from './ExportModal';
@@ -20,10 +19,9 @@ function SegmentedBarChart({
   const [internalHoveredFilter, setInternalHoveredFilter] = useState(null);
   const [hoveredSegment, setHoveredSegment] = useState(null);
   const [hoveredLabel, setHoveredLabel] = useState(null);
-  const [hoveredLabelSource, setHoveredLabelSource] = useState(null); // 'legend' or 'segment'
+  const [hoveredLabelSource, setHoveredLabelSource] = useState(null);
   const [isNarrowScreen, setIsNarrowScreen] = useState(false);
 
-  // Check screen width
   useEffect(() => {
     const checkWidth = () => {
       setIsNarrowScreen(window.innerWidth < 768);
@@ -34,14 +32,12 @@ function SegmentedBarChart({
     return () => window.removeEventListener('resize', checkWidth);
   }, []);
 
-  // Use controlled props if provided, otherwise use internal state
   const isControlled = controlledActiveFilter !== undefined;
   const activeFilter = isControlled ? controlledActiveFilter : internalActiveFilter;
   
   const [localHoveredFilter, setLocalHoveredFilter] = useState(null);
   const hoveredFilter = localHoveredFilter || (isControlled ? controlledHoveredFilter : internalHoveredFilter);
   
-  // Export functionality
   const { isModalOpen, isProcessing, openModal, closeModal, embedCode } = useChartExport('bar', data, title, activeFilter);
   
   const handleFilterClick = (filterId) => {
@@ -56,14 +52,12 @@ function SegmentedBarChart({
     setLocalHoveredFilter(filterId);
   };
 
-  // Get display label (truncate to last word on narrow screens)
   const getDisplayLabel = (label) => {
     if (!isNarrowScreen) return label;
     const words = label.split(' ');
     return words[words.length - 1];
   };
 
-  // Get all unique segment types for the legend
   const allSegmentTypes = {};
   data.forEach(item => {
     item.segments.forEach(seg => {
@@ -78,7 +72,6 @@ function SegmentedBarChart({
     color
   }));
 
-  // Filter data based on active filter
   const getFilteredData = () => {
     if (activeFilter === 'all') return data;
     
@@ -95,12 +88,23 @@ function SegmentedBarChart({
 
   const filteredData = getFilteredData();
 
-  // Calculate max value for scaling bars from filtered data
+  // Group data by contest
+  const groupedData = filteredData.reduce((acc, item) => {
+    const contestKey = item.subregion_value 
+      ? `${item.position} ${item.subregion_value}`
+      : item.position;
+    
+    if (!acc[contestKey]) {
+      acc[contestKey] = [];
+    }
+    acc[contestKey].push(item);
+    return acc;
+  }, {});
+
   const maxTotal = Math.max(...filteredData.map(item => 
     item.segments.reduce((sum, seg) => sum + seg.value, 0)
   ));
 
-  // Check if item matches filter for highlighting
   const matchesFilter = (item, filterId) => {
     if (filterId === 'all') return true;
     
@@ -115,14 +119,12 @@ function SegmentedBarChart({
     return false;
   };
 
-  // Format dollar amount
   const formatDollars = (val) => {
     if (val >= 1000000) return `$${(val / 1000000).toFixed(1)}M`;
     if (val >= 1000) return `$${(val / 1000).toFixed(0)}K`;
     return `$${val}`;
   };
 
-  // Calculate the longest name width dynamically
   const processedLabels = filteredData.map(item => getDisplayLabel(item.label));
   const longestNameLength = Math.max(...processedLabels.map(label => label.length));
   const nameWidth = Math.max(longestNameLength * 8 + 8, 80);
@@ -157,7 +159,6 @@ function SegmentedBarChart({
         )}
       </div>
       
-      {/* Legend at top */}
       <div className="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
         {legendLabel && (
           <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-3 uppercase">
@@ -199,122 +200,127 @@ function SegmentedBarChart({
         </div>
       </div>
 
-      {/* Bars */}
-      <div className="space-y-4">
-        {filteredData.map((item, idx) => {
-          const isHighlightedByFilter = hoveredFilter && matchesFilter(item, hoveredFilter);
-          const shouldDim = hoveredFilter && !isHighlightedByFilter;
-          const itemTotal = item.segments.reduce((sum, s) => sum + s.value, 0);
-          const displayLabel = getDisplayLabel(item.label);
-          
-          return (
-            <div 
-              key={idx} 
-              className={`flex items-center gap-4 transition-opacity duration-200 ${
-                shouldDim ? 'opacity-40' : 'opacity-100'
-              }`}
-            >
-              {/* Image */}
-              {item.imageUrl && (
-                <img 
-                  src={item.imageUrl} 
-                  alt={item.label}
-                  className="w-10 h-10 object-cover rounded flex-shrink-0"
-                />
-              )}
-              
-              {/* Name label - DYNAMICALLY SIZED to align bars */}
-              <div className="flex items-center flex-shrink-0" style={{ width: `${nameWidth}px` }}>
-                {item.linkUrl ? (
-                  
-                   <a href={item.linkUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:underline"
-                  >
-                    {displayLabel}
-                  </a>
-                ) : (
-                  <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis">
-                    {displayLabel}
-                  </div>
-                )}
-              </div>
-              
-              {/* Party label right before bar - tighter spacing */}
-              <div className="text-xs text-gray-500 dark:text-gray-400 w-3 flex-shrink-0 text-right">
-                {item.leftLabel || ''}
-              </div>
-              
-              {/* Bar container */}
-              <div className="flex-1 min-w-0 relative flex items-center">
-                <div className="flex h-10 w-full">
-                  {item.segments.map((seg, sIdx) => {
-                    const segmentId = `${idx}-${sIdx}`;
-                    const isSegmentHovered = hoveredSegment === segmentId;
-                    const isLabelHovered = hoveredLabel === seg.label && !hoveredSegment;
-                    const isHighlighted = isSegmentHovered || isLabelHovered;
-                    
-                    const segmentPercentOfTotal = (seg.value / itemTotal) * 100;
-                    const barWidthPercent = (itemTotal / maxTotal) * 100;
-                    const segmentWidth = (segmentPercentOfTotal / 100) * barWidthPercent;
-                    
-                    return (
-                      <div
-                        key={sIdx}
-                        className="transition-all duration-200 cursor-pointer relative"
-                        style={{ 
-                          width: `${segmentWidth}%`,
-                          backgroundColor: seg.color,
-                          filter: isHighlighted ? 'brightness(1.1)' : 'none',
-                          transform: isHighlighted ? 'scaleY(1.05)' : 'scaleY(1)'
-                        }}
-                        onMouseEnter={() => {
-                          setHoveredSegment(segmentId);
-                          setHoveredLabel(seg.label);
-                          setHoveredLabelSource('segment');
-                        }}
-                        onMouseLeave={() => {
-                          setHoveredSegment(null);
-                          setHoveredLabel(null);
-                          setHoveredLabelSource(null);
-                        }}
-                      >
-                        {isHighlighted && hoveredLabelSource === 'segment' && (
-                          <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 dark:bg-gray-700 text-white px-3 py-2 rounded shadow-lg z-20 whitespace-nowrap">
-                            <p className="text-xs font-semibold">{seg.label}</p>
-                            <p className="text-xs text-gray-300">
-                              {seg.originalValue !== undefined
-                                ? `${seg.value.toFixed(1)}% (${formatDollars(seg.originalValue)})`
-                                : formatDollars(seg.value)
-                              }
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-                
-                {/* Total amount */}
-                {!hideEndLabels && (
-                  <div 
-                    className="absolute text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap ml-2"
-                    style={{ left: `${(itemTotal / maxTotal) * 100}%` }}
-                  >
-                    {formatDollars(itemTotal)}
-                  </div>
-                )}
-              </div>
-              
-              {/* Right padding */}
-              <div className="w-20 flex-shrink-0" />
+      {/* Grouped Bars */}
+      <div className="space-y-8">
+        {Object.entries(groupedData).map(([contestName, items]) => (
+          <div key={contestName}>
+            <div className="flex items-center gap-4 mb-3">
+              <span className="inline-block text-xs font-bold text-gray-800 dark:text-gray-100 uppercase tracking-wide px-3 py-1.5 bg-gray-200 dark:bg-gray-700 rounded">
+                {contestName}
+              </span>
+              <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600" />
             </div>
-          );
-        })}
+            
+            <div className="space-y-4">
+              {items.map((item, idx) => {
+                const isHighlightedByFilter = hoveredFilter && matchesFilter(item, hoveredFilter);
+                const shouldDim = hoveredFilter && !isHighlightedByFilter;
+                const itemTotal = item.segments.reduce((sum, s) => sum + s.value, 0);
+                const displayLabel = getDisplayLabel(item.label);
+                
+                return (
+                  <div 
+                    key={idx} 
+                    className={`flex items-center gap-4 transition-opacity duration-200 ${
+                      shouldDim ? 'opacity-40' : 'opacity-100'
+                    }`}
+                  >
+                    {item.imageUrl && (
+                      <img 
+                        src={item.imageUrl} 
+                        alt={item.label}
+                        className="w-10 h-10 object-cover rounded flex-shrink-0"
+                      />
+                    )}
+                    
+                    <div className="flex items-center flex-shrink-0" style={{ width: `${nameWidth}px` }}>
+                      {item.linkUrl ? (
+                        <a href={item.linkUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:underline"
+                        >
+                          {displayLabel}
+                        </a>
+                      ) : (
+                        <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis">
+                          {displayLabel}
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="text-xs text-gray-500 dark:text-gray-400 w-3 flex-shrink-0 text-right">
+                      {item.leftLabel || ''}
+                    </div>
+                    
+                    <div className="flex-1 min-w-0 relative flex items-center">
+                      <div className="flex h-10 w-full">
+                        {item.segments.map((seg, sIdx) => {
+                          const segmentId = `${idx}-${sIdx}`;
+                          const isSegmentHovered = hoveredSegment === segmentId;
+                          const isLabelHovered = hoveredLabel === seg.label && !hoveredSegment;
+                          const isHighlighted = isSegmentHovered || isLabelHovered;
+                          
+                          const segmentPercentOfTotal = (seg.value / itemTotal) * 100;
+                          const barWidthPercent = (itemTotal / maxTotal) * 100;
+                          const segmentWidth = (segmentPercentOfTotal / 100) * barWidthPercent;
+                          
+                          return (
+                            <div
+                              key={sIdx}
+                              className="transition-all duration-200 cursor-pointer relative"
+                              style={{ 
+                                width: `${segmentWidth}%`,
+                                backgroundColor: seg.color,
+                                filter: isHighlighted ? 'brightness(1.1)' : 'none',
+                                transform: isHighlighted ? 'scaleY(1.05)' : 'scaleY(1)'
+                              }}
+                              onMouseEnter={() => {
+                                setHoveredSegment(segmentId);
+                                setHoveredLabel(seg.label);
+                                setHoveredLabelSource('segment');
+                              }}
+                              onMouseLeave={() => {
+                                setHoveredSegment(null);
+                                setHoveredLabel(null);
+                                setHoveredLabelSource(null);
+                              }}
+                            >
+                              {isHighlighted && hoveredLabelSource === 'segment' && (
+                                <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 dark:bg-gray-700 text-white px-3 py-2 rounded shadow-lg z-20 whitespace-nowrap">
+                                  <p className="text-xs font-semibold">{seg.label}</p>
+                                  <p className="text-xs text-gray-300">
+                                    {seg.originalValue !== undefined
+                                      ? `${seg.value.toFixed(1)}% (${formatDollars(seg.originalValue)})`
+                                      : formatDollars(seg.value)
+                                    }
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                      
+                      {!hideEndLabels && (
+                        <div 
+                          className="absolute text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap ml-2"
+                          style={{ left: `${(itemTotal / maxTotal) * 100}%` }}
+                        >
+                          {formatDollars(itemTotal)}
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="w-20 flex-shrink-0" />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
 
-      {/* Filter labels */}
       {showLocalFilters && (
         <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
           <FilterControls 
@@ -327,7 +333,6 @@ function SegmentedBarChart({
         </div>
       )}
       
-      {/* Export Modal */}
       {showExport && (
         <ExportModal
           isOpen={isModalOpen}
