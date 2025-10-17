@@ -99,18 +99,23 @@ function SegmentedBarChart({
     return total === 0;
   });
 
-  // Group data by contest
-  const groupedData = candidatesWithData.reduce((acc, item) => {
+  // Group data by contest (preserve order from input)
+  const groupedData = [];
+  const seenContests = new Set();
+  
+  candidatesWithData.forEach(item => {
     const contestKey = item.subregion_value 
       ? `${item.position} ${item.subregion_value}`
       : item.position;
     
-    if (!acc[contestKey]) {
-      acc[contestKey] = [];
+    if (!seenContests.has(contestKey)) {
+      seenContests.add(contestKey);
+      groupedData.push([contestKey, []]);
     }
-    acc[contestKey].push(item);
-    return acc;
-  }, {});
+    
+    const group = groupedData.find(([key]) => key === contestKey);
+    group[1].push(item);
+  });
 
   const maxTotal = Math.max(...candidatesWithData.map(item => 
     item.segments.reduce((sum, seg) => sum + seg.value, 0)
@@ -217,7 +222,7 @@ function SegmentedBarChart({
 
       {/* Grouped Bars */}
       <div className="space-y-8">
-        {Object.entries(groupedData).map(([contestName, items]) => {
+        {groupedData.map(([contestName, items]) => {
           const contestCandidatesWithoutData = candidatesWithoutData.filter(item => {
             const contestKey = item.subregion_value 
               ? `${item.position} ${item.subregion_value}`

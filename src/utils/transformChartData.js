@@ -124,11 +124,22 @@ function compareContests(a, b) {
 export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = null, geoName = null) {
   if (!rows || rows.length === 0) return [];
 
+  // Sort rows by contest hierarchy first, then by last name
+  const sortedRows = [...rows].sort((a, b) => {
+    const contestComparison = compareContests(a, b);
+    if (contestComparison !== 0) {
+      return contestComparison;
+    }
+    const aLastName = getLastName(a.candidate_name);
+    const bLastName = getLastName(b.candidate_name);
+    return aLastName.localeCompare(bLastName);
+  });
+
   // Separate candidates with and without data
   const candidatesWithData = new Set();
   const candidatesWithoutData = new Map();
   
-  rows.forEach(row => {
+  sortedRows.forEach(row => {
     const total = parseFloat(row.total);
     if (total > 0) {
       candidatesWithData.add(row.candidate_name);
@@ -140,7 +151,7 @@ export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = n
   });
 
   // Filter to only rows with actual data
-  const rowsWithData = rows.filter(row => candidatesWithData.has(row.candidate_name));
+  const rowsWithData = sortedRows.filter(row => candidatesWithData.has(row.candidate_name));
 
   // Group by candidate
   const grouped = rowsWithData.reduce((acc, row) => {
@@ -229,17 +240,8 @@ export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = n
     }
   });
 
-  // Sort by contest hierarchy, then by last name within each contest
-  return result.sort((a, b) => {
-    const contestComparison = compareContests(a, b);
-    if (contestComparison !== 0) {
-      return contestComparison;
-    }
-    
-    const aLastName = getLastName(a.label);
-    const bLastName = getLastName(b.label);
-    return aLastName.localeCompare(bLastName);
-  });
+  // Return in the order we built it (already sorted from sortedRows)
+  return result;
 }
 
 export function transformLineChart(rows) {
@@ -260,12 +262,7 @@ export function transformLineChart(rows) {
       };
     }
     
-    // Special handling for Anjanee Bell - stop timeline at 6/30/2025
-    const isAnjanee = row.candidate_name === 'Anjanee Bell';
-    const pointDate = new Date(row.week_start);
-    const cutoffDate = new Date('2025-06-30');
-    
-    const value = (isAnjanee && pointDate > cutoffDate) ? null : parseFloat(row.cumulative_total);
+    const value = parseFloat(row.cumulative_total);
     
     acc[key].points.push({
       date: row.week_start,
@@ -275,9 +272,8 @@ export function transformLineChart(rows) {
     return acc;
   }, {});
 
-  // Sort by last name and filter out Shanetta Burris from legend
+  // Sort by last name
   const lines = Object.values(grouped)
-    .filter(line => line.label !== 'Shanetta Burris')
     .sort((a, b) => {
       const aLastName = getLastName(a.label);
       const bLastName = getLastName(b.label);
