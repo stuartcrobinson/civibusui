@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
+// Special candidate links for those without proper State Board IDs
+const SPECIAL_CANDIDATE_LINKS = {
+  'Chelsea Cook': 'https://dcoftp.net/boe-ftp/Campaign%20Finance/Open%20Committees/Candidate%20Committees/Cook_Chelsea/',
+  'Anjanee Bell': 'https://dcoftp.net/boe-ftp/Campaign%20Finance/Open%20Committees/Candidate%20Committees/Bell_Anjanee/',
+  'Shanetta Burris': 'https://dcoftp.net/boe-ftp/Campaign%20Finance/Open%20Committees/Candidate%20Committees/Burris_Shanetta/'
+};
+
 const DURHAM_CANDIDATE_IMAGES = {
   'Matt Kopac': '/img/kopac.jpeg',
   'Leonardo (Leo) Williams': '/img/leowilliams.jpeg',
@@ -121,6 +128,19 @@ function CandidateFinancialDetails({ topDonors, topExpenditures, topSpendingByRe
       .sort((a, b) => (b.total_amount || 0) - (a.total_amount || 0));
   };
 
+  const getCandidateLink = (candidateName) => {
+    if (SPECIAL_CANDIDATE_LINKS[candidateName]) {
+      return SPECIAL_CANDIDATE_LINKS[candidateName];
+    }
+    
+    const donorRecord = topDonors.find(d => d.candidate_name === candidateName);
+    if (donorRecord?.sboe_id && donorRecord?.org_group_id) {
+      return `https://cf.ncsbe.gov/CFOrgLkup/DocumentGeneralResult/?SID=${donorRecord.sboe_id}&OGID=${donorRecord.org_group_id}`;
+    }
+    
+    return null;
+  };
+
   // Sort contests using the same hierarchy as bar charts
   const sortedContests = Object.entries(candidatesByContest).map(([contestName, candidates]) => {
     const donorRecord = topDonors.find(d => d.candidate_name === candidates[0].name);
@@ -164,9 +184,20 @@ function CandidateFinancialDetails({ topDonors, topExpenditures, topSpendingByRe
                           className="w-12 h-12 object-cover rounded"
                         />
                       )}
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                        {candidateName}
-                      </h3>
+                      {getCandidateLink(candidateName) ? (
+                        <a 
+                          href={getCandidateLink(candidateName)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-lg font-bold text-gray-900 dark:text-gray-100 hover:underline"
+                        >
+                          {candidateName}
+                        </a>
+                      ) : (
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                          {candidateName}
+                        </h3>
+                      )}
                     </div>
 
                     {!hasData ? (

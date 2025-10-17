@@ -3,7 +3,8 @@
 // Special candidate links for those without proper State Board IDs
 const SPECIAL_CANDIDATE_LINKS = {
   'Chelsea Cook': 'https://dcoftp.net/boe-ftp/Campaign%20Finance/Open%20Committees/Candidate%20Committees/Cook_Chelsea/',
-  'Anjanee Bell': 'https://dcoftp.net/boe-ftp/Campaign%20Finance/Open%20Committees/Candidate%20Committees/Bell_Anjanee/'
+  'Anjanee Bell': 'https://dcoftp.net/boe-ftp/Campaign%20Finance/Open%20Committees/Candidate%20Committees/Bell_Anjanee/',
+  'Shanetta Burris': 'https://dcoftp.net/boe-ftp/Campaign%20Finance/Open%20Committees/Candidate%20Committees/Burris_Shanetta/'
 };
 
 // Durham candidate images - hardcoded for now
