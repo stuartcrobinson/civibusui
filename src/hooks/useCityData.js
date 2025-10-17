@@ -35,7 +35,7 @@ export function useCityData(geoName) {
             setError(null);
 
             try {
-                const [locationData, sizeData, timelineData, expenditureTimelineData, cashOnHandTimelineData, realestateData, topDonors, topExpenditures, topSpendingByRecipient] = await Promise.all([
+                const [locationData, sizeData, timelineData, expenditureTimelineData, cashOnHandTimelineData, realestateData, topDonors, topExpenditures, topSpendingByRecipient, totalDonationsData] = await Promise.all([
                     fetchSupabase('v_location_data', geoName),
                     fetchSupabase('v_size_data', geoName),
                     fetchSupabase('v_timeline_data', geoName),
@@ -44,7 +44,8 @@ export function useCityData(geoName) {
                     fetchSupabase('v_realestate_data', geoName),
                     fetchSupabase('v_top_donors', geoName),
                     fetchSupabase('v_top_expenditures', geoName),
-                    fetchSupabase('v_top_spending_by_recipient', geoName)
+                    fetchSupabase('v_top_spending_by_recipient', geoName),
+                    fetchSupabase('v_total_donations', geoName)
                 ]);
 
                 // Get last updated date from timeline data
@@ -62,6 +63,7 @@ export function useCityData(geoName) {
                     topDonors: topDonors,
                     topExpenditures: topExpenditures,
                     topSpendingByRecipient: topSpendingByRecipient,
+                    totalDonations: totalDonationsData,
                     lastUpdated
                 });
             } catch (err) {

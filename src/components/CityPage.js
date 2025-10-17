@@ -11,6 +11,7 @@ import {
   transformLineChart,
   normalizeToPercentages,
   extractCandidateData,
+  transformTotalDonationsChart,
   SIZE_COLORS,
   SIZE_ORDER,
   REALESTATE_COLORS,
@@ -32,7 +33,8 @@ function CityPage() {
     timeline: 'all',
     location: 'all',
     size: 'all',
-    realestate: 'all'
+    realestate: 'all',
+    totalDonations: 'all'
   });
 
   const [mutedCandidates, setMutedCandidates] = useState(() => {
@@ -60,7 +62,8 @@ function CityPage() {
       timeline: filterId,
       location: filterId,
       size: filterId,
-      realestate: filterId
+      realestate: filterId,
+      totalDonations: filterId
     });
   };
 
@@ -142,6 +145,7 @@ function CityPage() {
   const timelineData = transformLineChart(filterBySelectedCandidates(data.timeline));
   const expenditureTimelineData = transformLineChart(filterBySelectedCandidates(data.expenditureTimeline));
   const cashOnHandTimelineData = transformLineChart(filterBySelectedCandidates(data.cashOnHandTimeline));
+  const totalDonationsData = transformTotalDonationsChart(filterBySelectedCandidates(data.totalDonations));
   const candidateData = extractCandidateData(locationData);
 
   return (
@@ -218,6 +222,21 @@ function CityPage() {
             onActiveFilterChange={(filterId) => handleChartFilterChange('timeline', filterId)}
             showLocalFilters={true}
             showExport={true}
+          />
+        </div>
+
+        {/* Total Donations Bar Chart */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <SegmentedBarChart
+            data={totalDonationsData}
+            title="Total Fundraising by Candidate"
+            legendLabel="Fundraising"
+            activeFilter={chartFilters.totalDonations}
+            hoveredFilter={globalHoveredFilter}
+            onActiveFilterChange={(filterId) => handleChartFilterChange('totalDonations', filterId)}
+            showLocalFilters={true}
+            showExport={true}
+            hideEndLabels={false}
           />
         </div>
 

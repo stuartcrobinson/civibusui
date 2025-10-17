@@ -90,6 +90,11 @@ function getPositionSortValue(position) {
   return POSITION_HIERARCHY[position] || 999;
 }
 
+function getLastName(fullName) {
+  const parts = fullName.trim().split(/\s+/);
+  return parts[parts.length - 1];
+}
+
 function compareContests(a, b) {
   const aPos = getPositionSortValue(a.position);
   const bPos = getPositionSortValue(b.position);
@@ -223,16 +228,16 @@ export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = n
     }
   });
 
-  // Sort by contest hierarchy, then by total value within each contest
+  // Sort by contest hierarchy, then by last name within each contest
   return result.sort((a, b) => {
     const contestComparison = compareContests(a, b);
     if (contestComparison !== 0) {
       return contestComparison;
     }
     
-    const aTotal = a.segments.reduce((sum, seg) => sum + seg.value, 0);
-    const bTotal = b.segments.reduce((sum, seg) => sum + seg.value, 0);
-    return bTotal - aTotal;
+    const aLastName = getLastName(a.label);
+    const bLastName = getLastName(b.label);
+    return aLastName.localeCompare(bLastName);
   });
 }
 
@@ -262,13 +267,67 @@ export function transformLineChart(rows) {
     return acc;
   }, {});
 
+  // Sort by last name
+  const lines = Object.values(grouped).sort((a, b) => {
+    const aLastName = getLastName(a.label);
+    const bLastName = getLastName(b.label);
+    return aLastName.localeCompare(bLastName);
+  });
+  
   // Assign colors
-  const lines = Object.values(grouped);
   lines.forEach((line, i) => {
     line.color = CANDIDATE_COLORS[i % CANDIDATE_COLORS.length];
   });
 
   return { lines };
+}
+
+export function transformTotalDonationsChart(rows) {
+  if (!rows || rows.length === 0) return [];
+
+  // Group by candidate
+  const grouped = rows.reduce((acc, row) => {
+    const key = row.candidate_name;
+    if (!acc[key]) {
+      acc[key] = {
+        label: row.candidate_name,
+        imageUrl: DURHAM_CANDIDATE_IMAGES[row.candidate_name] || null,
+        position: row.position,
+        subregion_value: row.subregion_value,
+        linkUrl: SPECIAL_CANDIDATE_LINKS[row.candidate_name] || 
+                 (row.sboe_id && row.org_group_id ? `https://cf.ncsbe.gov/CFOrgLkup/DocumentGeneralResult/?SID=${row.sboe_id}&OGID=${row.org_group_id}` : null),
+        total: 0
+      };
+    }
+    
+    acc[key].total += parseFloat(row.total || 0);
+    
+    return acc;
+  }, {});
+
+  // Convert to array and create single segment per candidate
+  const result = Object.values(grouped).map((candidate, i) => {
+    return {
+      ...candidate,
+      segments: [{
+        label: 'Total Donations',
+        value: candidate.total,
+        color: CANDIDATE_COLORS[i % CANDIDATE_COLORS.length]
+      }]
+    };
+  });
+
+  // Sort by contest hierarchy, then by last name within each contest
+  return result.sort((a, b) => {
+    const contestComparison = compareContests(a, b);
+    if (contestComparison !== 0) {
+      return contestComparison;
+    }
+    
+    const aLastName = getLastName(a.label);
+    const bLastName = getLastName(b.label);
+    return aLastName.localeCompare(bLastName);
+  });
 }
 
 export function normalizeToPercentages(barChartData) {

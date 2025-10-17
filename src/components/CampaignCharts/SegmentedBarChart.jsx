@@ -140,6 +140,8 @@ function SegmentedBarChart({
   const longestNameLength = Math.max(...processedLabels.map(label => label.length));
   const nameWidth = Math.max(longestNameLength * 8 + 8, 80);
 
+  const shouldShowLegend = legendItems.length > 1;
+
   return (
     <div className="w-full">
       <div className="flex justify-between items-start mb-6">
@@ -170,46 +172,48 @@ function SegmentedBarChart({
         )}
       </div>
       
-      <div className="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
-        {legendLabel && (
-          <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-3 uppercase">
-            {legendLabel}
-          </div>
-        )}
-        <div className="flex flex-wrap gap-4">
-          {legendItems.map((item, idx) => {
-            const isHighlighted = hoveredLabel === item.label;
-            
-            return (
-              <div 
-                key={idx}
-                className={`flex items-center gap-2 transition-all duration-200 cursor-pointer ${
-                  hoveredLabel && !isHighlighted ? 'opacity-50' : 'opacity-100'
-                }`}
-                onMouseEnter={() => {
-                  setHoveredLabel(item.label);
-                  setHoveredLabelSource('legend');
-                }}
-                onMouseLeave={() => {
-                  setHoveredLabel(null);
-                  setHoveredLabelSource(null);
-                }}
-              >
+      {shouldShowLegend && (
+        <div className="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+          {legendLabel && (
+            <div className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-3 uppercase">
+              {legendLabel}
+            </div>
+          )}
+          <div className="flex flex-wrap gap-4">
+            {legendItems.map((item, idx) => {
+              const isHighlighted = hoveredLabel === item.label;
+              
+              return (
                 <div 
-                  className="w-4 h-4 flex-shrink-0"
-                  style={{ backgroundColor: item.color }}
-                />
-                <span className="text-sm text-gray-900 dark:text-gray-100 relative inline-block">
-                  <span className="font-bold invisible" aria-hidden="true">{item.label}</span>
-                  <span className={`absolute inset-0 ${isHighlighted ? 'font-bold' : ''}`}>
-                    {item.label}
+                  key={idx}
+                  className={`flex items-center gap-2 transition-all duration-200 cursor-pointer ${
+                    hoveredLabel && !isHighlighted ? 'opacity-50' : 'opacity-100'
+                  }`}
+                  onMouseEnter={() => {
+                    setHoveredLabel(item.label);
+                    setHoveredLabelSource('legend');
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredLabel(null);
+                    setHoveredLabelSource(null);
+                  }}
+                >
+                  <div 
+                    className="w-4 h-4 flex-shrink-0"
+                    style={{ backgroundColor: item.color }}
+                  />
+                  <span className="text-sm text-gray-900 dark:text-gray-100 relative inline-block">
+                    <span className="font-bold invisible" aria-hidden="true">{item.label}</span>
+                    <span className={`absolute inset-0 ${isHighlighted ? 'font-bold' : ''}`}>
+                      {item.label}
+                    </span>
                   </span>
-                </span>
-              </div>
-            );
-          })}
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Grouped Bars */}
       <div className="space-y-8">
@@ -231,11 +235,20 @@ function SegmentedBarChart({
             </div>
             
             <div className="space-y-4">
-              {items.map((item, idx) => {
+              {[...items, ...contestCandidatesWithoutData].sort((a, b) => {
+                const getLastName = (fullName) => {
+                  const parts = fullName.trim().split(/\s+/);
+                  return parts[parts.length - 1].toLowerCase();
+                };
+                const aLastName = getLastName(a.label);
+                const bLastName = getLastName(b.label);
+                return aLastName.localeCompare(bLastName);
+              }).map((item, idx) => {
                 const isHighlightedByFilter = hoveredFilter && matchesFilter(item, hoveredFilter);
                 const shouldDim = hoveredFilter && !isHighlightedByFilter;
                 const itemTotal = item.segments.reduce((sum, s) => sum + s.value, 0);
                 const displayLabel = getDisplayLabel(item.label);
+                const uniqueRowId = `${contestName}-${item.label.replace(/\s+/g, '-')}`;
                 
                 // Handle candidates with no data
                 if (item.hasNoData) {
@@ -324,7 +337,7 @@ function SegmentedBarChart({
                     <div className="flex-1 min-w-0 relative flex items-center">
                       <div className="flex h-10 w-full">
                         {item.segments.map((seg, sIdx) => {
-                          const segmentId = `${idx}-${sIdx}`;
+                          const segmentId = `${uniqueRowId}-${sIdx}`;
                           const isSegmentHovered = hoveredSegment === segmentId;
                           const isLabelHovered = hoveredLabel === seg.label && !hoveredSegment;
                           const isHighlighted = isSegmentHovered || isLabelHovered;
@@ -359,8 +372,8 @@ function SegmentedBarChart({
                                   <p className="text-xs font-semibold">{seg.label}</p>
                                   <p className="text-xs text-gray-300">
                                     {seg.originalValue !== undefined
-                                      ? `${seg.value.toFixed(1)}% (${formatDollars(seg.originalValue)})`
-                                      : formatDollars(seg.value)
+                                      ? `${seg.value.toFixed(1)}% ($${seg.originalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})`
+                                      : `$${seg.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
                                     }
                                   </p>
                                 </div>
@@ -386,62 +399,7 @@ function SegmentedBarChart({
               })}
             </div>
 
-            {/* Candidates without data */}
-            {contestCandidatesWithoutData.length > 0 && (
-              <div className="mt-6 space-y-3">
-                {contestCandidatesWithoutData.map((item, idx) => {
-                  const displayLabel = getDisplayLabel(item.label);
-                  const isHighlightedByFilter = hoveredFilter && matchesFilter(item, hoveredFilter);
-                  const shouldDim = hoveredFilter && !isHighlightedByFilter;
-                  
-                  return (
-                    <div 
-                      key={`no-data-${idx}`}
-                      className={`flex items-center gap-4 transition-opacity duration-200 ${
-                        shouldDim ? 'opacity-40' : 'opacity-100'
-                      }`}
-                    >
-                      {item.imageUrl && (
-                        <img 
-                          src={item.imageUrl} 
-                          alt={item.label}
-                          className="w-10 h-10 object-cover rounded flex-shrink-0"
-                        />
-                      )}
-                      
-                      <div className="flex items-center flex-shrink-0" style={{ width: `${nameWidth}px` }}>
-                        {item.linkUrl ? (
-                          <a href={item.linkUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:underline"
-                          >
-                            {displayLabel}
-                          </a>
-                        ) : (
-                          <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis">
-                            {displayLabel}
-                          </div>
-                        )}
-                      </div>
-                      
-                      <div className="text-xs text-gray-500 dark:text-gray-400 w-3 flex-shrink-0 text-right">
-                      </div>
-                      
-                      <div className="flex-1 min-w-0 relative flex items-center">
-                        <div className="flex h-10 w-full items-center">
-                          <div className="text-xs italic text-gray-900 dark:text-gray-100">
-                            No financial data submitted
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="w-20 flex-shrink-0" />
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+            
           </div>
         );
         })}
