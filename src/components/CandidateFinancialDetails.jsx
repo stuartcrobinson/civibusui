@@ -88,9 +88,7 @@ function CandidateFinancialDetails({ topDonors, topExpenditures, topSpendingByRe
 
   const formatDollars = (val) => {
     if (!val) return '$0';
-    if (val >= 1000000) return `$${(val / 1000000).toFixed(1)}M`;
-    if (val >= 1000) return `$${(val / 1000).toFixed(0)}K`;
-    return `$${val.toFixed(0)}`;
+    return `$${val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
 
   // Group candidates by contest using candidate data directly
