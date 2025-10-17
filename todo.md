@@ -11,3 +11,9 @@ next ... i guess try ....i think we should pivot to data supabase stuff now
 
 https://claude.ai/chat/70b16c35-994b-49de-bb33-b2da88e5cf73
 idk what this is.  but htings are pretty good rn
+
+----
+
+images!!!
+
+https://claude.ai/chat/30539d4a-e6b8-4da3-809e-f03edae65531
