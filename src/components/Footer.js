@@ -18,10 +18,6 @@ function Footer() {
             </Link>
           </div>
           <div className="flex items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 104 104" className="w-6 h-6">
-              {/* <circle cx="50" cy="50" r="50" fill="#f4f4f5"/> */}
-              <text x="47" y="82" fontFamily="'Times New Roman', serif" fontSize="95" fontWeight="bold" textAnchor="middle" fill="#27272a">C</text>
-            </svg>
             <span>© {new Date().getFullYear()} Civibus</span>
           </div>
         </div>
