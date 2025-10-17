@@ -260,20 +260,29 @@ export function transformLineChart(rows) {
       };
     }
     
+    // Special handling for Anjanee Bell - stop timeline at 6/30/2025
+    const isAnjanee = row.candidate_name === 'Anjanee Bell';
+    const pointDate = new Date(row.week_start);
+    const cutoffDate = new Date('2025-06-30');
+    
+    const value = (isAnjanee && pointDate > cutoffDate) ? null : parseFloat(row.cumulative_total);
+    
     acc[key].points.push({
       date: row.week_start,
-      value: parseFloat(row.cumulative_total)
+      value: value
     });
     
     return acc;
   }, {});
 
-  // Sort by last name
-  const lines = Object.values(grouped).sort((a, b) => {
-    const aLastName = getLastName(a.label);
-    const bLastName = getLastName(b.label);
-    return aLastName.localeCompare(bLastName);
-  });
+  // Sort by last name and filter out Shanetta Burris from legend
+  const lines = Object.values(grouped)
+    .filter(line => line.label !== 'Shanetta Burris')
+    .sort((a, b) => {
+      const aLastName = getLastName(a.label);
+      const bLastName = getLastName(b.label);
+      return aLastName.localeCompare(bLastName);
+    });
   
   // Assign colors
   lines.forEach((line, i) => {
