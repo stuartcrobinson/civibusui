@@ -41,8 +41,15 @@ function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="p-8 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
+      <header className="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <div className="max-w-7xl mx-auto px-8 py-4">
+          <a href="/" className="text-2xl font-serif text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+            Civibus
+          </a>
+        </div>
+      </header>
+      <div className="flex-1 p-8 max-w-7xl mx-auto w-full">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-6">
           2025 North Carolina Municipal Campaign Finance
         </h1>
@@ -72,6 +79,29 @@ function HomePage() {
           })}
         </div>
       </div>
+      <footer className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 mt-16">
+        <div className="max-w-7xl mx-auto px-8 py-6">
+          <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-gray-600 dark:text-gray-400">
+            <div className="flex items-center gap-6">
+              <a href="/about" className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
+                About
+              </a>
+              <a href="/contact" className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
+                Contact
+              </a>
+              <a href="/methodology" className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
+                Methodology
+              </a>
+              <a href="https://github.com/yourusername/civibus" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
+                GitHub
+              </a>
+            </div>
+            <div>
+              © {new Date().getFullYear()} Civibus
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
