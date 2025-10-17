@@ -372,7 +372,9 @@ function SegmentedBarChart({
                                   <p className="text-xs font-semibold">{seg.label}</p>
                                   <p className="text-xs text-gray-300">
                                     {seg.originalValue !== undefined
-                                      ? `${seg.value.toFixed(1)}% ($${seg.originalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})`
+                                      ? seg.isCount
+                                        ? `${seg.value.toFixed(1)}% (${Math.round(seg.originalValue)} donation${Math.round(seg.originalValue) !== 1 ? 's' : ''})`
+                                        : `${seg.value.toFixed(1)}% ($${seg.originalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})`
                                       : `$${seg.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
                                     }
                                   </p>

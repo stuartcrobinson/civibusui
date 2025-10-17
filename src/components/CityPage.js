@@ -137,11 +137,11 @@ function CityPage() {
 
   // Transform data with candidate filtering
   const locationRaw = transformBarChart(filterBySelectedCandidates(data.location), 'location_bucket', null, null, cityName);
-  const locationData = normalizeToPercentages(locationRaw);
+  const locationData = normalizeToPercentages(locationRaw, false);
   const sizeRaw = transformBarChart(filterBySelectedCandidates(data.size), 'size_bucket', SIZE_COLORS, SIZE_ORDER, cityName);
-  const sizeData = normalizeToPercentages(sizeRaw);
+  const sizeData = normalizeToPercentages(sizeRaw, true);
   const realEstateRaw = transformBarChart(filterBySelectedCandidates(data.realestate), 're_bucket', REALESTATE_COLORS, REALESTATE_ORDER, cityName);
-  const realEstateData = normalizeToPercentages(realEstateRaw);
+  const realEstateData = normalizeToPercentages(realEstateRaw, false);
   const timelineData = transformLineChart(filterBySelectedCandidates(data.timeline));
   const expenditureTimelineData = transformLineChart(filterBySelectedCandidates(data.expenditureTimeline));
   const cashOnHandTimelineData = transformLineChart(filterBySelectedCandidates(data.cashOnHandTimeline));

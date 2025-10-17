@@ -329,7 +329,7 @@ export function transformTotalDonationsChart(rows) {
   return result.sort((a, b) => compareContests(a, b));
 }
 
-export function normalizeToPercentages(barChartData) {
+export function normalizeToPercentages(barChartData, isCountBased = false) {
   const normalized = barChartData.map(candidate => {
     const total = candidate.segments.reduce((sum, seg) => sum + seg.value, 0);
     const realEstateSeg = candidate.segments.find(seg => seg.label === 'Real Estate');
@@ -341,7 +341,8 @@ export function normalizeToPercentages(barChartData) {
       segments: candidate.segments.map(seg => ({
         ...seg,
         value: (seg.value / total) * 100,
-        originalValue: seg.value
+        originalValue: seg.value,
+        isCount: isCountBased
       }))
     };
   });
