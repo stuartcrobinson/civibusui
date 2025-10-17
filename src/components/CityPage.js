@@ -32,8 +32,10 @@ function CityPage() {
   const [chartFilters, setChartFilters] = useState({
     timeline: 'all',
     location: 'all',
+    locationCount: 'all',
     size: 'all',
     realestate: 'all',
+    realestateCount: 'all',
     totalDonations: 'all'
   });
 
@@ -61,8 +63,10 @@ function CityPage() {
     setChartFilters({
       timeline: filterId,
       location: filterId,
+      locationCount: filterId,
       size: filterId,
       realestate: filterId,
+      realestateCount: filterId,
       totalDonations: filterId
     });
   };
@@ -138,10 +142,14 @@ function CityPage() {
   // Transform data with candidate filtering
   const locationRaw = transformBarChart(filterBySelectedCandidates(data.location), 'location_bucket', null, null, cityName);
   const locationData = normalizeToPercentages(locationRaw, false);
+  const locationCountRaw = transformBarChart(filterBySelectedCandidates(data.locationCount), 'location_bucket', null, null, cityName);
+  const locationCountData = normalizeToPercentages(locationCountRaw, true);
   const sizeRaw = transformBarChart(filterBySelectedCandidates(data.size), 'size_bucket', SIZE_COLORS, SIZE_ORDER, cityName);
   const sizeData = normalizeToPercentages(sizeRaw, true);
   const realEstateRaw = transformBarChart(filterBySelectedCandidates(data.realestate), 're_bucket', REALESTATE_COLORS, REALESTATE_ORDER, cityName);
   const realEstateData = normalizeToPercentages(realEstateRaw, false);
+  const realEstateCountRaw = transformBarChart(filterBySelectedCandidates(data.realestateCount), 're_bucket', REALESTATE_COLORS, REALESTATE_ORDER, cityName);
+  const realEstateCountData = normalizeToPercentages(realEstateCountRaw, true);
   const timelineData = transformLineChart(filterBySelectedCandidates(data.timeline));
   const expenditureTimelineData = transformLineChart(filterBySelectedCandidates(data.expenditureTimeline));
   const cashOnHandTimelineData = transformLineChart(filterBySelectedCandidates(data.cashOnHandTimeline));
@@ -240,11 +248,11 @@ function CityPage() {
           />
         </div>
 
-        {/* Location Bar Chart */}
+        {/* Location Bar Chart - By Dollar Amount */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <SegmentedBarChart
             data={locationData}
-            title="Fundraising by Donor Location"
+            title="Fundraising by Donor Location (by Dollar Amount)"
             legendLabel="Donor Locations"
             activeFilter={chartFilters.location}
             hoveredFilter={globalHoveredFilter}
@@ -255,11 +263,26 @@ function CityPage() {
           />
         </div>
 
+        {/* Location Bar Chart - By Donation Count */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <SegmentedBarChart
+            data={locationCountData}
+            title="Fundraising by Donor Location (by Number of Donations)"
+            legendLabel="Donor Locations"
+            activeFilter={chartFilters.locationCount}
+            hoveredFilter={globalHoveredFilter}
+            onActiveFilterChange={(filterId) => handleChartFilterChange('locationCount', filterId)}
+            showLocalFilters={true}
+            showExport={true}
+            hideEndLabels={true}
+          />
+        </div>
+
         {/* Size Bar Chart */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <SegmentedBarChart
             data={sizeData}
-            title="Fundraising by Donation Size"
+            title="Fundraising by Donation Size (by Number of Donations)"
             legendLabel="Contribution Sizes"
             activeFilter={chartFilters.size}
             hoveredFilter={globalHoveredFilter}
@@ -270,15 +293,30 @@ function CityPage() {
           />
         </div>
 
-        {/* Real Estate Bar Chart */}
+        {/* Real Estate Bar Chart - By Dollar Amount */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <SegmentedBarChart
             data={realEstateData}
-            title="Real Estate as % of Total Fundraising"
+            title="Real Estate as % of Total Fundraising (by Dollar Amount)"
             legendLabel="Source"
             activeFilter={chartFilters.realestate}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('realestate', filterId)}
+            showLocalFilters={true}
+            showExport={true}
+            hideEndLabels={true}
+          />
+        </div>
+
+        {/* Real Estate Bar Chart - By Donation Count */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <SegmentedBarChart
+            data={realEstateCountData}
+            title="Real Estate as % of Total Donations (by Number of Donations)"
+            legendLabel="Source"
+            activeFilter={chartFilters.realestateCount}
+            hoveredFilter={globalHoveredFilter}
+            onActiveFilterChange={(filterId) => handleChartFilterChange('realestateCount', filterId)}
             showLocalFilters={true}
             showExport={true}
             hideEndLabels={true}
