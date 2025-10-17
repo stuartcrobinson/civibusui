@@ -307,6 +307,14 @@ export function transformTotalDonationsChart(rows) {
 
   // Convert to array and create single segment per candidate
   const result = Object.values(grouped).map((candidate, i) => {
+    if (candidate.total === 0) {
+      return {
+        ...candidate,
+        segments: [],
+        hasNoData: true
+      };
+    }
+    
     return {
       ...candidate,
       segments: [{
@@ -317,17 +325,8 @@ export function transformTotalDonationsChart(rows) {
     };
   });
 
-  // Sort by contest hierarchy, then by last name within each contest
-  return result.sort((a, b) => {
-    const contestComparison = compareContests(a, b);
-    if (contestComparison !== 0) {
-      return contestComparison;
-    }
-    
-    const aLastName = getLastName(a.label);
-    const bLastName = getLastName(b.label);
-    return aLastName.localeCompare(bLastName);
-  });
+  // Sort by contest hierarchy only - candidate sorting will happen in the component
+  return result.sort((a, b) => compareContests(a, b));
 }
 
 export function normalizeToPercentages(barChartData) {
