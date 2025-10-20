@@ -395,7 +395,7 @@ function SegmentedBarChart({
                           className="absolute text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap ml-2"
                           style={{ left: `${(itemTotal / maxTotal) * 100}%` }}
                         >
-                          {formatDollars(itemTotal)}
+                          {item.formattedTotal || formatDollars(itemTotal)}
                         </div>
                       )}
                     </div>

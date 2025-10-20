@@ -32,10 +32,10 @@ const LOCATION_COLORS = {
 };
 
 const SIZE_COLORS = {
-  '≤$50': '#eab308',
+  '≤$50': '#ead008ff',
   '$51-250': '#22c55e',
   '$251-1000': '#3b82f6',
-  '>$1000': '#ef4444'
+  '>$1000': '#ef8044ff'
 };
 
 const SIZE_ORDER = ['≤$50', '$51-250', '$251-1000', '>$1000'];
@@ -371,18 +371,31 @@ export function extractCandidateData(data) {
   }));
 }
 
-export function transformAbsoluteBarChart(barChartData) {
+export function transformAbsoluteBarChart(barChartData, isCountBased = false) {
   // Takes bar chart data and prepares it for absolute value display
   // (keeps dollar amounts as-is rather than converting to percentages)
+  
+  const formatDollars = (val) => {
+    if (val >= 1000000) return `$${(val / 1000000).toFixed(1)}M`;
+    if (val >= 1000) return `$${(val / 1000).toFixed(0)}K`;
+    return `$${Math.round(val)}`;
+  };
+
+  const formatCount = (val) => {
+    if (val >= 1000) return `${(val / 1000).toFixed(1)}K`;
+    return Math.round(val).toString();
+  };
+
   return barChartData.map(candidate => {
     const total = candidate.segments.reduce((sum, seg) => sum + seg.value, 0);
     
     return {
       ...candidate,
+      formattedTotal: isCountBased ? formatCount(total) : formatDollars(total),
       segments: candidate.segments.map(seg => ({
         ...seg,
         originalValue: seg.value, // Keep for tooltips
-        isCount: false
+        isCount: isCountBased
       }))
     };
   });

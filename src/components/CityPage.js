@@ -37,6 +37,7 @@ function CityPage() {
     location: 'all',
     locationCount: 'all',
     size: 'all',
+    sizeAbsolute: 'all',
     realestate: 'all',
     realestateCount: 'all',
     realestateAbsolute: 'all',
@@ -69,6 +70,7 @@ function CityPage() {
       location: filterId,
       locationCount: filterId,
       size: filterId,
+      sizeAbsolute: filterId,
       realestate: filterId,
       realestateCount: filterId,
       realestateAbsolute: filterId,
@@ -151,6 +153,7 @@ function CityPage() {
   const locationCountData = normalizeToPercentages(locationCountRaw, true);
   const sizeRaw = transformBarChart(filterBySelectedCandidates(data.size), 'size_bucket', SIZE_COLORS, SIZE_ORDER, cityName);
   const sizeData = normalizeToPercentages(sizeRaw, true);
+  const sizeAbsoluteData = transformAbsoluteBarChart(sizeRaw, true);
   const realEstateRaw = transformBarChart(filterBySelectedCandidates(data.realestate), 're_bucket', REALESTATE_COLORS, REALESTATE_ORDER, cityName);
   const realEstateData = normalizeToPercentages(realEstateRaw, false);
   const realEstateCountRaw = transformBarChart(filterBySelectedCandidates(data.realestateCount), 're_bucket', REALESTATE_COLORS, REALESTATE_ORDER, cityName);
@@ -297,6 +300,21 @@ function CityPage() {
             showLocalFilters={true}
             showExport={true}
             hideEndLabels={true}
+          />
+        </div>
+
+        {/* Size Bar Chart - Absolute Donation Count */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <SegmentedBarChart
+            data={sizeAbsoluteData}
+            title="Total Number of Donations by Size (Absolute Values)"
+            legendLabel="Contribution Sizes"
+            activeFilter={chartFilters.sizeAbsolute}
+            hoveredFilter={globalHoveredFilter}
+            onActiveFilterChange={(filterId) => handleChartFilterChange('sizeAbsolute', filterId)}
+            showLocalFilters={true}
+            showExport={true}
+            hideEndLabels={false}
           />
         </div>
 
