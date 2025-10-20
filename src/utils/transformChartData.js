@@ -24,9 +24,10 @@ const DURHAM_CANDIDATE_IMAGES = {
 
 // Predefined color schemes
 const LOCATION_COLORS = {
-  'Out of State': '#2534bdff',
-  'In NC (not': '#6671daff',  // Partial match for dynamic city names
-  'In ': '#b2bafcff',  // Partial match for "In Durham", "In Raleigh", etc
+  'Unmarked b/c ≤ $50': '#d5e8f5ff',
+  'In ': '#c2d8eaff',
+  'In NC (not': '#417096ff',
+  'Out of State': '#002138ff',
   'Unknown': '#ef4444'
 };
 
@@ -52,8 +53,9 @@ const CANDIDATE_COLORS = [
 ];
 
 function getLocationColor(locationBucket) {
-  if (locationBucket === 'Out of State') return LOCATION_COLORS['Out of State'];
+  if (locationBucket === 'Unmarked b/c ≤ $50') return LOCATION_COLORS['Unmarked b/c ≤ $50'];
   if (locationBucket === 'Unknown') return LOCATION_COLORS['Unknown'];
+  if (locationBucket === 'Out of State') return LOCATION_COLORS['Out of State'];
   if (locationBucket.startsWith('In NC (not')) return LOCATION_COLORS['In NC (not'];
   if (locationBucket.startsWith('In ')) return LOCATION_COLORS['In '];
   return '#9ca3af';
@@ -63,7 +65,10 @@ function getLocationOrder(locationData) {
   const buckets = [...new Set(locationData.map(d => d.location_bucket))];
   const order = [];
   
-  // Start with "In X" (the city itself)
+  // Start with "Unmarked b/c ≤ $50"
+  if (buckets.includes('Unmarked b/c ≤ $50')) order.push('Unmarked b/c ≤ $50');
+  
+  // Then "In X" (the city itself)
   const inCityBucket = buckets.find(b => b.startsWith('In ') && !b.startsWith('In NC'));
   if (inCityBucket) order.push(inCityBucket);
   
@@ -74,7 +79,7 @@ function getLocationOrder(locationData) {
   // Then Out of State
   if (buckets.some(b => b === 'Out of State')) order.push('Out of State');
   
-  // Finally Unknown
+  // Finally Unknown (concerning missing addresses)
   if (buckets.includes('Unknown')) order.push('Unknown');
   
   return order;
@@ -353,7 +358,7 @@ export function normalizeToPercentages(barChartData, isCountBased = false) {
     };
   });
   
-  return normalized.sort((a, b) => b.realEstatePercent - a.realEstatePercent);
+  return normalized;
 }
 
 export function extractCandidateData(data) {

@@ -85,15 +85,10 @@ function AboutPage() {
               Who We Are
             </h2>
             <p className="mb-4">
-              Civibus was created by Stuart Robinson, a Durham resident
-              who has lived in North Carolina since 2002. Stuart holds a B.S. in Economics
-              from Duke University and has previously worked as a software engineer, research science
-              analyst, and touring musician.
+              Civibus was founded by Stuart Robinson, a Durham resident who has lived in North Carolina since 2002. The organization arose from watching money play an increasingly prominent role in Durham elections and recognizing the need for better tools to understand these financial dynamics in local races. Stuart holds a B.S. in Economics from Duke University and has previously worked as a software engineer, research science analyst, and touring musician.
             </p>
             <p className="mb-4">
-              The organization arose from watching money play an increasingly prominent role in
-              Durham elections and recognizing the need for better tools to understand these
-              financial dynamics in local races.
+              Bobby Madamanchi, a lecturer at the University of Michigan School of Information, serves on the board. Bobby holds a Ph.D. in Cancer Biology from Vanderbilt University and focuses his work on democratizing data and broadening access to computational tools. He is also an active union member and advocate for educational equity.
             </p>
             <p className="text-sm italic">
               Civibus is currently in formation and pursuing 501(c)(3) nonprofit status.
