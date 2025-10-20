@@ -371,4 +371,21 @@ export function extractCandidateData(data) {
   }));
 }
 
+export function transformAbsoluteBarChart(barChartData) {
+  // Takes bar chart data and prepares it for absolute value display
+  // (keeps dollar amounts as-is rather than converting to percentages)
+  return barChartData.map(candidate => {
+    const total = candidate.segments.reduce((sum, seg) => sum + seg.value, 0);
+    
+    return {
+      ...candidate,
+      segments: candidate.segments.map(seg => ({
+        ...seg,
+        originalValue: seg.value, // Keep for tooltips
+        isCount: false
+      }))
+    };
+  });
+}
+
 export { SIZE_COLORS, SIZE_ORDER, REALESTATE_COLORS, REALESTATE_ORDER };

@@ -14,6 +14,7 @@ import {
   normalizeToPercentages,
   extractCandidateData,
   transformTotalDonationsChart,
+  transformAbsoluteBarChart,
   SIZE_COLORS,
   SIZE_ORDER,
   REALESTATE_COLORS,
@@ -38,6 +39,7 @@ function CityPage() {
     size: 'all',
     realestate: 'all',
     realestateCount: 'all',
+    realestateAbsolute: 'all',
     totalDonations: 'all'
   });
 
@@ -69,6 +71,7 @@ function CityPage() {
       size: filterId,
       realestate: filterId,
       realestateCount: filterId,
+      realestateAbsolute: filterId,
       totalDonations: filterId
     });
   };
@@ -152,6 +155,7 @@ function CityPage() {
   const realEstateData = normalizeToPercentages(realEstateRaw, false);
   const realEstateCountRaw = transformBarChart(filterBySelectedCandidates(data.realestateCount), 're_bucket', REALESTATE_COLORS, REALESTATE_ORDER, cityName);
   const realEstateCountData = normalizeToPercentages(realEstateCountRaw, true);
+  const realEstateAbsoluteData = transformAbsoluteBarChart(realEstateRaw);
   const timelineData = transformLineChart(filterBySelectedCandidates(data.timeline));
   const expenditureTimelineData = transformLineChart(filterBySelectedCandidates(data.expenditureTimeline));
   const cashOnHandTimelineData = transformLineChart(filterBySelectedCandidates(data.cashOnHandTimeline));
@@ -308,6 +312,21 @@ function CityPage() {
             showLocalFilters={true}
             showExport={true}
             hideEndLabels={true}
+          />
+        </div>
+
+        {/* Real Estate Bar Chart - Absolute Dollar Amount */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <SegmentedBarChart
+            data={realEstateAbsoluteData}
+            title="Real Estate Fundraising by Dollar Amount (Absolute Values)"
+            legendLabel="Source"
+            activeFilter={chartFilters.realestateAbsolute}
+            hoveredFilter={globalHoveredFilter}
+            onActiveFilterChange={(filterId) => handleChartFilterChange('realestateAbsolute', filterId)}
+            showLocalFilters={true}
+            showExport={true}
+            hideEndLabels={false}
           />
         </div>
 
