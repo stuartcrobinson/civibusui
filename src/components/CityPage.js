@@ -123,9 +123,9 @@ function CityPage() {
   };
 
   const allCandidates = useMemo(() => {
-    if (!data || !data.location) return [];
+    if (!data || !data.allCandidates) return [];
     const candidateMap = new Map();
-    data.location.forEach(row => {
+    data.allCandidates.forEach(row => {
       if (!candidateMap.has(row.candidate_name)) {
         candidateMap.set(row.candidate_name, {
           name: row.candidate_name,
@@ -307,6 +307,7 @@ function CityPage() {
         {/* Total Donations Bar Chart */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <SegmentedBarChart
+            key={`total-donations-${Array.from(mutedCandidates).sort().join(',')}`}
             data={totalDonationsData}
             title="Total Fundraising by Candidate"
             legendLabel="Fundraising"
@@ -322,6 +323,7 @@ function CityPage() {
         {/* Total Donations Bar Chart - With Self-Funding */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <SegmentedBarChart
+            key={`total-donations-self-${Array.from(mutedCandidates).sort().join(',')}`}
             data={totalDonationsWithSelfData}
             title="Total Fundraising by Candidate (Self vs Other)"
             legendLabel="Funding Source"
