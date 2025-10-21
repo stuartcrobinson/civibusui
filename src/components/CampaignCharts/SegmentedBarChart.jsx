@@ -372,16 +372,11 @@ function SegmentedBarChart({
                                 setHoveredLabelSource(null);
                               }}
                             >
-                              {isHighlighted && hoveredLabelSource === 'segment' && (
+                              {isHighlighted && hoveredLabelSource === 'segment' && seg.tooltipText && (
                                 <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 dark:bg-gray-700 text-white px-3 py-2 rounded shadow-lg z-20 whitespace-nowrap">
                                   <p className="text-xs font-semibold">{seg.label}</p>
                                   <p className="text-xs text-gray-300">
-                                    {seg.originalValue !== undefined
-                                      ? seg.isCount
-                                        ? `${seg.value.toFixed(1)}% (${Math.round(seg.originalValue)} donation${Math.round(seg.originalValue) !== 1 ? 's' : ''})`
-                                        : `${seg.value.toFixed(1)}% ($${seg.originalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})`
-                                      : `$${seg.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                                    }
+                                    {seg.tooltipText}
                                   </p>
                                 </div>
                               )}

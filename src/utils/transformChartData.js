@@ -52,6 +52,22 @@ const CANDIDATE_COLORS = [
   '#06b6d4', '#eab308', '#ec4899', '#8b5cf6'
 ];
 
+// Formatting helpers
+function formatDollars(val) {
+  return `$${val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+function formatCount(val) {
+  if (val >= 1000) return `${(val / 1000).toFixed(1)}K`;
+  return Math.round(val).toString();
+}
+
+function formatDollarsShort(val) {
+  if (val >= 1000000) return `$${(val / 1000000).toFixed(1)}M`;
+  if (val >= 1000) return `$${(val / 1000).toFixed(0)}K`;
+  return `$${val}`;
+}
+
 function getLocationColor(locationBucket) {
   if (locationBucket === 'Unmarked b/c ≤ $50') return LOCATION_COLORS['Unmarked b/c ≤ $50'];
   if (locationBucket === 'Unknown') return LOCATION_COLORS['Unknown'];
@@ -202,7 +218,7 @@ export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = n
       .map(([cat]) => cat);
   }
 
-  // Convert to array format
+  // Convert to array format (no tooltipText yet - will be added by normalizeToPercentages or transformAbsoluteBarChart)
   const result = Object.values(grouped).map(candidate => {
     const segmentArray = Object.entries(candidate.segments)
       .map(([label, value]) => {
@@ -436,12 +452,25 @@ export function normalizeToPercentages(barChartData, isCountBased = false) {
     return {
       ...candidate,
       realEstatePercent,
-      segments: candidate.segments.map(seg => ({
-        ...seg,
-        value: (seg.value / total) * 100,
-        originalValue: seg.value,
-        isCount: isCountBased
-      }))
+      segments: candidate.segments.map(seg => {
+        const percent = (seg.value / total) * 100;
+        const originalValue = seg.value;
+        
+        // Generate tooltip text
+        let tooltipText;
+        if (isCountBased) {
+          const countDisplay = Math.round(originalValue);
+          tooltipText = `${percent.toFixed(1)}% (${countDisplay} donation${countDisplay !== 1 ? 's' : ''})`;
+        } else {
+          tooltipText = `${percent.toFixed(1)}% (${formatDollars(originalValue)})`;
+        }
+        
+        return {
+          ...seg,
+          value: percent,
+          tooltipText
+        };
+      })
     };
   });
   
@@ -460,29 +489,33 @@ export function extractCandidateData(data) {
 
 export function transformAbsoluteBarChart(barChartData, isCountBased = false) {
   // Takes bar chart data and prepares it for absolute value display
-  // (keeps dollar amounts as-is rather than converting to percentages)
+  // Adds tooltipText and formattedTotal to each segment
   
-  const formatDollars = (val) => {
-    return `$${val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  };
-
-  const formatCount = (val) => {
-    if (val >= 1000) return `${(val / 1000).toFixed(1)}K`;
-    return Math.round(val).toString();
-  };
-
   return barChartData.map(candidate => {
     const total = candidate.segments.reduce((sum, seg) => sum + seg.value, 0);
     
     return {
       ...candidate,
       formattedTotal: isCountBased ? formatCount(total) : formatDollars(total),
-      segments: candidate.segments.map(seg => ({
-        label: seg.label,
-        value: seg.value,
-        color: seg.color,
-        isCount: isCountBased
-      }))
+      segments: candidate.segments.map(seg => {
+        const percent = total > 0 ? (seg.value / total) * 100 : 0;
+        
+        // Generate tooltip text for absolute values with percentage
+        let tooltipText;
+        if (isCountBased) {
+          const countDisplay = Math.round(seg.value);
+          tooltipText = `${countDisplay} donation${countDisplay !== 1 ? 's' : ''} (${percent.toFixed(1)}%)`;
+        } else {
+          tooltipText = `${formatDollars(seg.value)} (${percent.toFixed(1)}%)`;
+        }
+        
+        return {
+          label: seg.label,
+          value: seg.value,
+          color: seg.color,
+          tooltipText
+        };
+      })
     };
   });
 }
