@@ -284,7 +284,7 @@ function CityPage() {
             hideEndLabels={false}
           />
         </div>
-
+note: the chart above includes expenditures that are paying the candidate back for something as part of overall donations
         {/* Location Bar Chart - By Dollar Amount */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <SegmentedBarChart
