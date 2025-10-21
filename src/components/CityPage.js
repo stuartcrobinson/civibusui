@@ -111,7 +111,15 @@ function CityPage() {
 
   const filterBySelectedCandidates = (rows) => {
     if (!rows) return rows;
-    return rows.filter(row => !mutedCandidates.has(row.candidate_name));
+    console.log('=== FILTER DEBUG ===');
+    console.log('Muted candidates:', Array.from(mutedCandidates));
+    console.log('Sample row:', rows[0]);
+    console.log('Row has candidate_name?', rows[0]?.candidate_name);
+    console.log('Before filter:', rows.length);
+    const filtered = rows.filter(row => !mutedCandidates.has(row.candidate_name));
+    console.log('After filter:', filtered.length);
+    console.log('===================');
+    return filtered;
   };
 
   const allCandidates = useMemo(() => {
@@ -128,6 +136,71 @@ function CityPage() {
     });
     return Array.from(candidateMap.values()).sort((a, b) => a.name.localeCompare(b.name));
   }, [data]);
+
+  // Transform data with candidate filtering - wrapped in useMemo to trigger re-renders
+  const locationRaw = useMemo(() => 
+    transformBarChart(filterBySelectedCandidates(data?.location), 'location_bucket', null, null, cityName),
+    [data?.location, mutedCandidates, cityName]
+  );
+  const locationData = useMemo(() => normalizeToPercentages(locationRaw, false), [locationRaw]);
+  const locationAbsoluteData = useMemo(() => transformAbsoluteBarChart(locationRaw, false), [locationRaw]);
+  
+  const locationCountRaw = useMemo(() => 
+    transformBarChart(filterBySelectedCandidates(data?.locationCount), 'location_bucket', null, null, cityName),
+    [data?.locationCount, mutedCandidates, cityName]
+  );
+  const locationCountData = useMemo(() => normalizeToPercentages(locationCountRaw, true), [locationCountRaw]);
+  const locationCountAbsoluteData = useMemo(() => transformAbsoluteBarChart(locationCountRaw, true), [locationCountRaw]);
+  
+  const sizeRaw = useMemo(() => 
+    transformBarChart(filterBySelectedCandidates(data?.size), 'size_bucket', SIZE_COLORS, SIZE_ORDER, cityName),
+    [data?.size, mutedCandidates, cityName]
+  );
+  const sizeData = useMemo(() => normalizeToPercentages(sizeRaw, true), [sizeRaw]);
+  const sizeAbsoluteData = useMemo(() => transformAbsoluteBarChart(sizeRaw, true), [sizeRaw]);
+  
+  const realEstateRaw = useMemo(() => 
+    transformBarChart(filterBySelectedCandidates(data?.realestate), 're_bucket', REALESTATE_COLORS, REALESTATE_ORDER, cityName),
+    [data?.realestate, mutedCandidates, cityName]
+  );
+  const realEstateData = useMemo(() => normalizeToPercentages(realEstateRaw, false), [realEstateRaw]);
+  const realEstateCountRaw = useMemo(() => 
+    transformBarChart(filterBySelectedCandidates(data?.realestateCount), 're_bucket', REALESTATE_COLORS, REALESTATE_ORDER, cityName),
+    [data?.realestateCount, mutedCandidates, cityName]
+  );
+  const realEstateCountData = useMemo(() => normalizeToPercentages(realEstateCountRaw, true), [realEstateCountRaw]);
+  const realEstateAbsoluteData = useMemo(() => transformAbsoluteBarChart(realEstateRaw, false), [realEstateRaw]);
+  
+  const timelineData = useMemo(() => 
+    transformLineChart(filterBySelectedCandidates(data?.timeline)),
+    [data?.timeline, mutedCandidates]
+  );
+  const fundraisingTimelineData = useMemo(() => 
+    transformLineChart(filterBySelectedCandidates(data?.fundraisingTimeline)),
+    [data?.fundraisingTimeline, mutedCandidates]
+  );
+  const expenditureTimelineData = useMemo(() => 
+    transformLineChart(filterBySelectedCandidates(data?.expenditureTimeline)),
+    [data?.expenditureTimeline, mutedCandidates]
+  );
+  const cashOnHandTimelineData = useMemo(() => 
+    transformLineChart(filterBySelectedCandidates(data?.cashOnHandTimeline)),
+    [data?.cashOnHandTimeline, mutedCandidates]
+  );
+  
+  const totalDonationsRaw = useMemo(() => 
+    transformTotalDonationsChart(filterBySelectedCandidates(data?.totalDonations)),
+    [data?.totalDonations, mutedCandidates]
+  );
+  const totalDonationsData = useMemo(() => transformAbsoluteBarChart(totalDonationsRaw, false), [totalDonationsRaw]);
+  
+  const totalDonationsWithSelfRaw = useMemo(() => 
+    transformTotalDonationsWithSelfChart(filterBySelectedCandidates(data?.totalDonationsWithSelf)),
+    [data?.totalDonationsWithSelf, mutedCandidates]
+  );
+  const totalDonationsWithSelfData = useMemo(() => transformAbsoluteBarChart(totalDonationsWithSelfRaw, false), [totalDonationsWithSelfRaw]);
+  
+  const candidateData = useMemo(() => extractCandidateData(locationData), [locationData]);
 
   if (loading) {
     return (
@@ -152,31 +225,6 @@ function CityPage() {
       </div>
     );
   }
-
-  // Transform data with candidate filtering
-  const locationRaw = transformBarChart(filterBySelectedCandidates(data.location), 'location_bucket', null, null, cityName);
-  const locationData = normalizeToPercentages(locationRaw, false);
-  const locationAbsoluteData = transformAbsoluteBarChart(locationRaw, false);
-  const locationCountRaw = transformBarChart(filterBySelectedCandidates(data.locationCount), 'location_bucket', null, null, cityName);
-  const locationCountData = normalizeToPercentages(locationCountRaw, true);
-  const locationCountAbsoluteData = transformAbsoluteBarChart(locationCountRaw, true);
-  const sizeRaw = transformBarChart(filterBySelectedCandidates(data.size), 'size_bucket', SIZE_COLORS, SIZE_ORDER, cityName);
-  const sizeData = normalizeToPercentages(sizeRaw, true);
-  const sizeAbsoluteData = transformAbsoluteBarChart(sizeRaw, true);
-  const realEstateRaw = transformBarChart(filterBySelectedCandidates(data.realestate), 're_bucket', REALESTATE_COLORS, REALESTATE_ORDER, cityName);
-  const realEstateData = normalizeToPercentages(realEstateRaw, false);
-  const realEstateCountRaw = transformBarChart(filterBySelectedCandidates(data.realestateCount), 're_bucket', REALESTATE_COLORS, REALESTATE_ORDER, cityName);
-  const realEstateCountData = normalizeToPercentages(realEstateCountRaw, true);
-  const realEstateAbsoluteData = transformAbsoluteBarChart(realEstateRaw, false);
-  const timelineData = transformLineChart(filterBySelectedCandidates(data.timeline));
-  const fundraisingTimelineData = transformLineChart(filterBySelectedCandidates(data.fundraisingTimeline));
-  const expenditureTimelineData = transformLineChart(filterBySelectedCandidates(data.expenditureTimeline));
-  const cashOnHandTimelineData = transformLineChart(filterBySelectedCandidates(data.cashOnHandTimeline));
-  const totalDonationsRaw = transformTotalDonationsChart(filterBySelectedCandidates(data.totalDonations));
-  const totalDonationsData = transformAbsoluteBarChart(totalDonationsRaw, false);
-  const totalDonationsWithSelfRaw = transformTotalDonationsWithSelfChart(filterBySelectedCandidates(data.totalDonationsWithSelf));
-  const totalDonationsWithSelfData = transformAbsoluteBarChart(totalDonationsWithSelfRaw, false);
-  const candidateData = extractCandidateData(locationData);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
