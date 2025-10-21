@@ -437,8 +437,8 @@ function CityPage() {
         <div className="mt-8 space-y-4">
           <div className="p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
             <p className="text-sm text-blue-900 dark:text-blue-100">
-              <strong>Data notes:</strong> "Total Fundraising by Candidate" charts include starting cash on hand. 
-              "Cumulative Fundraising Over Time" shows only new donations received from January 1, 2025 onward.
+              <strong>Data notes:</strong> All charts show only new donations received from January 1, 2025 onward, 
+              excluding starting cash on hand.
             </p>
           </div>
 
