@@ -169,6 +169,7 @@ function CityPage() {
   const realEstateCountData = normalizeToPercentages(realEstateCountRaw, true);
   const realEstateAbsoluteData = transformAbsoluteBarChart(realEstateRaw, false);
   const timelineData = transformLineChart(filterBySelectedCandidates(data.timeline));
+  const fundraisingTimelineData = transformLineChart(filterBySelectedCandidates(data.fundraisingTimeline));
   const expenditureTimelineData = transformLineChart(filterBySelectedCandidates(data.expenditureTimeline));
   const cashOnHandTimelineData = transformLineChart(filterBySelectedCandidates(data.cashOnHandTimeline));
   const totalDonationsRaw = transformTotalDonationsChart(filterBySelectedCandidates(data.totalDonations));
@@ -213,7 +214,7 @@ function CityPage() {
         {/* Timeline Chart */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <CampaignLineChart
-            data={timelineData}
+            data={fundraisingTimelineData}
             title="Cumulative Fundraising Over Time"
             yAxisLabel="Total Raised ($)"
             xAxisLabel="Week Starting"
@@ -439,8 +440,8 @@ function CityPage() {
         <div className="mt-8 space-y-4">
           <div className="p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
             <p className="text-sm text-blue-900 dark:text-blue-100">
-              <strong>Data notes:</strong> Amounts include starting cash on hand and all receipts 
-              from January 1, 2025 onward.
+              <strong>Data notes:</strong> "Total Fundraising by Candidate" charts include starting cash on hand. 
+              "Cumulative Fundraising Over Time" shows only new donations received from January 1, 2025 onward.
             </p>
           </div>
 
