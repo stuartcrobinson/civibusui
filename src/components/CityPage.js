@@ -14,6 +14,7 @@ import {
   normalizeToPercentages,
   extractCandidateData,
   transformTotalDonationsChart,
+  transformTotalDonationsWithSelfChart,
   transformAbsoluteBarChart,
   SIZE_COLORS,
   SIZE_ORDER,
@@ -35,13 +36,16 @@ function CityPage() {
   const [chartFilters, setChartFilters] = useState({
     timeline: 'all',
     location: 'all',
+    locationAbsolute: 'all',
     locationCount: 'all',
+    locationCountAbsolute: 'all',
     size: 'all',
     sizeAbsolute: 'all',
     realestate: 'all',
     realestateCount: 'all',
     realestateAbsolute: 'all',
-    totalDonations: 'all'
+    totalDonations: 'all',
+    totalDonationsWithSelf: 'all'
   });
 
   const [mutedCandidates, setMutedCandidates] = useState(() => {
@@ -68,13 +72,16 @@ function CityPage() {
     setChartFilters({
       timeline: filterId,
       location: filterId,
+      locationAbsolute: filterId,
       locationCount: filterId,
+      locationCountAbsolute: filterId,
       size: filterId,
       sizeAbsolute: filterId,
       realestate: filterId,
       realestateCount: filterId,
       realestateAbsolute: filterId,
-      totalDonations: filterId
+      totalDonations: filterId,
+      totalDonationsWithSelf: filterId
     });
   };
 
@@ -149,8 +156,10 @@ function CityPage() {
   // Transform data with candidate filtering
   const locationRaw = transformBarChart(filterBySelectedCandidates(data.location), 'location_bucket', null, null, cityName);
   const locationData = normalizeToPercentages(locationRaw, false);
+  const locationAbsoluteData = transformAbsoluteBarChart(locationRaw, false);
   const locationCountRaw = transformBarChart(filterBySelectedCandidates(data.locationCount), 'location_bucket', null, null, cityName);
   const locationCountData = normalizeToPercentages(locationCountRaw, true);
+  const locationCountAbsoluteData = transformAbsoluteBarChart(locationCountRaw, true);
   const sizeRaw = transformBarChart(filterBySelectedCandidates(data.size), 'size_bucket', SIZE_COLORS, SIZE_ORDER, cityName);
   const sizeData = normalizeToPercentages(sizeRaw, true);
   const sizeAbsoluteData = transformAbsoluteBarChart(sizeRaw, true);
@@ -162,7 +171,10 @@ function CityPage() {
   const timelineData = transformLineChart(filterBySelectedCandidates(data.timeline));
   const expenditureTimelineData = transformLineChart(filterBySelectedCandidates(data.expenditureTimeline));
   const cashOnHandTimelineData = transformLineChart(filterBySelectedCandidates(data.cashOnHandTimeline));
-  const totalDonationsData = transformTotalDonationsChart(filterBySelectedCandidates(data.totalDonations));
+  const totalDonationsRaw = transformTotalDonationsChart(filterBySelectedCandidates(data.totalDonations));
+  const totalDonationsData = transformAbsoluteBarChart(totalDonationsRaw, false);
+  const totalDonationsWithSelfRaw = transformTotalDonationsWithSelfChart(filterBySelectedCandidates(data.totalDonationsWithSelf));
+  const totalDonationsWithSelfData = transformAbsoluteBarChart(totalDonationsWithSelfRaw, false);
   const candidateData = extractCandidateData(locationData);
 
   return (
@@ -258,6 +270,21 @@ function CityPage() {
           />
         </div>
 
+        {/* Total Donations Bar Chart - With Self-Funding */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <SegmentedBarChart
+            data={totalDonationsWithSelfData}
+            title="Total Fundraising by Candidate (Self vs Other)"
+            legendLabel="Funding Source"
+            activeFilter={chartFilters.totalDonationsWithSelf}
+            hoveredFilter={globalHoveredFilter}
+            onActiveFilterChange={(filterId) => handleChartFilterChange('totalDonationsWithSelf', filterId)}
+            showLocalFilters={true}
+            showExport={true}
+            hideEndLabels={false}
+          />
+        </div>
+
         {/* Location Bar Chart - By Dollar Amount */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <SegmentedBarChart
@@ -273,6 +300,21 @@ function CityPage() {
           />
         </div>
 
+        {/* Location Bar Chart - By Dollar Amount (Absolute) */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <SegmentedBarChart
+            data={locationAbsoluteData}
+            title="Fundraising by Donor Location (by Dollar Amount, Absolute)"
+            legendLabel="Donor Locations"
+            activeFilter={chartFilters.locationAbsolute}
+            hoveredFilter={globalHoveredFilter}
+            onActiveFilterChange={(filterId) => handleChartFilterChange('locationAbsolute', filterId)}
+            showLocalFilters={true}
+            showExport={true}
+            hideEndLabels={false}
+          />
+        </div>
+
         {/* Location Bar Chart - By Donation Count */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <SegmentedBarChart
@@ -285,6 +327,21 @@ function CityPage() {
             showLocalFilters={true}
             showExport={true}
             hideEndLabels={true}
+          />
+        </div>
+
+        {/* Location Bar Chart - By Donation Count (Absolute) */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <SegmentedBarChart
+            data={locationCountAbsoluteData}
+            title="Fundraising by Donor Location (by Number of Donations, Absolute)"
+            legendLabel="Donor Locations"
+            activeFilter={chartFilters.locationCountAbsolute}
+            hoveredFilter={globalHoveredFilter}
+            onActiveFilterChange={(filterId) => handleChartFilterChange('locationCountAbsolute', filterId)}
+            showLocalFilters={true}
+            showExport={true}
+            hideEndLabels={false}
           />
         </div>
 

@@ -340,6 +340,93 @@ export function transformTotalDonationsChart(rows) {
   return result.sort((a, b) => compareContests(a, b));
 }
 
+export function transformTotalDonationsWithSelfChart(rows) {
+  if (!rows || rows.length === 0) return [];
+
+  // Helper to create lighter version of hex color
+  const lightenColor = (hex) => {
+    // Remove # if present
+    hex = hex.replace('#', '');
+    
+    // Convert to RGB
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    
+    // Lighten by mixing with white (increase by 40%)
+    const newR = Math.min(255, Math.round(r + (255 - r) * 0.4));
+    const newG = Math.min(255, Math.round(g + (255 - g) * 0.4));
+    const newB = Math.min(255, Math.round(b + (255 - b) * 0.4));
+    
+    // Convert back to hex
+    return '#' + [newR, newG, newB].map(x => x.toString(16).padStart(2, '0')).join('');
+  };
+
+  // Group by candidate
+  const grouped = rows.reduce((acc, row) => {
+    const key = row.candidate_name;
+    if (!acc[key]) {
+      acc[key] = {
+        label: row.candidate_name,
+        imageUrl: DURHAM_CANDIDATE_IMAGES[row.candidate_name] || null,
+        position: row.position,
+        subregion_value: row.subregion_value,
+        linkUrl: SPECIAL_CANDIDATE_LINKS[row.candidate_name] || 
+                 (row.sboe_id && row.org_group_id ? `https://cf.ncsbe.gov/CFOrgLkup/DocumentGeneralResult/?SID=${row.sboe_id}&OGID=${row.org_group_id}` : null),
+        selfTotal: 0,
+        otherTotal: 0
+      };
+    }
+    
+    acc[key].selfTotal += parseFloat(row.self_donation_total || 0);
+    acc[key].otherTotal += parseFloat(row.other_donation_total || 0);
+    
+    return acc;
+  }, {});
+
+  // Convert to array and create two segments per candidate
+  const result = Object.values(grouped).map((candidate, i) => {
+    const total = candidate.selfTotal + candidate.otherTotal;
+    
+    if (total === 0) {
+      return {
+        ...candidate,
+        segments: [],
+        hasNoData: true
+      };
+    }
+    
+    const baseColor = CANDIDATE_COLORS[i % CANDIDATE_COLORS.length];
+    const segments = [];
+    
+    // Add self-donation segment first (lighter color)
+    if (candidate.selfTotal > 0) {
+      segments.push({
+        label: 'Self-Funded',
+        value: candidate.selfTotal,
+        color: lightenColor(baseColor)
+      });
+    }
+    
+    // Add other donations segment (normal color)
+    if (candidate.otherTotal > 0) {
+      segments.push({
+        label: 'Other Donations',
+        value: candidate.otherTotal,
+        color: baseColor
+      });
+    }
+    
+    return {
+      ...candidate,
+      segments
+    };
+  });
+
+  // Sort by contest hierarchy only - candidate sorting will happen in the component
+  return result.sort((a, b) => compareContests(a, b));
+}
+
 export function normalizeToPercentages(barChartData, isCountBased = false) {
   const normalized = barChartData.map(candidate => {
     const total = candidate.segments.reduce((sum, seg) => sum + seg.value, 0);
@@ -376,9 +463,7 @@ export function transformAbsoluteBarChart(barChartData, isCountBased = false) {
   // (keeps dollar amounts as-is rather than converting to percentages)
   
   const formatDollars = (val) => {
-    if (val >= 1000000) return `$${(val / 1000000).toFixed(1)}M`;
-    if (val >= 1000) return `$${(val / 1000).toFixed(0)}K`;
-    return `$${Math.round(val)}`;
+    return `$${val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
 
   const formatCount = (val) => {
