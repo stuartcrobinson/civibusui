@@ -167,7 +167,7 @@ function CityPage() {
   const realEstateData = normalizeToPercentages(realEstateRaw, false);
   const realEstateCountRaw = transformBarChart(filterBySelectedCandidates(data.realestateCount), 're_bucket', REALESTATE_COLORS, REALESTATE_ORDER, cityName);
   const realEstateCountData = normalizeToPercentages(realEstateCountRaw, true);
-  const realEstateAbsoluteData = transformAbsoluteBarChart(realEstateRaw);
+  const realEstateAbsoluteData = transformAbsoluteBarChart(realEstateRaw, false);
   const timelineData = transformLineChart(filterBySelectedCandidates(data.timeline));
   const expenditureTimelineData = transformLineChart(filterBySelectedCandidates(data.expenditureTimeline));
   const cashOnHandTimelineData = transformLineChart(filterBySelectedCandidates(data.cashOnHandTimeline));

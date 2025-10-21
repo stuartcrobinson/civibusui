@@ -478,8 +478,9 @@ export function transformAbsoluteBarChart(barChartData, isCountBased = false) {
       ...candidate,
       formattedTotal: isCountBased ? formatCount(total) : formatDollars(total),
       segments: candidate.segments.map(seg => ({
-        ...seg,
-        originalValue: seg.value, // Keep for tooltips
+        label: seg.label,
+        value: seg.value,
+        color: seg.color,
         isCount: isCountBased
       }))
     };
