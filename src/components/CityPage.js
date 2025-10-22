@@ -273,7 +273,7 @@ function CityPage() {
             data={fundraisingTimelineData}
             title="Cumulative Fundraising Over Time"
             yAxisLabel="Total Raised ($)"
-            xAxisLabel="Week Starting"
+            xAxisLabel="Week Starting (2025)"
             activeFilter={chartFilters.timeline}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('timeline', filterId)}
@@ -288,7 +288,7 @@ function CityPage() {
             data={expenditureTimelineData}
             title="Cumulative Expenditures Over Time"
             yAxisLabel="Total Spent ($)"
-            xAxisLabel="Week Starting"
+            xAxisLabel="Week Starting (2025)"
             activeFilter={chartFilters.timeline}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('timeline', filterId)}
@@ -303,7 +303,7 @@ function CityPage() {
             data={cashOnHandTimelineData}
             title="Cash on Hand Over Time"
             yAxisLabel="Available Funds ($)"
-            xAxisLabel="Week Starting"
+            xAxisLabel="Week Starting (2025)"
             activeFilter={chartFilters.timeline}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('timeline', filterId)}
@@ -435,7 +435,7 @@ function CityPage() {
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <SegmentedBarChart
             data={sizeAbsoluteData}
-            title="Total Number of Donations by Size (Absolute Values)"
+            title="Donations by Size"
             legendLabel="Contribution Sizes"
             legendOrder={SIZE_ORDER}
             segmentOrder={SIZE_ORDER}
