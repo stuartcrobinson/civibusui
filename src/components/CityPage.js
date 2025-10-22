@@ -327,6 +327,9 @@ function CityPage() {
             data={totalDonationsWithSelfData}
             title="Total Fundraising by Candidate (Self vs Other)"
             legendLabel="Funding Source"
+            legendOrder={['Self-Funded','Other Donations']}
+            legendColorMap={{ 'Other Donations': '#3b82f6', 'Self-Funded': '#93c5fd' }}
+            segmentOrder={['Self-Funded','Other Donations']}
             activeFilter={chartFilters.totalDonationsWithSelf}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('totalDonationsWithSelf', filterId)}

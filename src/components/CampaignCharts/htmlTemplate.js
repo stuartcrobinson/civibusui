@@ -40,7 +40,9 @@ export function generateStandaloneHTML({ chartTemplate, data, title, chartType, 
 <body>
   <div class="chart-container">
     <div id="root"></div>
+    <!-- CIVIBUS_LINK_START -->
     <div class="attribution"><a href="${sourceUrl || 'https://civibus.org'}" target="_blank" rel="noopener">civibus.org</a></div>
+    <!-- CIVIBUS_LINK_END -->
   </div>
   
   <!-- Load React first -->

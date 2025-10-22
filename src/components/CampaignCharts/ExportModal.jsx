@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 export default function ExportModal({ isOpen, onClose, embedCode, chartTitle }) {
   const [copied, setCopied] = useState(false);
+  const [hideLink, setHideLink] = useState(true);
 
   // Close modal on Escape key
   React.useEffect(() => {
@@ -19,14 +20,21 @@ export default function ExportModal({ isOpen, onClose, embedCode, chartTitle }) 
 
   if (!isOpen) return null;
 
+  const getFinalCode = () => {
+    if (hideLink) {
+      return embedCode.replace(/<!-- CIVIBUS_LINK_START -->[\s\S]*?<!-- CIVIBUS_LINK_END -->/, '');
+    }
+    return embedCode;
+  };
+
   const handleCopy = () => {
-    navigator.clipboard.writeText(embedCode);
+    navigator.clipboard.writeText(getFinalCode());
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   const handleDownload = () => {
-    const blob = new Blob([embedCode], { type: 'text/html' });
+    const blob = new Blob([getFinalCode()], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -75,6 +83,17 @@ export default function ExportModal({ isOpen, onClose, embedCode, chartTitle }) 
             </ul>
           </div>
 
+          {/* Checkbox for hiding link */}
+          <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={hideLink}
+              onChange={(e) => setHideLink(e.target.checked)}
+              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            />
+            <span>Remove civibus attribution link</span>
+          </label>
+
           {/* Embed Code */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
@@ -83,7 +102,7 @@ export default function ExportModal({ isOpen, onClose, embedCode, chartTitle }) 
             <div className="relative">
               <textarea
                 readOnly
-                value={embedCode}
+                value={getFinalCode()}
                 className="w-full h-32 p-3 text-xs font-mono bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded text-gray-800 dark:text-gray-200"
                 onClick={(e) => e.target.select()}
               />

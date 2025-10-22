@@ -7,6 +7,9 @@ function SegmentedBarChart({
   data, 
   title, 
   legendLabel,
+  legendOrder,
+  legendColorMap,
+  segmentOrder,
   activeFilter: controlledActiveFilter,
   hoveredFilter: controlledHoveredFilter,
   onActiveFilterChange,
@@ -61,16 +64,28 @@ function SegmentedBarChart({
   const allSegmentTypes = {};
   data.forEach(item => {
     item.segments.forEach(seg => {
-      if (!allSegmentTypes[seg.label]) {
-        allSegmentTypes[seg.label] = seg.color;
+      const label = seg.label;
+      if (!allSegmentTypes[label]) {
+        allSegmentTypes[label] = seg.color;
       }
     });
   });
-  
-  const legendItems = Object.entries(allSegmentTypes).map(([label, color]) => ({
-    label,
-    color
-  }));
+
+  const legendItems = Object.entries(allSegmentTypes)
+    .map(([label, color]) => ({
+      label,
+      color: legendColorMap && legendColorMap[label] ? legendColorMap[label] : color
+    }))
+    .sort((a, b) => {
+      if (Array.isArray(legendOrder) && legendOrder.length) {
+        const ai = legendOrder.indexOf(a.label);
+        const bi = legendOrder.indexOf(b.label);
+        const ap = ai === -1 ? Number.MAX_SAFE_INTEGER : ai;
+        const bp = bi === -1 ? Number.MAX_SAFE_INTEGER : bi;
+        if (ap !== bp) return ap - bp;
+      }
+      return a.label.localeCompare(b.label);
+    });
 
   const getFilteredData = () => {
     if (activeFilter === 'all') return data;
@@ -341,7 +356,16 @@ function SegmentedBarChart({
                     
                     <div className="flex-1 min-w-0 relative flex items-center">
                       <div className="flex h-10 w-full">
-                        {item.segments.map((seg, sIdx) => {
+                        {(Array.isArray(segmentOrder) && segmentOrder.length
+                          ? [...item.segments].sort((a, b) => {
+                              const ai = segmentOrder.indexOf(a.label);
+                              const bi = segmentOrder.indexOf(b.label);
+                              const ap = ai === -1 ? Number.MAX_SAFE_INTEGER : ai;
+                              const bp = bi === -1 ? Number.MAX_SAFE_INTEGER : bi;
+                              return ap - bp;
+                            })
+                          : item.segments
+                        ).map((seg, sIdx) => {
                           const segmentId = `${uniqueRowId}-${sIdx}`;
                           const isSegmentHovered = hoveredSegment === segmentId;
                           const isLabelHovered = hoveredLabel === seg.label && !hoveredSegment;

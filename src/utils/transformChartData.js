@@ -47,10 +47,28 @@ const REALESTATE_COLORS = {
 
 const REALESTATE_ORDER = ['Real Estate', 'Other Industries'];
 
+const SELF_FUNDED_COLORS = {
+  'Self-Funded': '#93c5fd',
+  'Other Donations': '#3b82f6'
+};
+
+const SELF_FUNDED_ORDER = ['Self-Funded', 'Other Donations'];
+
 const CANDIDATE_COLORS = [
-  '#3b82f6', '#ef4444', '#10b981', '#a855f7', '#f97316',
+  '#f97316', '#10b981', '#ef4444', '#3b82f6', '#a855f7',
   '#06b6d4', '#eab308', '#ec4899', '#8b5cf6'
 ];
+
+// Assign consistent colors to candidates
+let candidateColorMap = {};
+
+function getCandidateColor(candidateName) {
+  if (!candidateColorMap[candidateName]) {
+    const assignedColors = Object.keys(candidateColorMap).length;
+    candidateColorMap[candidateName] = CANDIDATE_COLORS[assignedColors % CANDIDATE_COLORS.length];
+  }
+  return candidateColorMap[candidateName];
+}
 
 // Formatting helpers
 function formatDollars(val) {
@@ -142,7 +160,7 @@ function compareContests(a, b) {
   return 0;
 }
 
-export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = null, geoName = null) {
+export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = null, geoName = null, useCustomOrder = false) {
   if (!rows || rows.length === 0) return [];
 
   // Sort rows by contest hierarchy first, then by last name
@@ -173,6 +191,10 @@ export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = n
 
   // Filter to only rows with actual data
   const rowsWithData = sortedRows.filter(row => candidatesWithData.has(row.candidate_name));
+
+  // Establish consistent candidate order and colors
+  const uniqueCandidates = [...new Set(rowsWithData.map(r => r.candidate_name))];
+  uniqueCandidates.forEach(candidate => getCandidateColor(candidate));
 
   // Group by candidate
   const grouped = rowsWithData.reduce((acc, row) => {
@@ -301,9 +323,9 @@ export function transformLineChart(rows) {
       return aLastName.localeCompare(bLastName);
     });
   
-  // Assign colors
-  lines.forEach((line, i) => {
-    line.color = CANDIDATE_COLORS[i % CANDIDATE_COLORS.length];
+  // Assign colors based on candidate name for consistency
+  lines.forEach((line) => {
+    line.color = getCandidateColor(line.label);
   });
 
   return { lines };
@@ -347,7 +369,7 @@ export function transformTotalDonationsChart(rows) {
       segments: [{
         label: 'Total Donations',
         value: candidate.total,
-        color: CANDIDATE_COLORS[i % CANDIDATE_COLORS.length]
+        color: getCandidateColor(candidate.label)
       }]
     };
   });
@@ -412,10 +434,10 @@ export function transformTotalDonationsWithSelfChart(rows) {
       };
     }
     
-    const baseColor = CANDIDATE_COLORS[i % CANDIDATE_COLORS.length];
+    const baseColor = getCandidateColor(candidate.label);
     const segments = [];
     
-    // Add self-donation segment first (lighter color)
+    // Add self-donation segment first (lighter shade of same color)
     if (candidate.selfTotal > 0) {
       segments.push({
         label: 'Self-Funded',
@@ -424,7 +446,7 @@ export function transformTotalDonationsWithSelfChart(rows) {
       });
     }
     
-    // Add other donations segment (normal color)
+    // Add other donations segment second (base color)
     if (candidate.otherTotal > 0) {
       segments.push({
         label: 'Other Donations',

@@ -29,27 +29,57 @@ async function imageToThumbnailBase64(imageUrl, maxDimension = 80, quality = 0.7
 async function encodeImagesToBase64(data) {
   if (!data) return data;
   
-  // Handle both array format (bar chart) and object with lines (line chart)
-  const items = Array.isArray(data) ? data : data.lines || [];
-  
-  const processed = await Promise.all(items.map(async (item) => {
-    if (!item.imageUrl) return item;
-    
-    try {
-      const fullUrl = new URL(item.imageUrl, window.location.origin).href;
-      const base64 = await imageToThumbnailBase64(fullUrl, 80, 0.7);
-      return { ...item, imageUrl: base64 };
-    } catch (e) {
-      console.warn(`Failed to encode ${item.imageUrl}:`, e);
-      return { ...item, imageUrl: null };
-    }
-  }));
-  
-  if (Array.isArray(data)) {
-    return processed;
-  } else if (data.lines) {
-    return { ...data, lines: processed };
+  // Handle line chart with lines array
+  if (data.lines) {
+    const processedLines = await Promise.all(data.lines.map(async (line) => {
+      if (!line.imageUrl) return line;
+      try {
+        const fullUrl = new URL(line.imageUrl, window.location.origin).href;
+        const base64 = await imageToThumbnailBase64(fullUrl, 80, 0.7);
+        return { ...line, imageUrl: base64 };
+      } catch (e) {
+        console.warn(`Failed to encode ${line.imageUrl}:`, e);
+        return { ...line, imageUrl: null };
+      }
+    }));
+    return { ...data, lines: processedLines };
   }
+  
+  // Handle bar chart with sections
+  if (data.sections) {
+    const processedSections = await Promise.all(data.sections.map(async (section) => {
+      const processedItems = await Promise.all(section.items.map(async (item) => {
+        if (!item.imageUrl) return item;
+        try {
+          const fullUrl = new URL(item.imageUrl, window.location.origin).href;
+          const base64 = await imageToThumbnailBase64(fullUrl, 80, 0.7);
+          return { ...item, imageUrl: base64 };
+        } catch (e) {
+          console.warn(`Failed to encode ${item.imageUrl}:`, e);
+          return { ...item, imageUrl: null };
+        }
+      }));
+      return { ...section, items: processedItems };
+    }));
+    return { ...data, sections: processedSections };
+  }
+  
+  // Handle bar chart with flat array
+  if (Array.isArray(data)) {
+    const processed = await Promise.all(data.map(async (item) => {
+      if (!item.imageUrl) return item;
+      try {
+        const fullUrl = new URL(item.imageUrl, window.location.origin).href;
+        const base64 = await imageToThumbnailBase64(fullUrl, 80, 0.7);
+        return { ...item, imageUrl: base64 };
+      } catch (e) {
+        console.warn(`Failed to encode ${item.imageUrl}:`, e);
+        return { ...item, imageUrl: null };
+      }
+    }));
+    return processed;
+  }
+  
   return data;
 }
 
