@@ -66,7 +66,7 @@ const SELF_FUNDED_ORDER = ['Self-Funded', 'Other Donations'];
 
 const CANDIDATE_COLORS = [
   '#f97316', '#10b981', '#ef4444', '#3b82f6', '#a855f7',
-  '#06b6d4', '#eab308', '#ec4899', '#8b5cf6'
+  '#06b6d4', '#eab308', '#ec4899', '#4ec361ff'
 ];
 
 // Assign consistent colors to candidates
