@@ -444,7 +444,7 @@ function CityPage() {
             onActiveFilterChange={(filterId) => handleChartFilterChange('sizeAbsolute', filterId)}
             showLocalFilters={true}
             showExport={true}
-            hideEndLabels={false}
+            hideEndLabels={true}
           />
         </div>
 
