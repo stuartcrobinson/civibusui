@@ -22,6 +22,14 @@ import {
   REALESTATE_ORDER
 } from '../utils/transformChartData';
 
+const LOCATION_ORDER = [
+  'Unmarked b/c ≤ $50',
+  'In Durham',
+  'In NC (not Durham)',
+  'Out of State',
+  'Unknown'
+];
+
 function CityPage() {
   const { geoName } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -344,6 +352,8 @@ function CityPage() {
             data={locationData}
             title="Fundraising by Donor Location (by Dollar Amount)"
             legendLabel="Donor Locations"
+            legendOrder={LOCATION_ORDER}
+            segmentOrder={LOCATION_ORDER}
             activeFilter={chartFilters.location}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('location', filterId)}
@@ -359,6 +369,8 @@ function CityPage() {
             data={locationAbsoluteData}
             title="Fundraising by Donor Location (by Dollar Amount, Absolute)"
             legendLabel="Donor Locations"
+            legendOrder={LOCATION_ORDER}
+            segmentOrder={LOCATION_ORDER}
             activeFilter={chartFilters.locationAbsolute}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('locationAbsolute', filterId)}
@@ -374,6 +386,8 @@ function CityPage() {
             data={locationCountData}
             title="Fundraising by Donor Location (by Number of Donations)"
             legendLabel="Donor Locations"
+            legendOrder={LOCATION_ORDER}
+            segmentOrder={LOCATION_ORDER}
             activeFilter={chartFilters.locationCount}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('locationCount', filterId)}
@@ -389,6 +403,8 @@ function CityPage() {
             data={locationCountAbsoluteData}
             title="Fundraising by Donor Location (by Number of Donations, Absolute)"
             legendLabel="Donor Locations"
+            legendOrder={LOCATION_ORDER}
+            segmentOrder={LOCATION_ORDER}
             activeFilter={chartFilters.locationCountAbsolute}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('locationCountAbsolute', filterId)}
@@ -404,6 +420,8 @@ function CityPage() {
             data={sizeData}
             title="Fundraising by Donation Size (by Number of Donations)"
             legendLabel="Contribution Sizes"
+            legendOrder={SIZE_ORDER}
+            segmentOrder={SIZE_ORDER}
             activeFilter={chartFilters.size}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('size', filterId)}
@@ -419,6 +437,8 @@ function CityPage() {
             data={sizeAbsoluteData}
             title="Total Number of Donations by Size (Absolute Values)"
             legendLabel="Contribution Sizes"
+            legendOrder={SIZE_ORDER}
+            segmentOrder={SIZE_ORDER}
             activeFilter={chartFilters.sizeAbsolute}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('sizeAbsolute', filterId)}
