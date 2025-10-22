@@ -22,6 +22,16 @@ const DURHAM_CANDIDATE_IMAGES = {
   'Shanetta Burris': '/img/shanetta.jpeg'
 };
 
+// Display name transformations for specific candidates
+function formatCandidateDisplayName(name) {
+  const transformations = {
+    'Anjanee Bell': 'Anjanée Bell',
+    'Leonardo (Leo) Williams': 'Leo Williams'
+  };
+  
+  return transformations[name] || name;
+}
+
 // Predefined color schemes
 const LOCATION_COLORS = {
   'Unmarked b/c ≤ $50': '#d5e8f5ff',
@@ -201,7 +211,7 @@ export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = n
     const key = row.candidate_name;
     if (!acc[key]) {
       acc[key] = {
-        label: row.candidate_name,
+        label: formatCandidateDisplayName(row.candidate_name),
         imageUrl: DURHAM_CANDIDATE_IMAGES[row.candidate_name] || null,
         position: row.position,
         subregion_value: row.subregion_value,
@@ -271,7 +281,7 @@ export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = n
   candidatesWithoutData.forEach((row, candidateName) => {
     if (!candidatesWithData.has(candidateName)) {
       result.push({
-        label: candidateName,
+        label: formatCandidateDisplayName(candidateName),
         imageUrl: DURHAM_CANDIDATE_IMAGES[candidateName] || null,
         position: row.position,
         subregion_value: row.subregion_value,
@@ -295,7 +305,7 @@ export function transformLineChart(rows) {
     const key = row.candidate_name;
     if (!acc[key]) {
       acc[key] = {
-        label: row.candidate_name,
+        label: formatCandidateDisplayName(row.candidate_name),
         dataKey: row.candidate_name.toLowerCase().replace(/\s+/g, '_'),
         position: row.position,
         subregion_value: row.subregion_value,
@@ -339,7 +349,7 @@ export function transformTotalDonationsChart(rows) {
     const key = row.candidate_name;
     if (!acc[key]) {
       acc[key] = {
-        label: row.candidate_name,
+        label: formatCandidateDisplayName(row.candidate_name),
         imageUrl: DURHAM_CANDIDATE_IMAGES[row.candidate_name] || null,
         position: row.position,
         subregion_value: row.subregion_value,
@@ -405,7 +415,7 @@ export function transformTotalDonationsWithSelfChart(rows) {
     const key = row.candidate_name;
     if (!acc[key]) {
       acc[key] = {
-        label: row.candidate_name,
+        label: formatCandidateDisplayName(row.candidate_name),
         imageUrl: DURHAM_CANDIDATE_IMAGES[row.candidate_name] || null,
         position: row.position,
         subregion_value: row.subregion_value,
