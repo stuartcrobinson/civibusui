@@ -2,6 +2,48 @@ import { useState } from 'react';
 import { LINE_CHART_TEMPLATE, BAR_CHART_TEMPLATE } from './chartTemplates';
 import { generateStandaloneHTML } from './htmlTemplate';
 
+function deriveLegendMetaFromData(data) {
+  const result = { legendOrder: [], legendColorMap: {} };
+  if (!Array.isArray(data)) return result;
+
+  const labelFirstColor = {};
+  const labelOrder = [];
+
+  data.forEach(item => {
+    if (!Array.isArray(item.segments)) return;
+    item.segments.forEach(seg => {
+      const label = String(seg.label || '');
+      const color = String(seg.color || '');
+      
+      // Track first occurrence of each label
+      if (!labelFirstColor[label]) {
+        labelFirstColor[label] = color;
+        labelOrder.push(label);
+      }
+    });
+  });
+
+  // Use first occurrence color for each label
+  result.legendColorMap = labelFirstColor;
+
+  // Prefer known order when present
+  const preferred = ['Self-Funded', 'Other Donations'];
+  const preferredInData = preferred.filter(l => labelOrder.includes(l));
+  const remaining = labelOrder.filter(l => !preferredInData.includes(l)).sort((a, b) => a.localeCompare(b));
+
+  result.legendOrder = [...preferredInData, ...remaining];
+  return result;
+}
+
+function flattenBarItems(data) {
+  if (!data) return [];
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data.sections)) {
+    return data.sections.flatMap(s => Array.isArray(s.items) ? s.items : []);
+  }
+  return [];
+}
+
 async function imageToThumbnailBase64(imageUrl, maxDimension = 80, quality = 0.7) {
   const img = new Image();
   img.crossOrigin = 'anonymous';
@@ -83,7 +125,7 @@ async function encodeImagesToBase64(data) {
   return data;
 }
 
-export function useChartExport(chartType, data, title, currentFilter) {
+export function useChartExport(chartType, data, title, currentFilter, legendLabel, legendOrder, legendColorMap, hideEndLabels, exportProps = {}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -100,17 +142,34 @@ export function useChartExport(chartType, data, title, currentFilter) {
     setIsProcessing(false);
     
     const props = {
-      title: title,
-      activeFilter: currentFilter
+      title,
+      activeFilter: currentFilter,
+      ...exportProps
     };
-    
-    // Add chart-specific props
+
     if (chartType === 'line') {
-      props.yAxisLabel = 'Amount Raised';
-      props.xAxisLabel = 'Date';
+      if (props.yAxisLabel === undefined) props.yAxisLabel = 'Amount Raised';
+      if (props.xAxisLabel === undefined) props.xAxisLabel = 'Date';
     } else {
-      props.legendLabel = 'Donor Industries';
-      props.hideEndLabels = false;
+      // Use props passed from the actual chart component
+      props.legendLabel = legendLabel !== undefined ? legendLabel : 'Funding Source';
+      props.hideEndLabels = hideEndLabels !== undefined ? hideEndLabels : false;
+      
+      // Only derive legend metadata if not provided
+      if (legendOrder !== undefined) {
+        props.legendOrder = legendOrder;
+      }
+      if (legendColorMap !== undefined) {
+        props.legendColorMap = legendColorMap;
+      }
+      
+      // Fallback to deriving from data if not provided
+      if (props.legendOrder === undefined || props.legendColorMap === undefined) {
+        const itemsForLegend = flattenBarItems(processedData);
+        const derived = deriveLegendMetaFromData(itemsForLegend);
+        if (props.legendOrder === undefined) props.legendOrder = derived.legendOrder;
+        if (props.legendColorMap === undefined) props.legendColorMap = derived.legendColorMap;
+      }
     }
     
     return generateStandaloneHTML({
