@@ -121,19 +121,19 @@ export const LINE_CHART_TEMPLATE = `
         if (!dotData) return null;
         return React.createElement(
           'div',
-          { className:'bg-gray-900 text-white px-3 py-2 rounded shadow-lg' },
-          React.createElement('p', { className:'text-xs font-semibold' },
+          { className:'tooltip-container-single bg-gray-900 text-white px-3 py-2 rounded shadow-lg' },
+          React.createElement('p', { className:'tooltip-value text-xs font-semibold' },
             Number(dotData.value).toLocaleString('en-US', { style:'currency', currency:'USD', minimumFractionDigits:0, maximumFractionDigits:0 })
           ),
-          React.createElement('p', { className:'text-xs text-gray-300' },
+          React.createElement('p', { className:'tooltip-date-single text-xs text-gray-300' },
             date.toLocaleDateString('en-US', { month:'short', day:'numeric' })
           )
         );
       }
       return React.createElement(
         'div',
-        { className:'bg-gray-900 text-white px-4 py-3 rounded shadow-lg max-w-xs' },
-        React.createElement('p', { className:'text-xs text-gray-300 mb-2 font-medium' },
+        { className:'tooltip-container bg-gray-900 text-white px-4 py-3 rounded shadow-lg max-w-xs' },
+        React.createElement('p', { className:'tooltip-date text-xs text-gray-300 mb-2 font-medium' },
           date.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' })
         ),
         React.createElement(
@@ -143,16 +143,16 @@ export const LINE_CHART_TEMPLATE = `
             const line = (data.lines || []).find(l => l.dataKey === entry.dataKey);
             return React.createElement(
               'div',
-              { key:i, className:'flex items-center justify-between gap-3' },
+              { key:i, className:'tooltip-item flex items-center justify-between gap-3' },
               React.createElement(
                 'div',
-                { className:'flex items-center gap-2' },
-                React.createElement('div', { className:'w-3 h-3 rounded-sm', style:{ backgroundColor: entry.color } }),
-                React.createElement('span', { className:'text-xs' }, line && line.label ? line.label : entry.dataKey)
+                { className:'tooltip-label-wrapper flex items-center gap-2' },
+                React.createElement('div', { className:'tooltip-color-box w-3 h-3 rounded-sm', style:{ backgroundColor: entry.color } }),
+                React.createElement('span', { className:'tooltip-label text-xs' }, line && line.label ? line.label : entry.dataKey)
               ),
               React.createElement(
                 'span',
-                { className:'text-xs font-semibold' },
+                { className:'tooltip-value text-xs font-semibold' },
                 Number(entry.value).toLocaleString('en-US', { style:'currency', currency:'USD', minimumFractionDigits:0, maximumFractionDigits:0 })
               )
             );
@@ -230,7 +230,12 @@ export const LINE_CHART_TEMPLATE = `
             stroke:'#9ca3af',
             label:{ value:yAxisLabel, angle:-90, position:'insideLeft', style:{ fontSize:11, fill:'#6b7280', fontWeight:600, textTransform:'uppercase', textAnchor:'middle' } }
           }),
-          React.createElement(Tooltip, { content: React.createElement(CustomTooltip, null) }),
+          React.createElement(Tooltip, { 
+            content: React.createElement(CustomTooltip, null),
+            animationDuration: 0,
+            isAnimationActive: false,
+            cursor: { stroke: '#9ca3af', strokeWidth: 1 }
+          }),
           safeLines.map(line =>
             React.createElement(Line, {
               key: line.dataKey,
@@ -579,9 +584,16 @@ export const BAR_CHART_TEMPLATE = `
                               setHoveredSegment(null);
                               setHoveredLabel(null);
                               setHoveredLabelSource(null);
+                            }
+                          },
+                          isSegHov && hoveredLabelSource === 'segment' && seg.tooltipText ? React.createElement(
+                            'div',
+                            { 
+                              className:'absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 dark:bg-gray-700 text-white px-3 py-2 rounded shadow-lg z-20 whitespace-nowrap'
                             },
-                            title: seg.tooltipText || \`\${seg.label}: \${formatDollars(seg.value)}\`
-                          });
+                            React.createElement('p', { className:'text-xs font-semibold' }, seg.label),
+                            React.createElement('p', { className:'text-xs text-gray-300' }, seg.tooltipText)
+                          ) : null);
                         })
                       ),
                     !hideEndLabels ? React.createElement(

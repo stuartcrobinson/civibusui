@@ -35,6 +35,66 @@ export function generateStandaloneHTML({ chartTemplate, data, title, chartType, 
     .attribution a:hover {
       color: #6b7280;
     }
+    
+    /* Recharts tooltip wrapper override */
+    .recharts-tooltip-wrapper {
+      z-index: 1000 !important;
+    }
+    
+    /* Explicit tooltip styles (fallback if Tailwind doesn't load in time) */
+    .tooltip-container {
+      background-color: #111827;
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 0.375rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      max-width: 20rem;
+    }
+    .tooltip-container-single {
+      background-color: #111827;
+      color: white;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.375rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    .tooltip-date {
+      font-size: 0.75rem;
+      color: #d1d5db;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    .tooltip-date-single {
+      font-size: 0.75rem;
+      color: #d1d5db;
+    }
+    .tooltip-value {
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .tooltip-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.25rem;
+    }
+    .tooltip-item:last-child {
+      margin-bottom: 0;
+    }
+    .tooltip-label-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .tooltip-color-box {
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 0.125rem;
+      flex-shrink: 0;
+    }
+    .tooltip-label {
+      font-size: 0.75rem;
+    }
   </style>
 </head>
 <body>
