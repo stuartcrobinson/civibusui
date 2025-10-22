@@ -212,7 +212,7 @@ export const LINE_CHART_TEMPLATE = `
       legendRow,
       React.createElement(
         ResponsiveContainer,
-        { width:'100%', height:400 },
+        { width:'100%', height:600 },
         React.createElement(
           LineChart,
           { data: chartData, margin:{ top:20, right:20, bottom:20, left:20 } },
