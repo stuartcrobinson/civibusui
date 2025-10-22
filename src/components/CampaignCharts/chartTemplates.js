@@ -268,6 +268,7 @@ export const LINE_CHART_TEMPLATE = `
     );
   }
 `;
+
 export const BAR_CHART_TEMPLATE = `
   // === Bar chart helpers ===
   function StandaloneBarFilterControls({ data, activeFilter, hoveredFilter, onFilterClick, onFilterHover }) {
@@ -373,28 +374,22 @@ export const BAR_CHART_TEMPLATE = `
       if (!allSegs[label]) allSegs[label] = seg.color;
     }));
     
-    let legendItems = Object.entries(allSegs).map(([label, color]) => ({ 
-      label, 
-      color: legendColorMap && legendColorMap[label] ? legendColorMap[label] : color 
-    }));
-    
-    // Apply legend order if provided
-    legendItems = legendItems.sort((a,b) => {
+    const legendItems = Object.entries(allSegs).map(([label, color]) => ({
+      label,
+      color: (legendColorMap && legendColorMap[label]) || color
+    })).sort((a,b) => {
       if (Array.isArray(legendOrder) && legendOrder.length) {
         const ai = legendOrder.indexOf(a.label);
         const bi = legendOrder.indexOf(b.label);
-        const ap = ai === -1 ? Number.MAX_SAFE_INTEGER : ai;
-        const bp = bi === -1 ? Number.MAX_SAFE_INTEGER : bi;
+        const ap = (ai === -1) ? Number.MAX_SAFE_INTEGER : ai;
+        const bp = (bi === -1) ? Number.MAX_SAFE_INTEGER : bi;
         if (ap !== bp) return ap - bp;
       }
       return a.label.localeCompare(b.label);
     });
-    
-    const shouldShowLegend = legendItems.length > 1;
 
     const withData = filtered.filter(it => (it.segments || []).reduce((s,seg)=>s+seg.value,0) > 0);
     const withoutData = filtered.filter(it => (it.segments || []).reduce((s,seg)=>s+seg.value,0) === 0);
-
     const groups = [];
     const seen = new Set();
     withData.forEach(it => {
@@ -402,11 +397,13 @@ export const BAR_CHART_TEMPLATE = `
       if (!seen.has(key)) { seen.add(key); groups.push([key, []]); }
       groups.find(g => g[0] === key)[1].push(it);
     });
-
     const maxTotal = Math.max(...withData.map(it => (it.segments || []).reduce((s,seg)=>s+seg.value,0)), 1);
-    const nameWidth = Math.max(...withData.map(it => getDisplayLabel(it.label).length).map(n => n*8 + 8).concat([80]));
 
-    const legendBlock = shouldShowLegend
+    const processedLabels = withData.map(item => getDisplayLabel(item.label));
+    const longestNameLength = Math.max(...processedLabels.map(label => label.length), 0);
+    const nameWidth = Math.max(longestNameLength * 8 + 8, 80);
+
+    const legendBlock = legendItems.length > 1
       ? React.createElement(
           'div',
           { className:'mb-6 pb-4 border-b border-gray-200 dark:border-gray-700' },
@@ -454,90 +451,151 @@ export const BAR_CHART_TEMPLATE = `
             const key = it.subregion_value ? \`\${it.position} \${it.subregion_value}\` : it.position;
             return key === contestName;
           });
+          
+          const allContestItems = [...items, ...contestNoData].sort((a, b) => {
+            const getLastName = (fullName) => {
+              const parts = String(fullName || '').trim().split(/\\s+/);
+              return parts[parts.length - 1].toLowerCase();
+            };
+            return getLastName(a.label).localeCompare(getLastName(b.label));
+          });
+          
           return React.createElement(
             'div',
             { key:contestName },
             React.createElement(
               'div',
-              { className:'mb-3' },
-              React.createElement('h3', { className:'text-sm font-semibold text-gray-700 dark:text-gray-300' }, contestName)
+              { className:'flex items-center gap-4 mb-3' },
+              React.createElement('span', { className:'inline-block text-xs font-bold text-gray-800 dark:text-gray-100 uppercase tracking-wide px-3 py-1.5 bg-gray-200 dark:bg-gray-700 rounded' }, contestName),
+              React.createElement('div', { className:'flex-1 h-px bg-gray-300 dark:bg-gray-600' })
             ),
             React.createElement(
               'div',
-              { className:'space-y-3' },
-              items.map((item, idx) => {
+              { className:'space-y-4' },
+              allContestItems.map((item, idx) => {
                 const total = (item.segments || []).reduce((s,seg)=>s+seg.value,0);
+                const hasNoData = total === 0;
                 const percent = (total / maxTotal) * 100;
                 const isCand = hoveredSegment && hoveredSegment.candidateLabel === item.label;
                 const isHovLab = hoveredLabel && (item.segments || []).some(s => s.label === hoveredLabel);
                 const shouldDim = (hoveredSegment && !isCand) || (hoveredLabel && !isHovLab) || (localHoveredFilter && !matchesBarFilter(item, localHoveredFilter));
+                const displayLabel = getDisplayLabel(item.label);
+                const uniqueRowId = \`\${contestName}-\${String(item.label || '').replace(/\\s+/g, '-')}\`;
                 
-                return React.createElement(
-                  'div',
-                  { key:idx, className:\`flex items-center gap-2 transition-all duration-200 \${shouldDim ? 'opacity-50' : 'opacity-100'}\` },
-                  item.imageUrl ? React.createElement('img', { 
-                    src:item.imageUrl, 
-                    className:'w-8 h-8 rounded-full object-cover flex-shrink-0',
-                    alt:item.label
-                  }) : React.createElement('div', { className:'w-8 h-8 flex-shrink-0' }),
-                  React.createElement(
+                if (hasNoData) {
+                  return React.createElement(
                     'div',
-                    { className:'flex-1' },
+                    { key:idx, className:\`flex items-center gap-4 transition-opacity duration-200 \${shouldDim ? 'opacity-40' : 'opacity-100'}\` },
+                    item.imageUrl ? React.createElement('img', { 
+                      src:item.imageUrl, 
+                      className:'w-10 h-10 object-cover rounded flex-shrink-0',
+                      alt:item.label
+                    }) : null,
                     React.createElement(
                       'div',
-                      { className:'flex items-baseline justify-between gap-2 mb-1' },
+                      { className:'flex items-center flex-shrink-0', style:{ width:\`\${nameWidth}px\` } },
                       item.linkUrl
                         ? React.createElement('a', { 
                             href:item.linkUrl, 
                             target:'_blank', 
                             rel:'noopener noreferrer', 
-                            className:'text-sm font-medium text-gray-900 dark:text-gray-100 hover:underline' 
-                          }, getDisplayLabel(item.label))
-                        : React.createElement('span', { className:'text-sm font-medium text-gray-900 dark:text-gray-100' }, getDisplayLabel(item.label)),
-                      !hideEndLabels ? React.createElement('span', { className:'text-sm text-gray-600 dark:text-gray-400' }, formatDollars(total)) : null
+                            className:'text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:underline'
+                          }, displayLabel)
+                        : React.createElement('div', { className:'text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis' }, displayLabel)
                     ),
+                    React.createElement('div', { className:'text-xs text-gray-500 dark:text-gray-400 w-3 flex-shrink-0 text-right' }, item.leftLabel || ''),
                     React.createElement(
                       'div',
-                      { className:'relative h-6 bg-gray-100 dark:bg-gray-700 rounded overflow-hidden' },
+                      { className:'flex-1 min-w-0 relative flex items-center' },
                       React.createElement(
                         'div',
-                        { className:'absolute inset-0 flex', style:{ width:\`\${percent}%\` } },
-                        (item.segments || []).map((seg, segIdx) => {
+                        { className:'flex h-10 w-full items-center' },
+                        React.createElement('div', { className:'text-xs italic text-gray-400 dark:text-gray-500' }, 'No financial data submitted')
+                      )
+                    ),
+                    React.createElement('div', { className:'w-20 flex-shrink-0' })
+                  );
+                }
+                
+                return React.createElement(
+                  'div',
+                  { key:idx, className:\`flex items-center gap-4 transition-opacity duration-200 \${shouldDim ? 'opacity-40' : 'opacity-100'}\` },
+                  item.imageUrl ? React.createElement('img', { 
+                    src:item.imageUrl, 
+                    className:'w-10 h-10 object-cover rounded flex-shrink-0',
+                    alt:item.label
+                  }) : null,
+                  React.createElement(
+                    'div',
+                    { className:'flex items-center flex-shrink-0', style:{ width:\`\${nameWidth}px\` } },
+                    item.linkUrl
+                      ? React.createElement('a', { 
+                          href:item.linkUrl, 
+                          target:'_blank', 
+                          rel:'noopener noreferrer', 
+                          className:'text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:underline'
+                        }, displayLabel)
+                      : React.createElement('div', { className:'text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis' }, displayLabel)
+                  ),
+                  React.createElement('div', { className:'text-xs text-gray-500 dark:text-gray-400 w-3 flex-shrink-0 text-right' }, item.leftLabel || ''),
+                  React.createElement(
+                    'div',
+                    { className:'flex-1 min-w-0 relative flex items-center' },
+                                          React.createElement(
+                        'div',
+                        { className:'flex h-10 w-full' },
+                        (Array.isArray(segmentOrder) && segmentOrder.length
+                          ? [...(item.segments || [])].sort((a, b) => {
+                              const ai = segmentOrder.indexOf(a.label);
+                              const bi = segmentOrder.indexOf(b.label);
+                              const ap = (ai === -1) ? Number.MAX_SAFE_INTEGER : ai;
+                              const bp = (bi === -1) ? Number.MAX_SAFE_INTEGER : bi;
+                              return ap - bp;
+                            })
+                          : (item.segments || [])
+                        ).map((seg, sIdx) => {
                           const segPercent = total > 0 ? (seg.value / total) * 100 : 0;
+                          const barWidthPercent = (total / maxTotal) * 100;
+                          const segmentWidth = (segPercent / 100) * barWidthPercent;
                           const isSegHov = hoveredSegment && hoveredSegment.candidateLabel === item.label && hoveredSegment.segmentLabel === seg.label;
+                          const isLabelHov = hoveredLabel && hoveredLabel === seg.label && (!hoveredSegment || hoveredLabelSource !== 'segment');
+                          const highlight = isSegHov || isLabelHov;
                           return React.createElement('div', {
-                            key:segIdx,
-                            className:\`relative transition-opacity duration-200 \${isSegHov ? 'z-10' : ''}\`,
+                            key:sIdx,
+                            className:'transition-all duration-200 cursor-pointer relative',
                             style:{ 
-                              width:\`\${segPercent}%\`, 
+                              width:\`\${segmentWidth}%\`, 
                               backgroundColor: seg.color,
-                              opacity: hoveredLabel && hoveredLabel !== seg.label ? 0.3 : 1
+                              opacity: hoveredLabel && hoveredLabel !== seg.label ? 0.3 : 1,
+                              filter: highlight ? 'brightness(1.1)' : 'none',
+                              transform: highlight ? 'scaleY(1.05)' : 'scaleY(1)'
                             },
                             onMouseEnter: () => {
                               setHoveredSegment({ candidateLabel:item.label, segmentLabel:seg.label });
                               setHoveredLabel(seg.label);
-                              setHoveredLabelSource('bar');
+                              setHoveredLabelSource('segment');
                             },
                             onMouseLeave: () => {
                               setHoveredSegment(null);
-                              if (hoveredLabelSource === 'bar') {
-                                setHoveredLabel(null);
-                                setHoveredLabelSource(null);
-                              }
+                              setHoveredLabel(null);
+                              setHoveredLabelSource(null);
                             },
                             title: seg.tooltipText || \`\${seg.label}: \${formatDollars(seg.value)}\`
                           });
                         })
-                      )
-                    )
-                  )
+                      ),
+                    !hideEndLabels ? React.createElement(
+                      'div',
+                      {
+                        className:'absolute text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap ml-2',
+                        style:{ left: \`\${(total / maxTotal) * 100}%\` }
+                      },
+                      item.formattedTotal || formatDollars(total)
+                    ) : null
+                  ),
+                  React.createElement('div', { className:'w-20 flex-shrink-0' })
                 );
-              }),
-              contestNoData.length > 0 ? React.createElement(
-                'div',
-                { className:'text-xs text-gray-500 dark:text-gray-400 italic mt-2' },
-                'No data: ' + contestNoData.map(c => getDisplayLabel(c.label)).join(', ')
-              ) : null
+              })
             )
           );
         })
