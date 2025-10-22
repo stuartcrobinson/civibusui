@@ -58,22 +58,40 @@ export function useCityData(geoName) {
                     ? new Date(Math.max(...timelineData.map(d => new Date(d.week_start)))).toLocaleDateString()
                     : 'Unknown';
 
+                // Durham candidate allowlist - only show these candidates
+                const DURHAM_ALLOWED_CANDIDATES = [
+                    'Anjanee Bell',
+                    'Chelsea Cook',
+                    'DeDreana Freeman',
+                    'Diana Medoff',
+                    'Leonardo (Leo) Williams',
+                    'Mark-Anthony Middleton',
+                    'Matt Kopac',
+                    'Shanetta Burris'
+                ];
+
+                // Filter function to apply allowlist for Durham
+                const filterDurhamCandidates = (data) => {
+                    if (!data || geoName.toUpperCase() !== 'DURHAM') return data;
+                    return data.filter(row => DURHAM_ALLOWED_CANDIDATES.includes(row.candidate_name));
+                };
+
                 setData({
-                    location: locationData,
-                    locationCount: locationDataCount,
-                    size: sizeData,
-                    timeline: timelineData,
-                    fundraisingTimeline: fundraisingTimelineData,
-                    expenditureTimeline: expenditureTimelineData,
-                    cashOnHandTimeline: cashOnHandTimelineData,
-                    realestate: realestateData,
-                    realestateCount: realestateDataCount,
-                    topDonors: topDonors,
-                    topExpenditures: topExpenditures,
-                    topSpendingByRecipient: topSpendingByRecipient,
-                    totalDonations: totalDonationsData,
-                    totalDonationsWithSelf: totalDonationsWithSelfData,
-                    allCandidates: allCandidatesData,
+                    location: filterDurhamCandidates(locationData),
+                    locationCount: filterDurhamCandidates(locationDataCount),
+                    size: filterDurhamCandidates(sizeData),
+                    timeline: filterDurhamCandidates(timelineData),
+                    fundraisingTimeline: filterDurhamCandidates(fundraisingTimelineData),
+                    expenditureTimeline: filterDurhamCandidates(expenditureTimelineData),
+                    cashOnHandTimeline: filterDurhamCandidates(cashOnHandTimelineData),
+                    realestate: filterDurhamCandidates(realestateData),
+                    realestateCount: filterDurhamCandidates(realestateDataCount),
+                    topDonors: filterDurhamCandidates(topDonors),
+                    topExpenditures: filterDurhamCandidates(topExpenditures),
+                    topSpendingByRecipient: filterDurhamCandidates(topSpendingByRecipient),
+                    totalDonations: filterDurhamCandidates(totalDonationsData),
+                    totalDonationsWithSelf: filterDurhamCandidates(totalDonationsWithSelfData),
+                    allCandidates: filterDurhamCandidates(allCandidatesData),
                     lastUpdated
                 });
             } catch (err) {
