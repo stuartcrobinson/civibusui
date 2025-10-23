@@ -277,8 +277,8 @@ function CityPage() {
             activeFilter={chartFilters.timeline}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('timeline', filterId)}
-            showLocalFilters={true}
-            showExport={true}
+            showLocalFilters={false}
+            showExport={false}
           />
         </div>
 
@@ -292,8 +292,8 @@ function CityPage() {
             activeFilter={chartFilters.timeline}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('timeline', filterId)}
-            showLocalFilters={true}
-            showExport={true}
+            showLocalFilters={false}
+            showExport={false}
           />
         </div>
 
@@ -307,8 +307,8 @@ function CityPage() {
             activeFilter={chartFilters.timeline}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('timeline', filterId)}
-            showLocalFilters={true}
-            showExport={true}
+            showLocalFilters={false}
+            showExport={false}
           />
         </div>
 
@@ -322,8 +322,8 @@ function CityPage() {
             activeFilter={chartFilters.totalDonations}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('totalDonations', filterId)}
-            showLocalFilters={true}
-            showExport={true}
+            showLocalFilters={false}
+            showExport={false}
             hideEndLabels={false}
           />
         </div>
@@ -341,8 +341,8 @@ function CityPage() {
             activeFilter={chartFilters.totalDonationsWithSelf}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('totalDonationsWithSelf', filterId)}
-            showLocalFilters={true}
-            showExport={true}
+            showLocalFilters={false}
+            showExport={false}
             hideEndLabels={false}
           />
         </div>
@@ -357,8 +357,8 @@ function CityPage() {
             activeFilter={chartFilters.location}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('location', filterId)}
-            showLocalFilters={true}
-            showExport={true}
+            showLocalFilters={false}
+            showExport={false}
             hideEndLabels={true}
           />
         </div>
@@ -374,8 +374,8 @@ function CityPage() {
             activeFilter={chartFilters.locationAbsolute}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('locationAbsolute', filterId)}
-            showLocalFilters={true}
-            showExport={true}
+            showLocalFilters={false}
+            showExport={false}
             hideEndLabels={false}
           />
         </div>
@@ -391,8 +391,8 @@ function CityPage() {
             activeFilter={chartFilters.locationCount}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('locationCount', filterId)}
-            showLocalFilters={true}
-            showExport={true}
+            showLocalFilters={false}
+            showExport={false}
             hideEndLabels={true}
           />
         </div>
@@ -408,8 +408,8 @@ function CityPage() {
             activeFilter={chartFilters.locationCountAbsolute}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('locationCountAbsolute', filterId)}
-            showLocalFilters={true}
-            showExport={true}
+            showLocalFilters={false}
+            showExport={false}
             hideEndLabels={false}
           />
         </div>
@@ -425,8 +425,8 @@ function CityPage() {
             activeFilter={chartFilters.size}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('size', filterId)}
-            showLocalFilters={true}
-            showExport={true}
+            showLocalFilters={false}
+            showExport={false}
             hideEndLabels={true}
           />
         </div>
@@ -442,8 +442,8 @@ function CityPage() {
             activeFilter={chartFilters.sizeAbsolute}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('sizeAbsolute', filterId)}
-            showLocalFilters={true}
-            showExport={true}
+            showLocalFilters={false}
+            showExport={false}
             hideEndLabels={true}
           />
         </div>
@@ -457,8 +457,8 @@ function CityPage() {
             activeFilter={chartFilters.realestate}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('realestate', filterId)}
-            showLocalFilters={true}
-            showExport={true}
+            showLocalFilters={false}
+            showExport={false}
             hideEndLabels={true}
           />
         </div>
@@ -472,8 +472,8 @@ function CityPage() {
             activeFilter={chartFilters.realestateAbsolute}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('realestateAbsolute', filterId)}
-            showLocalFilters={true}
-            showExport={true}
+            showLocalFilters={false}
+            showExport={false}
             hideEndLabels={false}
           />
         </div>
@@ -487,8 +487,8 @@ function CityPage() {
             activeFilter={chartFilters.realestateCount}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('realestateCount', filterId)}
-            showLocalFilters={true}
-            showExport={true}
+            showLocalFilters={false}
+            showExport={false}
             hideEndLabels={true}
           />
         </div>
