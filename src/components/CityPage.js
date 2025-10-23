@@ -437,7 +437,7 @@ function CityPage() {
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <SegmentedBarChart
             data={sizeAbsoluteData}
-            title="Donations by Size"
+            title="Number of Donations by Size"
             legendLabel="Contribution Sizes"
             legendOrder={SIZE_ORDER}
             segmentOrder={SIZE_ORDER}
