@@ -165,7 +165,7 @@ function SegmentedBarChart({
   return (
     <div className="w-full">
       <div className="flex justify-between items-start mb-6">
-        {title && <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{title}</h2>}
+        {title && <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{title}</h2>}
         {showExport && (
           <button
             onClick={openModal}
