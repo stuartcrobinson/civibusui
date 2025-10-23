@@ -17,7 +17,8 @@ function SegmentedBarChart({
   showLocalFilters = true,
   showExport = false,
   hideEndLabels = false,
-  xAxisLabel
+  xAxisLabel,
+  rightLabelSuffix
 }) {
   const [internalActiveFilter, setInternalActiveFilter] = useState('all');
   const [internalHoveredFilter, setInternalHoveredFilter] = useState(null);
@@ -415,7 +416,7 @@ function SegmentedBarChart({
                           className="absolute text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap ml-2"
                           style={{ left: `${(itemTotal / maxTotal) * 100}%` }}
                         >
-                          {item.formattedTotal || formatDollars(itemTotal)}
+                          {item.formattedTotal || formatDollars(itemTotal)}{rightLabelSuffix || ''}
                         </div>
                       )}
                     </div>

@@ -448,6 +448,7 @@ function CityPage() {
             showExport={false}
             hideEndLabels={false}
             xAxisLabel="Number of Donations"
+            rightLabelSuffix=" donations"
           />
         </div>
 
