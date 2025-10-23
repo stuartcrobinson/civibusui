@@ -16,7 +16,8 @@ function SegmentedBarChart({
   onHoveredFilterChange,
   showLocalFilters = true,
   showExport = false,
-  hideEndLabels = false
+  hideEndLabels = false,
+  xAxisLabel
 }) {
   const [internalActiveFilter, setInternalActiveFilter] = useState('all');
   const [internalHoveredFilter, setInternalHoveredFilter] = useState(null);
@@ -430,6 +431,12 @@ function SegmentedBarChart({
         );
         })}
       </div>
+
+      {xAxisLabel && (
+        <div className="text-center mt-6 text-base text-gray-600 dark:text-gray-400 font-medium">
+          {xAxisLabel}
+        </div>
+      )}
 
       {showLocalFilters && (
         <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">

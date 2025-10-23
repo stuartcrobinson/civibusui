@@ -325,6 +325,8 @@ function CityPage() {
             showLocalFilters={false}
             showExport={false}
             hideEndLabels={false}
+            xAxisLabel="Amount Raised"
+
           />
         </div>
 
@@ -444,7 +446,8 @@ function CityPage() {
             onActiveFilterChange={(filterId) => handleChartFilterChange('sizeAbsolute', filterId)}
             showLocalFilters={false}
             showExport={false}
-            hideEndLabels={true}
+            hideEndLabels={false}
+            xAxisLabel="Number of Donations"
           />
         </div>
 
