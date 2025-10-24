@@ -43,7 +43,7 @@ function SegmentedBarChart({
   const [localHoveredFilter, setLocalHoveredFilter] = useState(null);
   const hoveredFilter = localHoveredFilter || (isControlled ? controlledHoveredFilter : internalHoveredFilter);
   
-  const { isModalOpen, isProcessing, openModal, closeModal, embedCode } = useChartExport('bar', data, title, activeFilter, legendLabel, legendOrder, legendColorMap, hideEndLabels);
+  const { isModalOpen, isProcessing, openModal, closeModal, embedCode } = useChartExport('bar', data, title, activeFilter, legendLabel, legendOrder, legendColorMap, hideEndLabels, { xAxisLabel, showLocalFilters });
   
   const handleFilterClick = (filterId) => {
     if (isControlled && onActiveFilterChange) {

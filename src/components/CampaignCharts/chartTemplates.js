@@ -93,13 +93,15 @@ export const LINE_CHART_TEMPLATE = `
   }
 
   // === Line chart component (standalone) ===
-  function CampaignLineChart({ data, title, yAxisLabel, xAxisLabel, activeFilter }) {
+  function CampaignLineChart({ data, title, yAxisLabel, xAxisLabel, activeFilter, showLocalFilters }) {
     const { useState } = React;
     const [hoveredLine, setHoveredLine] = useState(null);
     const [hoveredDot, setHoveredDot] = useState(null);
     const [localHoveredFilter, setLocalHoveredFilter] = useState(null);
+    const [localActiveFilter, setLocalActiveFilter] = useState(activeFilter || 'all');
 
-    const filteredLines = (activeFilter === 'all' ? (data.lines || []) : (data.lines || []).filter(l => matchesLineFilter(l, activeFilter)));
+    const currentActiveFilter = showLocalFilters ? localActiveFilter : activeFilter;
+    const filteredLines = (currentActiveFilter === 'all' ? (data.lines || []) : (data.lines || []).filter(l => matchesLineFilter(l, currentActiveFilter)));
     const safeLines = filteredLines.length ? filteredLines : (data.lines || []);
 
     // Build recharts data
@@ -182,14 +184,18 @@ export const LINE_CHART_TEMPLATE = `
           );
 
           const label = line.linkUrl
-            ? React.createElement('a', { href: line.linkUrl, target:'_blank', rel:'noopener noreferrer', className:'text-sm text-gray-900 dark:text-gray-100 relative inline-block hover:underline' }, labelSpan)
+            ? React.createElement(
+                'a',
+                { href: line.linkUrl, target:'_blank', rel:'noopener noreferrer', className:'hover:underline' },
+                labelSpan
+              )
             : labelSpan;
 
           return React.createElement(
             'div',
             {
               key: idx,
-              className:\`flex items-center gap-2 transition-all duration-200 \${line.linkUrl ? 'cursor-pointer' : ''} \${shouldDim ? 'opacity-50' : 'opacity-100'}\`,
+              className: \`flex items-center gap-2 transition-all duration-200 \${line.linkUrl ? 'cursor-pointer' : ''} \${shouldDim ? 'opacity-50' : 'opacity-100'}\`,
               onMouseEnter: () => setHoveredLine(line.dataKey),
               onMouseLeave: () => setHoveredLine(null)
             },
@@ -201,75 +207,100 @@ export const LINE_CHART_TEMPLATE = `
     );
 
     // Chart
+    const xAxisProps = {
+      dataKey: 'date',
+      tickFormatter: formatXAxis,
+      tick: { fontSize: 12, fill: '#6b7280' },
+      stroke: '#9ca3af'
+    };
+    
+    if (xAxisLabel) {
+      xAxisProps.label = {
+        value: xAxisLabel,
+        position: 'insideBottom',
+        offset: -10,
+        style: {
+          fontSize: 11,
+          fill: '#6b7280',
+          fontWeight: 600,
+          textTransform: 'uppercase'
+        }
+      };
+    }
+
+    const yAxisProps = {
+      tickFormatter: formatYAxis,
+      tick: { fontSize: 12, fill: '#6b7280' },
+      stroke: '#9ca3af',
+      label: {
+        value: yAxisLabel,
+        angle: -90,
+        position: 'insideLeft',
+        style: {
+          fontSize: 11,
+          fill: '#6b7280',
+          fontWeight: 600,
+          textTransform: 'uppercase',
+          textAnchor: 'middle'
+        }
+      }
+    };
+
+    const chart = React.createElement(
+      Recharts.ResponsiveContainer,
+      { width:'100%', height:600 },
+      React.createElement(
+        Recharts.LineChart,
+        { data: chartData, margin:{ top:20, right:20, bottom:20, left:20 } },
+        React.createElement(Recharts.CartesianGrid, { strokeDasharray:'3 3', stroke:'#e5e7eb' }),
+        React.createElement(Recharts.XAxis, xAxisProps),
+        React.createElement(Recharts.YAxis, yAxisProps),
+        React.createElement(Recharts.Tooltip, { content: React.createElement(CustomTooltip) }),
+        safeLines.map(line =>
+          React.createElement(Recharts.Line, {
+            key: line.dataKey,
+            type: 'linear',
+            dataKey: line.dataKey,
+            name: line.label,
+            stroke: line.color,
+            strokeWidth: (hoveredLine === line.dataKey || hoveredDot === line.dataKey || (localHoveredFilter && matchesLineFilter(line, localHoveredFilter))) ? 3 : 2,
+            strokeOpacity: ((hoveredLine && hoveredLine !== line.dataKey && hoveredDot !== line.dataKey) || (localHoveredFilter && !matchesLineFilter(line, localHoveredFilter))) ? 0.3 : 1,
+            dot: false,
+            activeDot: {
+              r: 5,
+              onMouseEnter: () => { setHoveredDot(line.dataKey); setHoveredLine(line.dataKey); },
+              onMouseLeave: () => { setHoveredDot(null); setHoveredLine(null); }
+            },
+            onMouseEnter: () => setHoveredLine(line.dataKey),
+            onMouseLeave: () => setHoveredLine(null),
+            isAnimationActive: false
+          })
+        )
+      )
+    );
+
+    // Filters (optional)
+    const filterRow = showLocalFilters
+      ? React.createElement(
+          'div',
+          { className:'mt-3 pt-3 border-t border-gray-200 dark:border-gray-700' },
+          React.createElement(StandaloneFilterControls, {
+            data: data,
+            activeFilter: localActiveFilter,
+            hoveredFilter: localHoveredFilter,
+            onFilterClick: (fid) => setLocalActiveFilter(fid),
+            onFilterHover: (fid) => setLocalHoveredFilter(fid)
+          })
+        )
+      : null;
+
     return React.createElement(
       'div',
       { className:'w-full' },
-      React.createElement(
-        'div',
-        { className:'flex justify-between items-start mb-6' },
-        title ? React.createElement('h2', { className:'text-xl font-bold text-gray-900 dark:text-gray-100' }, title) : null
-      ),
+      title && React.createElement('h2', { className:'text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6' }, title),
       legendRow,
-      React.createElement(
-        ResponsiveContainer,
-        { width:'100%', height:600 },
-        React.createElement(
-          LineChart,
-          { data: chartData, margin:{ top:20, right:20, bottom:20, left:20 } },
-          React.createElement(CartesianGrid, { strokeDasharray:'3 3', stroke:'#e5e7eb' }),
-          React.createElement(XAxis, {
-            dataKey:'date',
-            tickFormatter: formatXAxis,
-            tick:{ fontSize:12, fill:'#6b7280' },
-            stroke:'#9ca3af',
-            label: xAxisLabel ? { value:xAxisLabel, position:'insideBottom', offset:-10, style:{ fontSize:11, fill:'#6b7280', fontWeight:600, textTransform:'uppercase' } } : undefined
-          }),
-          React.createElement(YAxis, {
-            tickFormatter: formatYAxis,
-            tick:{ fontSize:12, fill:'#6b7280' },
-            stroke:'#9ca3af',
-            label:{ value:yAxisLabel, angle:-90, position:'insideLeft', style:{ fontSize:11, fill:'#6b7280', fontWeight:600, textTransform:'uppercase', textAnchor:'middle' } }
-          }),
-          React.createElement(Tooltip, { 
-            content: React.createElement(CustomTooltip, null),
-            animationDuration: 0,
-            isAnimationActive: false,
-            cursor: { stroke: '#9ca3af', strokeWidth: 1 }
-          }),
-          safeLines.map(line =>
-            React.createElement(Line, {
-              key: line.dataKey,
-              type:'linear',
-              dataKey: line.dataKey,
-              name: line.label,
-              stroke: line.color,
-              strokeWidth: (hoveredLine === line.dataKey || hoveredDot === line.dataKey || (localHoveredFilter && matchesLineFilter(line, localHoveredFilter))) ? 3 : 2,
-              strokeOpacity: ((hoveredLine && hoveredLine !== line.dataKey && hoveredDot !== line.dataKey) || (localHoveredFilter && !matchesLineFilter(line, localHoveredFilter))) ? 0.3 : 1,
-              dot:false,
-              activeDot:{
-                r:5,
-                onMouseEnter: () => { setHoveredDot(line.dataKey); setHoveredLine(line.dataKey); },
-                onMouseLeave: () => { setHoveredDot(null); setHoveredLine(null); }
-              },
-              onMouseEnter: () => setHoveredLine(line.dataKey),
-              onMouseLeave: () => setHoveredLine(null),
-              isAnimationActive:false,
-              style:{ transition:'stroke-width 1000ms cubic-bezier(0.4,0,0.2,1), stroke-opacity 1000ms cubic-bezier(0.4,0,0.2,1)' }
-            })
-          )
-        )
-      ),
-      React.createElement(
-        'div',
-        { className:'mt-3 pt-3 border-t border-gray-200 dark:border-gray-700' },
-        React.createElement(StandaloneFilterControls, {
-          data,
-          activeFilter: activeFilter || 'all',
-          hoveredFilter: null,
-          onFilterClick: () => {}, // read-only in exported HTML
-          onFilterHover: setLocalHoveredFilter
-        })
-      )
+      chart,
+      filterRow
     );
   }
 `;
@@ -349,13 +380,14 @@ export const BAR_CHART_TEMPLATE = `
     return '$' + val;
   }
 
-  function SegmentedBarChart({ data, title, legendLabel, legendOrder, legendColorMap, segmentOrder, activeFilter, hideEndLabels }) {
+  function SegmentedBarChart({ data, title, legendLabel, legendOrder, legendColorMap, segmentOrder, activeFilter, hideEndLabels, showLocalFilters, xAxisLabel }) {
     const { useState, useEffect } = React;
     const [hoveredSegment, setHoveredSegment] = useState(null);
     const [hoveredLabel, setHoveredLabel] = useState(null);
     const [hoveredLabelSource, setHoveredLabelSource] = useState(null);
     const [isNarrow, setIsNarrow] = useState(false);
     const [localHoveredFilter, setLocalHoveredFilter] = useState(null);
+    const [localActiveFilter, setLocalActiveFilter] = useState(activeFilter || 'all');
 
     useEffect(() => {
       const check = () => setIsNarrow(window.innerWidth < 768);
@@ -370,7 +402,8 @@ export const BAR_CHART_TEMPLATE = `
       return parts[parts.length - 1];
     };
 
-    const filtered = (activeFilter === 'all' ? data : data.filter(d => matchesBarFilter(d, activeFilter)));
+    const currentActiveFilter = showLocalFilters ? localActiveFilter : activeFilter;
+    const filtered = (currentActiveFilter === 'all' ? data : data.filter(d => matchesBarFilter(d, currentActiveFilter)));
 
     // Build legend items from data
     const allSegs = {};
@@ -439,13 +472,24 @@ export const BAR_CHART_TEMPLATE = `
         )
       : null;
 
+    // X-axis label (if provided)
+    const xAxisLabelBlock = xAxisLabel 
+      ? React.createElement(
+          'div',
+          { className:'text-center mt-6 mb-2' },
+          React.createElement('span', { 
+            className:'text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider'
+          }, xAxisLabel)
+        )
+      : null;
+
     return React.createElement(
       'div',
       { className:'w-full' },
       React.createElement(
         'div',
         { className:'flex justify-between items-start mb-6' },
-        title ? React.createElement('h2', { className:'text-xl font-bold text-gray-900 dark:text-gray-100' }, title) : null
+        title ? React.createElement('h2', { className:'text-3xl font-bold text-gray-900 dark:text-gray-100' }, title) : null
       ),
       legendBlock,
       React.createElement(
@@ -546,7 +590,7 @@ export const BAR_CHART_TEMPLATE = `
                   React.createElement(
                     'div',
                     { className:'flex-1 min-w-0 relative flex items-center' },
-                                          React.createElement(
+                                      React.createElement(
                         'div',
                         { className:'flex h-10 w-full' },
                         (Array.isArray(segmentOrder) && segmentOrder.length
@@ -612,17 +656,18 @@ export const BAR_CHART_TEMPLATE = `
           );
         })
       ),
-      React.createElement(
+      xAxisLabelBlock,
+      showLocalFilters ? React.createElement(
         'div',
         { className:'mt-3 pt-3 border-t border-gray-200 dark:border-gray-700' },
         React.createElement(StandaloneBarFilterControls, {
           data,
-          activeFilter: activeFilter || 'all',
-          hoveredFilter: null,
-          onFilterClick: () => {},
-          onFilterHover: setLocalHoveredFilter
+          activeFilter: localActiveFilter,
+          hoveredFilter: localHoveredFilter,
+          onFilterClick: (fid) => setLocalActiveFilter(fid),
+          onFilterHover: (fid) => setLocalHoveredFilter(fid)
         })
-      )
+      ) : null
     );
   }
 `;
