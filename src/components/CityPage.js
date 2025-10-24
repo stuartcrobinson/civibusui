@@ -278,7 +278,7 @@ function CityPage() {
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('timeline', filterId)}
             showLocalFilters={false}
-            showExport={true}
+            showExport={false}
           />
         </div>
 
@@ -293,7 +293,7 @@ function CityPage() {
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('timeline', filterId)}
             showLocalFilters={false}
-            showExport={true}
+            showExport={false}
           />
         </div>
 
@@ -308,7 +308,7 @@ function CityPage() {
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('timeline', filterId)}
             showLocalFilters={false}
-            showExport={true}
+            showExport={false}
           />
         </div>
 
@@ -323,7 +323,7 @@ function CityPage() {
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('totalDonations', filterId)}
             showLocalFilters={false}
-            showExport={true}
+            showExport={false}
             hideEndLabels={false}
             xAxisLabel="Amount Raised"
 
@@ -344,7 +344,7 @@ function CityPage() {
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('totalDonationsWithSelf', filterId)}
             showLocalFilters={false}
-            showExport={true}
+            showExport={false}
             hideEndLabels={false}
           />
         </div>
@@ -360,7 +360,7 @@ function CityPage() {
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('location', filterId)}
             showLocalFilters={false}
-            showExport={true}
+            showExport={false}
             hideEndLabels={true}
           />
         </div>
@@ -377,7 +377,7 @@ function CityPage() {
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('locationAbsolute', filterId)}
             showLocalFilters={false}
-            showExport={true}
+            showExport={false}
             hideEndLabels={false}
           />
         </div>
@@ -394,7 +394,7 @@ function CityPage() {
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('locationCount', filterId)}
             showLocalFilters={false}
-            showExport={true}
+            showExport={false}
             hideEndLabels={true}
           />
         </div>
@@ -411,7 +411,7 @@ function CityPage() {
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('locationCountAbsolute', filterId)}
             showLocalFilters={false}
-            showExport={true}
+            showExport={false}
             hideEndLabels={false}
           />
         </div>
@@ -428,7 +428,7 @@ function CityPage() {
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('size', filterId)}
             showLocalFilters={false}
-            showExport={true}
+            showExport={false}
             hideEndLabels={true}
           />
         </div>
@@ -445,7 +445,7 @@ function CityPage() {
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('sizeAbsolute', filterId)}
             showLocalFilters={false}
-            showExport={true}
+            showExport={false}
             hideEndLabels={false}
             xAxisLabel="Number of Donations"
             rightLabelSuffix=" donations"
@@ -462,7 +462,7 @@ function CityPage() {
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('realestate', filterId)}
             showLocalFilters={false}
-            showExport={true}
+            showExport={false}
             hideEndLabels={true}
           />
         </div>
@@ -477,7 +477,7 @@ function CityPage() {
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('realestateAbsolute', filterId)}
             showLocalFilters={false}
-            showExport={true}
+            showExport={false}
             hideEndLabels={false}
           />
         </div>
@@ -492,7 +492,7 @@ function CityPage() {
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('realestateCount', filterId)}
             showLocalFilters={false}
-            showExport={true}
+            showExport={false}
             hideEndLabels={true}
           />
         </div>
