@@ -235,7 +235,7 @@ function CityPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
+    <div className="min-h-screen bg-white-50 dark:bg-gray-900 flex flex-col">
       <Header />
       <div className="flex-1 p-8 max-w-7xl mx-auto w-full space-y-12">
         {/* Global Filter Controls */}
@@ -268,7 +268,7 @@ function CityPage() {
         </p>
 
         {/* Timeline Chart */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <CampaignLineChart
             data={fundraisingTimelineData}
             title="Cumulative Fundraising Over Time"
@@ -283,7 +283,7 @@ function CityPage() {
         </div>
 
         {/* Expenditure Timeline Chart */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <CampaignLineChart
             data={expenditureTimelineData}
             title="Cumulative Expenditures Over Time"
@@ -298,7 +298,7 @@ function CityPage() {
         </div>
 
         {/* Cash on Hand Timeline Chart */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <CampaignLineChart
             data={cashOnHandTimelineData}
             title="Cash on Hand Over Time"
@@ -313,7 +313,7 @@ function CityPage() {
         </div>
 
         {/* Total Donations Bar Chart */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <SegmentedBarChart
             key={`total-donations-${Array.from(mutedCandidates).sort().join(',')}`}
             data={totalDonationsData}
@@ -331,7 +331,7 @@ function CityPage() {
         </div>
 
         {/* Total Donations Bar Chart - With Self-Funding */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <SegmentedBarChart
             key={`total-donations-self-${Array.from(mutedCandidates).sort().join(',')}`}
             data={totalDonationsWithSelfData}
@@ -349,7 +349,7 @@ function CityPage() {
           />
         </div>
         {/* Location Bar Chart - By Dollar Amount */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <SegmentedBarChart
             data={locationData}
             title="Fundraising by Donor Location (by Dollar Amount)"
@@ -366,7 +366,7 @@ function CityPage() {
         </div>
 
         {/* Location Bar Chart - By Dollar Amount (Absolute) */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <SegmentedBarChart
             data={locationAbsoluteData}
             title="Fundraising by Donor Location (by Dollar Amount, Absolute)"
@@ -383,7 +383,7 @@ function CityPage() {
         </div>
 
         {/* Location Bar Chart - By Donation Count */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <SegmentedBarChart
             data={locationCountData}
             title="Fundraising by Donor Location (by Number of Donations)"
@@ -400,7 +400,7 @@ function CityPage() {
         </div>
 
         {/* Location Bar Chart - By Donation Count (Absolute) */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <SegmentedBarChart
             data={locationCountAbsoluteData}
             title="Fundraising by Donor Location (by Number of Donations, Absolute)"
@@ -417,7 +417,7 @@ function CityPage() {
         </div>
 
         {/* Size Bar Chart */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <SegmentedBarChart
             data={sizeData}
             title="Fundraising by Donation Size (by Number of Donations)"
@@ -434,7 +434,7 @@ function CityPage() {
         </div>
 
         {/* Size Bar Chart - Absolute Donation Count */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <SegmentedBarChart
             data={sizeAbsoluteData}
             title="Number of Donations by Size"
@@ -453,7 +453,7 @@ function CityPage() {
         </div>
 
         {/* Real Estate Bar Chart - By Dollar Amount */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <SegmentedBarChart
             data={realEstateData}
             title="Real Estate as % of Total Fundraising (by Dollar Amount)"
@@ -468,7 +468,7 @@ function CityPage() {
         </div>
 
         {/* Real Estate Bar Chart - Absolute Dollar Amount */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <SegmentedBarChart
             data={realEstateAbsoluteData}
             title="Real Estate Fundraising by Dollar Amount (Absolute Values)"
@@ -483,7 +483,7 @@ function CityPage() {
         </div>
 
         {/* Real Estate Bar Chart - By Donation Count */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <SegmentedBarChart
             data={realEstateCountData}
             title="Real Estate as % of Total Donations (by Number of Donations)"
@@ -498,7 +498,7 @@ function CityPage() {
         </div>
 
         {/* Candidate Financial Details */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-300 dark:border-gray-600">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
             Detailed Financial Information
           </h2>
