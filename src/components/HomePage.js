@@ -24,23 +24,34 @@ function HomePage() {
     
     loadCities();
   }, []);
-
-  const getHeatmapColor = (amount, minAmount, maxAmount) => {
-    if (maxAmount === minAmount) {
-      return 'rgb(144, 202, 249)';
-    }
-    
-    const ratio = (amount - minAmount) / (maxAmount - minAmount);
-    
-    const lightColor = { r: 227, g: 242, b: 253 };
-    const darkColor = { r: 21, g: 101, b: 192 };
-    
-    const r = Math.round(lightColor.r + ratio * (darkColor.r - lightColor.r));
-    const g = Math.round(lightColor.g + ratio * (darkColor.g - lightColor.g));
-    const b = Math.round(lightColor.b + ratio * (darkColor.b - lightColor.b));
-    
-    return `rgb(${r}, ${g}, ${b})`;
+const getHeatmapColor = (amount, minAmount, maxAmount) => {
+  if (maxAmount === minAmount) {
+    return 'rgb(144, 202, 249)';
+  }
+  
+  const ratio = (amount - minAmount) / (maxAmount - minAmount);
+  
+  const lightColor = '#eaf1f8ff';
+  const darkColor = '#0054b5ff';
+  
+  const light = {
+    r: parseInt(lightColor.slice(1, 3), 16),
+    g: parseInt(lightColor.slice(3, 5), 16),
+    b: parseInt(lightColor.slice(5, 7), 16)
   };
+  
+  const dark = {
+    r: parseInt(darkColor.slice(1, 3), 16),
+    g: parseInt(darkColor.slice(3, 5), 16),
+    b: parseInt(darkColor.slice(5, 7), 16)
+  };
+  
+  const r = Math.round(light.r + ratio * (dark.r - light.r));
+  const g = Math.round(light.g + ratio * (dark.g - light.g));
+  const b = Math.round(light.b + ratio * (dark.b - light.b));
+  
+  return `rgb(${r}, ${g}, ${b})`;
+};
 
   const formatDollars = (amount) => {
     if (amount >= 1000000) return `$${(amount / 1000000).toFixed(2)}M`;
