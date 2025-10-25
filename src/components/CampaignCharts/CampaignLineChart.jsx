@@ -69,13 +69,16 @@ function CampaignLineChart({
   const filteredLines = getFilteredLines();
 
   // Transform data for Recharts format (only include filtered lines)
-  const chartData = filteredLines[0].points.map((point, index) => {
-    const dataPoint = { date: point.date };
-    filteredLines.forEach(line => {
-      dataPoint[line.dataKey] = line.points[index].value;
-    });
-    return dataPoint;
-  });
+  const chartData = filteredLines.length > 0 && filteredLines[0].points ? 
+    filteredLines[0].points.map((point, index) => {
+      const dataPoint = { date: point.date };
+      filteredLines.forEach(line => {
+        if (line.points && line.points[index] && typeof line.points[index].value !== 'undefined') {
+          dataPoint[line.dataKey] = line.points[index].value;
+        }
+      });
+      return dataPoint;
+    }) : [];
 
   // Custom tooltip - show single value if dot is hovered, all values otherwise
   const CustomTooltip = ({ active, payload, label }) => {

@@ -70,7 +70,7 @@ function HomePage() {
                   {city.geo_name}
                 </h2>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {city.geo_type} • {city.num_contests} {city.num_contests === 1 ? 'contest' : 'contests'}
+                  {city.geo_type} • {city.num_contests} {city.num_contests === 1 ? 'contest' : 'contests'} • {city.num_candidates_with_data} {city.num_candidates_with_data === 1 ? 'candidate' : 'candidates'}
                 </p>
               </Link>
             );
