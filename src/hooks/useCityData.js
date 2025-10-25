@@ -5,8 +5,8 @@ import { useState, useEffect } from 'react';
 const SUPABASE_URL = 'https://sobzobykotnsltnyhohl.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvYnpvYnlrb3Ruc2x0bnlob2hsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0Mzc3NDgsImV4cCI6MjA3NjAxMzc0OH0.00GejbNtz40QLe8uqXAdoUicRhzxW8OGwtY1CQbQN8g';
 
-async function fetchSupabase(endpoint, geoName) {
-    const url = `${SUPABASE_URL}/rest/v1/${endpoint}?geo_name=eq.${encodeURIComponent(geoName)}`;
+async function fetchSupabase(endpoint, geoName, extraParams = '') {
+    const url = `${SUPABASE_URL}/rest/v1/${endpoint}?geo_name=eq.${encodeURIComponent(geoName)}${extraParams}`;
 
     const response = await fetch(url, {
         headers: {
@@ -39,10 +39,10 @@ export function useCityData(geoName) {
                     fetchSupabase('v_location_data', geoName),
                     fetchSupabase('v_location_data_count', geoName),
                     fetchSupabase('v_size_data', geoName),
-                    fetchSupabase('v_timeline_data', geoName),
-                    fetchSupabase('v_fundraising_timeline', geoName),
-                    fetchSupabase('v_expenditure_timeline', geoName),
-                    fetchSupabase('v_cash_on_hand_timeline', geoName),
+                    fetchSupabase('v_timeline_data', geoName, '&limit=1000'),
+                    fetchSupabase('v_fundraising_timeline', geoName, '&limit=1000'),
+                    fetchSupabase('v_expenditure_timeline', geoName, '&limit=1000'),
+                    fetchSupabase('v_cash_on_hand_timeline', geoName, '&limit=1000'),
                     fetchSupabase('v_realestate_data', geoName),
                     fetchSupabase('v_realestate_data_count', geoName),
                     fetchSupabase('v_top_donors', geoName),
