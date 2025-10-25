@@ -95,10 +95,10 @@ const getHeatmapColor = (amount, minAmount, maxAmount) => {
         <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-6">
           2025 North Carolina Municipal Campaign Finance
         </h1>
-
+{/* 
         <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-6">
           note - only Durham has been fact-checked
-        </h1>
+        </h1> */}
         
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           Select a city to view campaign finance data for municipal races.
