@@ -22,18 +22,24 @@ import {
   REALESTATE_ORDER
 } from '../utils/transformChartData';
 
-const LOCATION_ORDER = [
-  'Unmarked b/c ≤ $50',
-  'In Durham',
-  'In NC (not Durham)',
-  'Out of State',
-  'Unknown'
-];
-
 function CityPage() {
   const { geoName } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const cityName = geoName.replace(/_/g, ' ').toUpperCase();
+  
+  const cityNameTitleCase = useMemo(() => {
+    return cityName.toLowerCase().split(' ').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+  }, [cityName]);
+  
+  const LOCATION_ORDER = useMemo(() => [
+    'Unmarked b/c ≤ $50',
+    `In ${cityNameTitleCase}`,
+    `In NC (not ${cityNameTitleCase})`,
+    'Out of State',
+    'Unknown'
+  ], [cityNameTitleCase]);
   
   const { data, loading, error } = useCityData(cityName);
 
@@ -458,6 +464,8 @@ function CityPage() {
             data={realEstateData}
             title="Real Estate as % of Total Fundraising (by Dollar Amount)"
             legendLabel="Source"
+            legendOrder={REALESTATE_ORDER}
+            segmentOrder={REALESTATE_ORDER}
             activeFilter={chartFilters.realestate}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('realestate', filterId)}
@@ -473,6 +481,8 @@ function CityPage() {
             data={realEstateAbsoluteData}
             title="Real Estate Fundraising by Dollar Amount (Absolute Values)"
             legendLabel="Source"
+            legendOrder={REALESTATE_ORDER}
+            segmentOrder={REALESTATE_ORDER}
             activeFilter={chartFilters.realestateAbsolute}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('realestateAbsolute', filterId)}
@@ -488,6 +498,8 @@ function CityPage() {
             data={realEstateCountData}
             title="Real Estate as % of Total Donations (by Number of Donations)"
             legendLabel="Source"
+            legendOrder={REALESTATE_ORDER}
+            segmentOrder={REALESTATE_ORDER}
             activeFilter={chartFilters.realestateCount}
             hoveredFilter={globalHoveredFilter}
             onActiveFilterChange={(filterId) => handleChartFilterChange('realestateCount', filterId)}

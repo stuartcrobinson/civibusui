@@ -34,7 +34,7 @@ function formatCandidateDisplayName(name) {
 
 // Predefined color schemes
 const LOCATION_COLORS = {
-  'Unmarked b/c ≤ $50': '#d5e8f5ff',
+  'Unmarked b/c ≤ $50': '#e6f0f7ff',
   'In ': '#c2d8eaff',
   'In NC (not': '#417096ff',
   'Out of State': '#002138ff',
@@ -105,28 +105,35 @@ function getLocationColor(locationBucket) {
   return '#9ca3af';
 }
 
-function getLocationOrder(locationData) {
-  const buckets = [...new Set(locationData.map(d => d.location_bucket))];
-  const order = [];
+function getLocationOrder(locationData, geoName) {
+  if (!geoName) {
+    // Fallback to dynamic order if no geoName provided
+    const buckets = [...new Set(locationData.map(d => d.location_bucket))];
+    const order = [];
+    
+    if (buckets.includes('Unmarked b/c ≤ $50')) order.push('Unmarked b/c ≤ $50');
+    
+    const inCityBucket = buckets.find(b => b.startsWith('In ') && !b.startsWith('In NC'));
+    if (inCityBucket) order.push(inCityBucket);
+    
+    const ncBucket = buckets.find(b => b.startsWith('In NC (not'));
+    if (ncBucket) order.push(ncBucket);
+    
+    if (buckets.some(b => b === 'Out of State')) order.push('Out of State');
+    
+    if (buckets.includes('Unknown')) order.push('Unknown');
+    
+    return order;
+  }
   
-  // Start with "Unmarked b/c ≤ $50"
-  if (buckets.includes('Unmarked b/c ≤ $50')) order.push('Unmarked b/c ≤ $50');
-  
-  // Then "In X" (the city itself)
-  const inCityBucket = buckets.find(b => b.startsWith('In ') && !b.startsWith('In NC'));
-  if (inCityBucket) order.push(inCityBucket);
-  
-  // Then "In NC (not X)"
-  const ncBucket = buckets.find(b => b.startsWith('In NC (not'));
-  if (ncBucket) order.push(ncBucket);
-  
-  // Then Out of State
-  if (buckets.some(b => b === 'Out of State')) order.push('Out of State');
-  
-  // Finally Unknown (concerning missing addresses)
-  if (buckets.includes('Unknown')) order.push('Unknown');
-  
-  return order;
+  // Return fixed order based on geoName
+  return [
+    'Unmarked b/c ≤ $50',
+    `In ${geoName}`,
+    `In NC (not ${geoName})`,
+    'Out of State',
+    'Unknown'
+  ];
 }
 
 // Position hierarchy for sorting contests
@@ -202,6 +209,24 @@ export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = n
   // Filter to only rows with actual data
   const rowsWithData = sortedRows.filter(row => candidatesWithData.has(row.candidate_name));
 
+  // Determine segment order FIRST using all rows
+  let segmentOrder;
+  if (categoryKey === 'location_bucket') {
+    segmentOrder = getLocationOrder(rows, geoName);
+  } else if (categoryOrder) {
+    segmentOrder = categoryOrder;
+  } else {
+    const categoryTotals = {};
+    rows.forEach(row => {
+      const cat = row[categoryKey];
+      categoryTotals[cat] = (categoryTotals[cat] || 0) + parseFloat(row.total);
+    });
+    
+    segmentOrder = Object.entries(categoryTotals)
+      .sort(([,a], [,b]) => b - a)
+      .map(([cat]) => cat);
+  }
+
   // Establish consistent candidate order and colors
   const uniqueCandidates = [...new Set(rowsWithData.map(r => r.candidate_name))];
   uniqueCandidates.forEach(candidate => getCandidateColor(candidate));
@@ -229,26 +254,6 @@ export function transformBarChart(rows, categoryKey, colorMap, categoryOrder = n
     
     return acc;
   }, {});
-
-  // Determine segment order
-  let segmentOrder;
-  if (categoryKey === 'location_bucket') {
-    // Always use geographic order for location buckets
-    segmentOrder = getLocationOrder(rows);
-  } else if (categoryOrder) {
-    segmentOrder = categoryOrder;
-  } else {
-    // Calculate global totals
-    const categoryTotals = {};
-    rows.forEach(row => {
-      const cat = row[categoryKey];
-      categoryTotals[cat] = (categoryTotals[cat] || 0) + parseFloat(row.total);
-    });
-    
-    segmentOrder = Object.entries(categoryTotals)
-      .sort(([,a], [,b]) => b - a)
-      .map(([cat]) => cat);
-  }
 
   // Convert to array format (no tooltipText yet - will be added by normalizeToPercentages or transformAbsoluteBarChart)
   const result = Object.values(grouped).map(candidate => {
