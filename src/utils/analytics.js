@@ -24,6 +24,7 @@ const isOwnDevice = () => {
 // Open console on your laptop and run:
 // localStorage.setItem('ga_exclude_dev', 'true')
 // localStorage.setItem('ga_exclude_dev', 'false')
+
 // to check:
 // localStorage.getItem('ga_exclude_dev')
  
