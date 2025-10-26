@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import packageJson from '../../package.json';
 
 function Footer() {
   return (
@@ -16,6 +17,9 @@ function Footer() {
             <Link to="/methodology" className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
               Methodology
             </Link>
+          </div>
+          <div className="flex items-center gap-3">
+            <span>v{packageJson.version}</span>
           </div>
           <div className="flex items-center gap-3">
             <span>© {new Date().getFullYear()} Civibus</span>
