@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
+import { logEvent } from '../utils/analytics';
 import { CampaignLineChart, SegmentedBarChart, FilterControls } from './CampaignCharts';
 import CandidateSelector from './CandidateSelector';
 import CandidateFinancialDetails from './CandidateFinancialDetails';
@@ -32,6 +33,16 @@ function CityPage() {
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ');
   }, [cityName]);
+
+  // Set page title
+  useEffect(() => {
+    document.title = `Civibus - ${cityNameTitleCase}`;
+  }, [cityNameTitleCase]);
+
+  // Track page view
+  useEffect(() => {
+    logEvent('City Page', 'View', cityNameTitleCase);
+  }, [cityNameTitleCase]);
   
   const LOCATION_ORDER = useMemo(() => [
     'Unmarked b/c ≤ $50',
