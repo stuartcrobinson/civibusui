@@ -17,3 +17,5 @@ idk what this is.  but htings are pretty good rn
 images!!!
 
 https://claude.ai/chat/30539d4a-e6b8-4da3-809e-f03edae65531
+
+for deploy
