@@ -1,6 +1,7 @@
 import ReactGA from 'react-ga4';
 
-const MEASUREMENT_ID = process.env.REACT_APP_GA_MEASUREMENT_ID;
+// const MEASUREMENT_ID = process.env.REACT_APP_GA_MEASUREMENT_ID;
+const MEASUREMENT_ID = 'G-VH48KRV0TK';
 
 // export const initGA = () => {
 //   if (MEASUREMENT_ID) {
@@ -22,6 +23,7 @@ const isOwnDevice = () => {
 // To mark your devices:
 // Open console on your laptop and run:
 // localStorage.setItem('ga_exclude_dev', 'true')
+// localStorage.setItem('ga_exclude_dev', 'false')
 // to check:
 // localStorage.getItem('ga_exclude_dev')
  
