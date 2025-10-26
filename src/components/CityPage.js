@@ -241,7 +241,7 @@ function CityPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white-50 dark:bg-gray-900 flex flex-col">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
       <Header />
       <div className="flex-1 p-8 max-w-7xl mx-auto w-full space-y-12">
         {/* Global Filter Controls */}
