@@ -22,9 +22,8 @@ try {
   console.log(`Bumped to v${pkg.version}`);
   
   execSync('git add .', { stdio: 'inherit' });
-  execSync(`git commit -m "${message}"`, { stdio: 'inherit' });
-  execSync(`git tag v${pkg.version}`, { stdio: 'inherit' });
-  execSync('git push && git push --tags', { stdio: 'inherit' });
+  execSync(`git commit -m "v${pkg.version}: ${message}"`, { stdio: 'inherit' });
+  execSync('git push', { stdio: 'inherit' });
   
   console.log(`✓ Shipped v${pkg.version}: ${message}`);
 } catch (error) {
