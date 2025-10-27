@@ -26,10 +26,10 @@ function ContactPage() {
               <p className="mb-4">
                 <strong>Email:</strong>{' '}
                 <a
-                  href="mailto:stuart.clifford@gmail.com"
+                  href="mailto:info@civibus.org"
                   className="text-blue-600 dark:text-blue-400 hover:underline text-lg"
                 >
-                  stuart.clifford@gmail.com
+                  info@civibus.org
                 </a>
               </p>
             </div>
