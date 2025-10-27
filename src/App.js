@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom';
 import './App.css';
+import StateSelectionPage from './components/StateSelectionPage';
 import HomePage from './components/HomePage';
 import CityPage from './components/CityPage';
+import NYCPlaceholderPage from './components/NYCPlaceholderPage';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import MethodologyPage from './components/MethodologyPage';
@@ -18,6 +20,11 @@ function AnalyticsTracker() {
   return null;
 }
 
+function LegacyCityRedirect() {
+  const { geoName } = useParams();
+  return <Navigate to={`/nc/${geoName}`} replace />;
+}
+
 function App() {
   useEffect(() => {
     initGA();
@@ -27,11 +34,16 @@ function App() {
     <BrowserRouter>
       <AnalyticsTracker />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<StateSelectionPage />} />
+        <Route path="/nc" element={<HomePage />} />
+        <Route path="/nc/:geoName" element={<CityPage />} />
+        <Route path="/nyc" element={<NYCPlaceholderPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/methodology" element={<MethodologyPage />} />
-        <Route path="/geo_name/:geoName" element={<CityPage />} />
+        
+        {/* Redirect old URLs */}
+        <Route path="/geo_name/:geoName" element={<LegacyCityRedirect />} />
       </Routes>
     </BrowserRouter>
   );

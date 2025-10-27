@@ -134,7 +134,7 @@ function HomePage() {
             return (
               <Link
                 key={`${city.geo_name}-${city.geo_type}`}
-                to={`/geo_name/${urlPath}`}
+                to={`/nc/${urlPath}`}
                 onClick={() => handleCityClick(city.geo_name)}
                 className="block p-6 rounded-lg shadow hover:shadow-lg transition-shadow"
                 style={{ backgroundColor: bgColor }}
