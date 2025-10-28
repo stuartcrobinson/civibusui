@@ -22,6 +22,7 @@ function CampaignLineChart({
   const [internalHoveredFilter, setInternalHoveredFilter] = useState(null);
   const [hoveredLine, setHoveredLine] = useState(null);
   const [hoveredDot, setHoveredDot] = useState(null);
+  const [hoveredCandidateId, setHoveredCandidateId] = useState(null);
 
   // Use controlled props if provided, otherwise use internal state
   const isControlled = controlledActiveFilter !== undefined;
@@ -85,26 +86,64 @@ function CampaignLineChart({
     if (active && payload && payload.length) {
       const date = new Date(label);
       
-      // If hovering a specific dot, show only that line's value
+      // If hovering a specific dot, show candidate's grouped values
       if (hoveredDot) {
-        const dotData = payload.find(p => p.dataKey === hoveredDot);
-        if (!dotData) return null;
+        const hoveredLine = data.lines.find(l => l.dataKey === hoveredDot);
+        const candidateId = hoveredLine?.candidateId;
         
-        return (
-          <div className="bg-gray-900 text-white px-3 py-2 rounded shadow-lg">
-            <p className="text-xs font-semibold">
-              {dotData.value.toLocaleString('en-US', { 
-                style: 'currency', 
-                currency: 'USD',
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
+        if (candidateId) {
+          // Show both private and public for this candidate
+          const candidatePayload = payload.filter(p => {
+            const line = data.lines.find(l => l.dataKey === p.dataKey);
+            return line?.candidateId === candidateId;
+          });
+          
+          if (candidatePayload.length === 0) return null;
+          
+          return (
+            <div className="bg-gray-900 text-white px-3 py-2 rounded shadow-lg">
+              {candidatePayload.map((entry, idx) => {
+                const line = data.lines.find(l => l.dataKey === entry.dataKey);
+                return (
+                  <div key={idx} className={idx > 0 ? 'mt-1' : ''}>
+                    <p className="text-xs font-semibold">
+                      {entry.value.toLocaleString('en-US', { 
+                        style: 'currency', 
+                        currency: 'USD',
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                      })}
+                      {line?.type && ` (${line.type.charAt(0).toUpperCase() + line.type.slice(1)})`}
+                    </p>
+                  </div>
+                );
               })}
-            </p>
-            <p className="text-xs text-gray-300">
-              {date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-            </p>
-          </div>
-        );
+              <p className="text-xs text-gray-300 mt-1">
+                {date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              </p>
+            </div>
+          );
+        } else {
+          // Fallback: single line without candidateId
+          const dotData = payload.find(p => p.dataKey === hoveredDot);
+          if (!dotData) return null;
+          
+          return (
+            <div className="bg-gray-900 text-white px-3 py-2 rounded shadow-lg">
+              <p className="text-xs font-semibold">
+                {dotData.value.toLocaleString('en-US', { 
+                  style: 'currency', 
+                  currency: 'USD',
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0
+                })}
+              </p>
+              <p className="text-xs text-gray-300">
+                {date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              </p>
+            </div>
+          );
+        }
       }
       
       // Otherwise show all values
@@ -194,11 +233,14 @@ function CampaignLineChart({
       <div className="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex flex-wrap gap-4">
           {filteredLines.map((line, idx) => {
-            const isHighlighted = hoveredLine === line.dataKey;
+            const isHighlightedByLine = hoveredLine === line.dataKey;
+            const isHighlightedByCandidate = hoveredCandidateId && line.candidateId === hoveredCandidateId;
             const isHighlightedByFilter = hoveredFilter && matchesFilter(line, hoveredFilter);
-            const shouldDim = (hoveredLine && !isHighlighted) || (hoveredFilter && !isHighlightedByFilter);
+            const isHighlighted = isHighlightedByLine || isHighlightedByCandidate;
+            const shouldDim = (hoveredLine && !isHighlighted) || (hoveredCandidateId && !isHighlightedByCandidate) || (hoveredFilter && !isHighlightedByFilter);
             const shouldBeBold = isHighlighted || isHighlightedByFilter;
             const linkUrl = line.linkUrl;
+            const displayLabel = line.label + (line.type ? ` (${line.type.charAt(0).toUpperCase() + line.type.slice(1)})` : '');
             
             return (
               <div 
@@ -206,8 +248,14 @@ function CampaignLineChart({
                 className={`flex items-center gap-2 transition-all duration-200 ${linkUrl ? 'cursor-pointer' : ''} ${
                   shouldDim ? 'opacity-50' : 'opacity-100'
                 }`}
-                onMouseEnter={() => setHoveredLine(line.dataKey)}
-                onMouseLeave={() => setHoveredLine(null)}
+                onMouseEnter={() => {
+                  setHoveredLine(line.dataKey);
+                  if (line.candidateId) setHoveredCandidateId(line.candidateId);
+                }}
+                onMouseLeave={() => {
+                  setHoveredLine(null);
+                  setHoveredCandidateId(null);
+                }}
               >
                 <div 
                   className="w-4 h-4 flex-shrink-0"
@@ -220,16 +268,16 @@ function CampaignLineChart({
                     rel="noopener noreferrer"
                     className="text-sm text-gray-900 dark:text-gray-100 relative inline-block hover:underline"
                   >
-                    <span className="font-bold invisible" aria-hidden="true">{line.label}</span>
+                    <span className="font-bold invisible" aria-hidden="true">{displayLabel}</span>
                     <span className={`absolute inset-0 ${shouldBeBold ? 'font-bold' : ''}`}>
-                      {line.label}
+                      {displayLabel}
                     </span>
                   </a>
                 ) : (
                   <span className="text-sm text-gray-900 dark:text-gray-100 relative inline-block">
-                    <span className="font-bold invisible" aria-hidden="true">{line.label}</span>
+                    <span className="font-bold invisible" aria-hidden="true">{displayLabel}</span>
                     <span className={`absolute inset-0 ${shouldBeBold ? 'font-bold' : ''}`}>
-                      {line.label}
+                      {displayLabel}
                     </span>
                   </span>
                 )}
@@ -278,41 +326,56 @@ function CampaignLineChart({
           />
           <Tooltip content={<CustomTooltip />} />
           
-          {filteredLines.map((line) => (
-            <Line
-              key={line.dataKey}
-              type="linear"
-              dataKey={line.dataKey}
-              name={line.label}
-              stroke={line.color}
-              strokeWidth={
-                hoveredLine === line.dataKey || 
-                hoveredDot === line.dataKey || 
-                (hoveredFilter && matchesFilter(line, hoveredFilter)) ? 3 : 2
-              }
-              strokeOpacity={
-                (hoveredLine && hoveredLine !== line.dataKey && hoveredDot !== line.dataKey) ||
-                (hoveredFilter && !matchesFilter(line, hoveredFilter)) ? 0.3 : 1
-              }
-              dot={false}
-              activeDot={{ 
-                r: 5,
-                onMouseEnter: () => {
-                  setHoveredDot(line.dataKey);
+          {filteredLines.map((line) => {
+            const baseWidth = line.type === 'public' ? 4 : 2;
+            const baseOpacity = line.type === 'public' ? 0.5 : 1;
+            const activeDotRadius = line.type === 'public' ? 7 : 5;
+            
+            const isLineHighlighted = hoveredLine === line.dataKey || hoveredDot === line.dataKey;
+            const isCandidateHighlighted = hoveredCandidateId && line.candidateId === hoveredCandidateId;
+            const isFilterHighlighted = hoveredFilter && matchesFilter(line, hoveredFilter);
+            const isHighlighted = isLineHighlighted || isCandidateHighlighted || isFilterHighlighted;
+            
+            const shouldDim = (hoveredLine && hoveredLine !== line.dataKey && hoveredDot !== line.dataKey) ||
+                             (hoveredCandidateId && line.candidateId !== hoveredCandidateId) ||
+                             (hoveredFilter && !matchesFilter(line, hoveredFilter));
+            
+            return (
+              <Line
+                key={line.dataKey}
+                type="linear"
+                dataKey={line.dataKey}
+                name={line.label}
+                stroke={line.color}
+                strokeWidth={isHighlighted ? baseWidth + 1 : baseWidth}
+                strokeOpacity={shouldDim ? 0.3 : baseOpacity}
+                dot={false}
+                activeDot={{ 
+                  r: activeDotRadius,
+                  onMouseEnter: () => {
+                    setHoveredDot(line.dataKey);
+                    setHoveredLine(line.dataKey);
+                    if (line.candidateId) setHoveredCandidateId(line.candidateId);
+                  },
+                  onMouseLeave: () => {
+                    setHoveredDot(null);
+                    setHoveredLine(null);
+                    setHoveredCandidateId(null);
+                  }
+                }}
+                onMouseEnter={() => {
                   setHoveredLine(line.dataKey);
-                },
-                onMouseLeave: () => {
-                  setHoveredDot(null);
+                  if (line.candidateId) setHoveredCandidateId(line.candidateId);
+                }}
+                onMouseLeave={() => {
                   setHoveredLine(null);
-                }
-              }}
-              onMouseEnter={() => setHoveredLine(line.dataKey)}
-              onMouseLeave={() => setHoveredLine(null)}
-              isAnimationActive={false}
-            //   no idea if this does anything or not:  probably not:
-              style={{ transition: 'stroke-width 1000ms cubic-bezier(0.4, 0, 0.2, 1), stroke-opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1)' }}
-            />
-          ))}
+                  setHoveredCandidateId(null);
+                }}
+                isAnimationActive={false}
+                style={{ transition: 'stroke-width 1000ms cubic-bezier(0.4, 0, 0.2, 1), stroke-opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1)' }}
+              />
+            );
+          })}
         </LineChart>
       </ResponsiveContainer>
 
