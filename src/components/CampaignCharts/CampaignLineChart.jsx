@@ -61,14 +61,27 @@ function CampaignLineChart({
     return false;
   };
 
-  // Filter lines based on active filter
+  // Filter lines based on active filter and remove zero-only lines
   const getFilteredLines = () => {
-    if (activeFilter === 'all') return data.lines;
-    return data.lines.filter(line => matchesFilter(line, activeFilter));
+    let lines = activeFilter === 'all' ? data.lines : data.lines.filter(line => matchesFilter(line, activeFilter));
+    
+    // Filter out lines where all points are zero or undefined
+    return lines.filter(line => {
+      if (!line.points || line.points.length === 0) return false;
+      return line.points.some(point => point.value > 0);
+    });
   };
 
   const filteredLines = getFilteredLines();
 
+  // Public/Private funding line logic:
+  // - Lines with `type: 'public'` render thicker (4px), semi-transparent (0.35 opacity), and are visually distinct
+  // - Lines with `type: 'private'` render normal (2px, full opacity)
+  // - Lines with matching `candidateId` are spiritually linked: hovering one highlights both
+  // - Tooltip shows "(Private)" or "(Public)" suffix if `type` field exists, regardless of pairing
+  // - Zero-only lines (all points.value === 0) are filtered out to prevent flat lines at y=0
+  // - Lines without `type` or `candidateId` render as standalone (legacy behavior, backwards compatible)
+  
   // Transform data for Recharts format (only include filtered lines)
   const chartData = filteredLines.length > 0 && filteredLines[0].points ? 
     filteredLines[0].points.map((point, index) => {
@@ -102,18 +115,26 @@ function CampaignLineChart({
           
           return (
             <div className="bg-gray-900 text-white px-3 py-2 rounded shadow-lg">
+              <p className="text-xs text-gray-300 mb-1.5 font-medium">
+                {hoveredLine ? data.lines.find(l => l.dataKey === hoveredLine)?.label : ''}
+              </p>
               {candidatePayload.map((entry, idx) => {
                 const line = data.lines.find(l => l.dataKey === entry.dataKey);
+                const isHoveredType = line?.dataKey === hoveredDot;
                 return (
                   <div key={idx} className={idx > 0 ? 'mt-1' : ''}>
-                    <p className="text-xs font-semibold">
-                      {entry.value.toLocaleString('en-US', { 
-                        style: 'currency', 
-                        currency: 'USD',
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0
-                      })}
-                      {line?.type && ` (${line.type.charAt(0).toUpperCase() + line.type.slice(1)})`}
+                    <p className="text-xs">
+                      <span className={isHoveredType ? 'font-semibold' : 'opacity-70'}>
+                        {line?.type === 'public' ? 'Public: ' : 'Private: '}
+                      </span>
+                      <span className="font-semibold">
+                        {entry.value.toLocaleString('en-US', { 
+                          style: 'currency', 
+                          currency: 'USD',
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0
+                        })}
+                      </span>
                     </p>
                   </div>
                 );
@@ -155,6 +176,7 @@ function CampaignLineChart({
           <div className="space-y-1">
             {payload.map((entry, index) => {
               const line = data.lines.find(l => l.dataKey === entry.dataKey);
+              const typeLabel = line?.type ? ` (${line.type.charAt(0).toUpperCase() + line.type.slice(1)})` : '';
               return (
                 <div key={index} className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
@@ -162,7 +184,7 @@ function CampaignLineChart({
                       className="w-3 h-3 rounded-sm"
                       style={{ backgroundColor: entry.color }}
                     />
-                    <span className="text-xs">{line?.label}</span>
+                    <span className="text-xs">{line?.label}{typeLabel}</span>
                   </div>
                   <span className="text-xs font-semibold">
                     {entry.value.toLocaleString('en-US', { 
@@ -328,8 +350,9 @@ function CampaignLineChart({
           
           {filteredLines.map((line) => {
             const baseWidth = line.type === 'public' ? 4 : 2;
-            const baseOpacity = line.type === 'public' ? 0.5 : 1;
-            const activeDotRadius = line.type === 'public' ? 7 : 5;
+            const highlightedWidth = line.type === 'public' ? 6 : 3;
+            const baseOpacity = line.type === 'public' ? 0.35 : 1;
+            const activeDotRadius = 5;
             
             const isLineHighlighted = hoveredLine === line.dataKey || hoveredDot === line.dataKey;
             const isCandidateHighlighted = hoveredCandidateId && line.candidateId === hoveredCandidateId;
@@ -340,6 +363,8 @@ function CampaignLineChart({
                              (hoveredCandidateId && line.candidateId !== hoveredCandidateId) ||
                              (hoveredFilter && !matchesFilter(line, hoveredFilter));
             
+            const finalOpacity = shouldDim ? (line.type === 'public' ? 0.2 : 0.3) : (isHighlighted ? 1.0 : baseOpacity);
+            
             return (
               <Line
                 key={line.dataKey}
@@ -347,8 +372,8 @@ function CampaignLineChart({
                 dataKey={line.dataKey}
                 name={line.label}
                 stroke={line.color}
-                strokeWidth={isHighlighted ? baseWidth + 1 : baseWidth}
-                strokeOpacity={shouldDim ? 0.3 : baseOpacity}
+                strokeWidth={isHighlighted ? highlightedWidth : baseWidth}
+                strokeOpacity={finalOpacity}
                 dot={false}
                 activeDot={{ 
                   r: activeDotRadius,

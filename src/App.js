@@ -8,6 +8,7 @@ import NYCPlaceholderPage from './components/NYCPlaceholderPage';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import MethodologyPage from './components/MethodologyPage';
+import PublicFundingTest from './pages/PublicFundingTest';
 import { initGA, logPageView } from './utils/analytics';
 
 function AnalyticsTracker() {
@@ -41,6 +42,9 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/methodology" element={<MethodologyPage />} />
+
+        {/* testing */}
+        <Route path="/public-funding-test" element={<PublicFundingTest />} />
         
         {/* Redirect old URLs */}
         <Route path="/geo_name/:geoName" element={<LegacyCityRedirect />} />
