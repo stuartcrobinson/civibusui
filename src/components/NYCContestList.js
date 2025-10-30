@@ -9,6 +9,7 @@ function NYCContestList() {
   const [contests, setContests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     document.title = 'Civibus - NYC 2025';
@@ -69,6 +70,14 @@ function NYCContestList() {
     logEvent('NYC Contest Selection', 'Click', officeSought);
   };
 
+  const handleSearchChange = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+    if (term.length > 2) {
+      logEvent('Search', 'NYC Contest Filter', term);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
@@ -114,7 +123,11 @@ function NYCContestList() {
     return `rgb(${r}, ${g}, ${b})`;
   };
 
-  const amounts = contests.map(c => c.total_raised || 0);
+  const filteredContests = contests.filter(contest =>
+    contest.office_sought.toLowerCase().includes(searchTerm.toLowerCase().trim())
+  );
+
+  const amounts = filteredContests.map(c => c.total_raised || 0);
   const minAmount = amounts.length > 0 ? Math.min(...amounts) : 0;
   const maxAmount = amounts.length > 0 ? Math.max(...amounts) : 0;
 
@@ -126,12 +139,20 @@ function NYCContestList() {
           2025 NYC Campaign Finance
         </h1>
         
-        <p className="text-gray-700 dark:text-gray-300 mb-6">
+        <p className="text-gray-700 dark:text-gray-300 mb-4">
           Select a race to view campaign finance data for NYC municipal elections.
         </p>
 
+        <input
+          type="text"
+          placeholder="Filter races..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="w-full max-w-md px-4 py-2 mb-6 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {contests.map((contest) => {
+          {filteredContests.map((contest) => {
             const slug = contest.office_sought.toLowerCase().replace(/\s+/g, '-');
             const amount = contest.total_raised || 0;
             const bgColor = getHeatmapColor(amount, minAmount, maxAmount);
