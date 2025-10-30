@@ -258,9 +258,16 @@ export function transformNYCCashOnHandTimeline(rows) {
 export function transformNYCBarChart(rows, categoryKey, colorMap, categoryOrder = null, valueField = 'donation_count', cfbCandidLookup = {}) {
   if (!rows || rows.length === 0) return [];
 
-  // Sort by last name
+  // Calculate total value for each candidate (for sorting)
+  const candidateTotals = {};
+  rows.forEach(row => {
+    const name = row.candidate_name;
+    candidateTotals[name] = (candidateTotals[name] || 0) + parseFloat(row[valueField] || 0);
+  });
+
+  // Sort by total value (descending)
   const sortedRows = [...rows].sort((a, b) => 
-    getLastName(a.candidate_name).localeCompare(getLastName(b.candidate_name))
+    candidateTotals[b.candidate_name] - candidateTotals[a.candidate_name]
   );
 
   // Determine segment order
@@ -330,8 +337,9 @@ export function transformNYCBarChart(rows, categoryKey, colorMap, categoryOrder 
 export function transformNYCRefundsChart(rows, cfbCandidLookup = {}) {
   if (!rows || rows.length === 0) return [];
 
+  // Sort by total refunded (descending) - longest bar on top
   const sortedRows = [...rows].sort((a, b) => 
-    parseFloat(b.total_refunded || 0) - parseFloat(a.total_refunded || 0)
+    Math.abs(parseFloat(b.total_refunded || 0)) - Math.abs(parseFloat(a.total_refunded || 0))
   );
 
   return sortedRows.map(row => ({

@@ -78,6 +78,20 @@ function NYCContestList() {
     }
   };
 
+  // Calculate aggregate stats
+  const boroughPresidentContests = contests.filter(c => c.office_sought.includes('Boro President'));
+  const cityCouncilContests = contests.filter(c => c.office_sought.startsWith('City Council District'));
+  
+  const boroughPresidentStats = {
+    numCandidates: boroughPresidentContests.reduce((sum, c) => sum + c.num_candidates, 0),
+    totalRaised: boroughPresidentContests.reduce((sum, c) => sum + (c.total_raised || 0), 0)
+  };
+  
+  const cityCouncilStats = {
+    numCandidates: cityCouncilContests.reduce((sum, c) => sum + c.num_candidates, 0),
+    totalRaised: cityCouncilContests.reduce((sum, c) => sum + (c.total_raised || 0), 0)
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
@@ -142,6 +156,56 @@ function NYCContestList() {
         <p className="text-gray-700 dark:text-gray-300 mb-4">
           Select a race to view campaign finance data for NYC municipal elections.
         </p>
+
+        {/* Featured Aggregate Races */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
+            Combined Races
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Link
+              to="/nyc/all-borough-presidents"
+              onClick={() => {
+                handleContestClick('All Borough Presidents');
+                logEvent('NYC Aggregate Contest', 'Click', 'All Borough Presidents');
+              }}
+              className="block p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-purple-500 to-purple-700"
+            >
+              <h3 className="text-2xl font-bold text-white mb-3">
+                🏛️ All Borough Presidents
+              </h3>
+              <p className="text-white text-opacity-90 mb-2">
+                {boroughPresidentStats.numCandidates} candidates across {boroughPresidentContests.length} races
+              </p>
+              <p className="text-3xl font-bold text-white">
+                {formatDollars(boroughPresidentStats.totalRaised)} raised
+              </p>
+            </Link>
+
+            <Link
+              to="/nyc/all-city-council"
+              onClick={() => {
+                handleContestClick('All City Council');
+                logEvent('NYC Aggregate Contest', 'Click', 'All City Council (Top 20)');
+              }}
+              className="block p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-blue-500 to-blue-700"
+            >
+              <h3 className="text-2xl font-bold text-white mb-3">
+                🏙️ All City Council (Top 20)
+              </h3>
+              <p className="text-white text-opacity-90 mb-2">
+                Top 20 fundraisers from {cityCouncilContests.length} districts
+              </p>
+              <p className="text-3xl font-bold text-white">
+                {formatDollars(cityCouncilStats.totalRaised)} total raised
+              </p>
+            </Link>
+          </div>
+        </div>
+
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
+          Individual Races
+        </h2>
 
         <input
           type="text"
