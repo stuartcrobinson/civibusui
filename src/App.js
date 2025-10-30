@@ -9,6 +9,7 @@ import NYCContestPage from './components/NYCContestPage';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import MethodologyPage from './components/MethodologyPage';
+import PressPage from './components/PressPage';
 import PublicFundingTest from './pages/PublicFundingTest';
 import { initGA, logPageView } from './utils/analytics';
 
@@ -44,6 +45,7 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/methodology" element={<MethodologyPage />} />
+        <Route path="/press" element={<PressPage />} />
 
         {/* testing */}
         <Route path="/public-funding-test" element={<PublicFundingTest />} />

@@ -11,12 +11,15 @@ function Footer() {
             <Link to="/about" className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
               About
             </Link>
+            <Link to="/press" className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
+              Press
+            </Link>
             <Link to="/contact" className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
               Contact
             </Link>
-            <Link to="/methodology" className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
+            {/* <Link to="/methodology" className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
               Methodology
-            </Link>
+            </Link> */}
           </div>
           <div className="flex items-center gap-3">
             <span>v{packageJson.version}</span>
