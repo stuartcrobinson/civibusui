@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 // 
-const SHOW_NYC = false; // Toggle this to show/hide NYC button
-// const SHOW_NYC = true; // Toggle this to show/hide NYC button
+// const SHOW_NYC = false; // Toggle this to show/hide NYC button
+const SHOW_NYC = true; // Toggle this to show/hide NYC button
 
 function StateSelectionPage() {
   return (
