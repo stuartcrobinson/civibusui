@@ -16,8 +16,16 @@ function CampaignLineChart({
   onActiveFilterChange,
   onHoveredFilterChange,
   showLocalFilters = true,
-  showExport = false
+  showExport = false,
+  showDatePresets = false,
+  showPublicPrivateToggles = false
 }) {
+  const [startDate, setStartDate] = useState(() => {
+    const now = new Date();
+    return new Date(now.setFullYear(now.getFullYear() - 2));
+  });
+  const [showPrivate, setShowPrivate] = useState(true);
+  const [showPublic, setShowPublic] = useState(true);
   const [internalActiveFilter, setInternalActiveFilter] = useState('all');
   const [internalHoveredFilter, setInternalHoveredFilter] = useState(null);
   const [hoveredLine, setHoveredLine] = useState(null);
@@ -65,6 +73,15 @@ function CampaignLineChart({
   const getFilteredLines = () => {
     let lines = activeFilter === 'all' ? data.lines : data.lines.filter(line => matchesFilter(line, activeFilter));
     
+    // Filter by public/private toggles
+    if (showPublicPrivateToggles) {
+      lines = lines.filter(line => {
+        if (line.type === 'public') return showPublic;
+        if (line.type === 'private') return showPrivate;
+        return true; // lines without type always show
+      });
+    }
+    
     // Filter out lines where all points are zero or undefined
     return lines.filter(line => {
       if (!line.points || line.points.length === 0) return false;
@@ -73,6 +90,12 @@ function CampaignLineChart({
   };
 
   const filteredLines = getFilteredLines();
+  
+  console.log('filteredLines:', filteredLines.map(l => ({ 
+    dataKey: l.dataKey, 
+    candidateId: l.candidateId,
+    type: l.type 
+  })));
 
   // Public/Private funding line logic:
   // - Lines with `type: 'public'` render thicker (4px), semi-transparent (0.35 opacity), and are visually distinct
@@ -83,7 +106,7 @@ function CampaignLineChart({
   // - Lines without `type` or `candidateId` render as standalone (legacy behavior, backwards compatible)
   
   // Transform data for Recharts format (only include filtered lines)
-  const chartData = filteredLines.length > 0 && filteredLines[0].points ? 
+  let chartData = filteredLines.length > 0 && filteredLines[0].points ? 
     filteredLines[0].points.map((point, index) => {
       const dataPoint = { date: point.date };
       filteredLines.forEach(line => {
@@ -93,6 +116,30 @@ function CampaignLineChart({
       });
       return dataPoint;
     }) : [];
+
+  // Apply date filter if startDate is set
+  if (startDate) {
+    chartData = chartData.filter(d => new Date(d.date) >= startDate);
+  }
+
+  // Date preset helpers
+  const getDateFromPreset = (preset) => {
+    const now = new Date();
+    switch (preset) {
+      case '6mo': return new Date(now.setMonth(now.getMonth() - 6));
+      case '1yr': return new Date(now.setFullYear(now.getFullYear() - 1));
+      case '2yr': return new Date(now.setFullYear(now.getFullYear() - 2));
+      case '4yr': return new Date(now.setFullYear(now.getFullYear() - 4));
+      default: return null;
+    }
+  };
+
+  const datePresets = [
+    { id: '6mo', label: '6 Months' },
+    { id: '1yr', label: '1 Year' },
+    { id: '2yr', label: '2 Years' },
+    { id: '4yr', label: '4 Years' }
+  ];
 
   // Custom tooltip - show single value if dot is hovered, all values otherwise
   const CustomTooltip = ({ active, payload, label }) => {
@@ -225,30 +272,74 @@ function CampaignLineChart({
     <div className="w-full">
       <div className="flex justify-between items-start mb-6">
         {title && <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{title}</h2>}
-        {showExport && (
-          <button
-            onClick={openModal}
-            disabled={isProcessing}
-            className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-3 rounded border border-gray-300 transition-colors duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isProcessing ? (
-              <>
-                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Processing...
-              </>
-            ) : (
-              <>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-                Export
-              </>
-            )}
-          </button>
-        )}
+        <div className="flex gap-2 items-center">
+          {showPublicPrivateToggles && (
+            <div className="flex gap-1 mr-4">
+              <button
+                onClick={() => setShowPrivate(!showPrivate)}
+                className={`px-3 py-1 text-xs rounded transition-colors ${
+                  showPrivate
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 line-through'
+                }`}
+              >
+                Private
+              </button>
+              <button
+                onClick={() => setShowPublic(!showPublic)}
+                className={`px-3 py-1 text-xs rounded transition-colors ${
+                  showPublic
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 line-through'
+                }`}
+              >
+                Public
+              </button>
+            </div>
+          )}
+          {showDatePresets && (
+            <div className="flex gap-1 mr-2">
+              {datePresets.map(preset => (
+                <button
+                  key={preset.id}
+                  onClick={() => setStartDate(getDateFromPreset(preset.id))}
+                  className={`px-2 py-1 text-xs rounded transition-colors ${
+                    (!startDate && preset.id === '2yr') || 
+                    (startDate && Math.abs(startDate - getDateFromPreset(preset.id)) < 86400000)
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                  }`}
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+          )}
+          {showExport && (
+            <button
+              onClick={openModal}
+              disabled={isProcessing}
+              className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-3 rounded border border-gray-300 transition-colors duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isProcessing ? (
+                <>
+                  <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  Export
+                </>
+              )}
+            </button>
+          )}
+        </div>
       </div>
       
       {/* Custom Legend */}
@@ -349,9 +440,9 @@ function CampaignLineChart({
           <Tooltip content={<CustomTooltip />} />
           
           {filteredLines.map((line) => {
-            const baseWidth = line.type === 'public' ? 4 : 2;
-            const highlightedWidth = line.type === 'public' ? 6 : 3;
-            const baseOpacity = line.type === 'public' ? 0.35 : 1;
+            const baseWidth = line.type === 'public' ? 7 : 2;
+            const highlightedWidth = line.type === 'public' ? 9 : 3;
+            const baseOpacity = line.type === 'public' ? 0.25 : 1;
             const activeDotRadius = 5;
             
             const isLineHighlighted = hoveredLine === line.dataKey || hoveredDot === line.dataKey;
@@ -359,11 +450,16 @@ function CampaignLineChart({
             const isFilterHighlighted = hoveredFilter && matchesFilter(line, hoveredFilter);
             const isHighlighted = isLineHighlighted || isCandidateHighlighted || isFilterHighlighted;
             
-            const shouldDim = (hoveredLine && hoveredLine !== line.dataKey && hoveredDot !== line.dataKey) ||
-                             (hoveredCandidateId && line.candidateId !== hoveredCandidateId) ||
+            const shouldDim = (hoveredCandidateId && line.candidateId !== hoveredCandidateId) ||
+                             (hoveredLine && !hoveredCandidateId && hoveredLine !== line.dataKey && hoveredDot !== line.dataKey) ||
                              (hoveredFilter && !matchesFilter(line, hoveredFilter));
             
-            const finalOpacity = shouldDim ? (line.type === 'public' ? 0.2 : 0.3) : (isHighlighted ? 1.0 : baseOpacity);
+            const finalOpacity = shouldDim 
+              ? (line.type === 'public' ? 0.15 : 0.3) 
+              : (isHighlighted 
+                  ? (line.type === 'public' ? 0.6 : 1.0)
+                  : baseOpacity
+                );
             
             return (
               <Line
@@ -397,7 +493,7 @@ function CampaignLineChart({
                   setHoveredCandidateId(null);
                 }}
                 isAnimationActive={false}
-                style={{ transition: 'stroke-width 1000ms cubic-bezier(0.4, 0, 0.2, 1), stroke-opacity 1000ms cubic-bezier(0.4, 0, 0.2, 1)' }}
+                style={{ transition: 'stroke-width 200ms cubic-bezier(0.4, 0, 0.2, 1), stroke-opacity 200ms cubic-bezier(0.4, 0, 0.2, 1)' }}
               />
             );
           })}

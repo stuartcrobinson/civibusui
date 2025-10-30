@@ -4,7 +4,8 @@ import './App.css';
 import StateSelectionPage from './components/StateSelectionPage';
 import HomePage from './components/HomePage';
 import CityPage from './components/CityPage';
-import NYCPlaceholderPage from './components/NYCPlaceholderPage';
+import NYCContestList from './components/NYCContestList';
+import NYCContestPage from './components/NYCContestPage';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import MethodologyPage from './components/MethodologyPage';
@@ -38,7 +39,8 @@ function App() {
         <Route path="/" element={<StateSelectionPage />} />
         <Route path="/nc" element={<HomePage />} />
         <Route path="/nc/:geoName" element={<CityPage />} />
-        <Route path="/nyc" element={<NYCPlaceholderPage />} />
+        <Route path="/nyc" element={<NYCContestList />} />
+        <Route path="/nyc/:contestSlug" element={<NYCContestPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/methodology" element={<MethodologyPage />} />
