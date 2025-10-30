@@ -1,90 +1,5 @@
 // Transform utilities for NYC campaign finance data
 
-// export const NYC_SIZE_COLORS = {
-//   // '$0-$10': '#fef3c7',      // pale yellow (keep)
-//   // '$11-$50': '#93c5fd',     // light blue
-//   // '$51-$100': '#86efac',    // light green
-//   // '$101-$400': '#fcd34d',   // gold
-//   // '$401-$1000': '#fb923c',  // orange
-//   // 'Over $1000': '#dc2626'   // red
-
-//   '$0-$10': '#dbeafe',     // blue family (small donations)
-// '$11-$50': '#93c5fd',
-// '$51-$100': '#3b82f6',
-// '$101-$400': '#fde68a',  // yellow family (large donations)
-// '$401-$1000': '#f59e0b',
-// 'Over $1000': '#dc2626'
-
-// };
-
-// // Option 1: Sequential single-hue (perceptually ordered)
-// export const NYC_SIZE_COLORS = {
-//   '$0-$10': '#dbeafe',
-//   '$11-$50': '#93c5fd',
-//   '$51-$100': '#60a5fa',
-//   '$101-$400': '#3b82f6',
-//   '$401-$1000': '#2563eb',
-//   'Over $1000': '#1e40af'
-// };
-
-// // Option 2: Diverging warm (emphasizes high end)
-// export const NYC_SIZE_COLORS = {
-//   '$0-$10': '#fef3c7',
-//   '$11-$50': '#fde68a',
-//   '$51-$100': '#fbbf24',
-//   '$101-$400': '#f59e0b',
-//   '$401-$1000': '#ea580c',
-//   'Over $1000': '#c2410c'
-// // };
-
-// // Option 3: Cool-to-warm gradient (neutral small, attention to large)
-// export const NYC_SIZE_COLORS = {
-//   '$0-$10': '#e0e7ff',
-//   '$11-$50': '#c7d2fe',
-//   '$51-$100': '#a5b4fc',
-//   '$101-$400': '#fbbf24',
-//   '$401-$1000': '#f97316',
-//   'Over $1000': '#dc2626'
-// };
-// // Cool-to-warm sequential (green→yellow→orange→red)
-// export const NYC_SIZE_COLORS = {
-//   '$0-$10': '#86efac',      // light green
-//   '$11-$50': '#bef264',     // lime
-//   '$51-$100': '#fde047',    // yellow
-//   '$101-$400': '#fb923c',   // orange
-//   '$401-$1000': '#f97316',  // deep orange
-//   'Over $1000': '#dc2626'   // red
-// };
-
-// // Alternative: Teal→amber progression (less saturated greens)
-// export const NYC_SIZE_COLORS = {
-//   '$0-$10': '#99f6e4',      // teal
-//   '$11-$50': '#5eead4',     // cyan
-//   '$51-$100': '#fde68a',    // pale yellow
-//   '$101-$400': '#fbbf24',   // amber
-//   '$401-$1000': '#f59e0b',  // orange
-//   'Over $1000': '#dc2626'   // red
-// };
-
-// // Option 1: Full spectrum (blue→cyan→green→yellow→orange→red)
-// export const NYC_SIZE_COLORS = {
-//   '$0-$10': '#60a5fa',      // blue
-//   '$11-$50': '#22d3ee',     // cyan
-//   '$51-$100': '#34d399',    // green
-//   '$101-$400': '#fbbf24',   // yellow
-//   '$401-$1000': '#fb923c',  // orange
-//   'Over $1000': '#dc2626'   // red
-// };
-
-// export const NYC_SIZE_COLORS = {
-//   '$0-$10': '#3b82f6',      // blue
-//   '$11-$50': '#8b5cf6',     // violet (alternative bridge)
-//   '$51-$100': '#10b981',    // emerald
-//   '$101-$400': '#ffd15eff',   // yellow
-//   '$401-$1000': '#fb923c',  // orange
-//   'Over $1000': '#dc2626'   // red
-// };
-
 export const NYC_SIZE_COLORS = {
   '$0-$10': '#91e0f1ff',      // blue
   '$11-$50': '#06aed4ff',     // cyan (darker, more saturated)
@@ -93,26 +8,6 @@ export const NYC_SIZE_COLORS = {
   '$401-$1000': '#ee8937ff',  // orange
   'Over $1000': '#dc2626'   // red
 };
-
-// // Option 2: Wider spectrum (violet→blue→green→yellow→orange→red)
-// export const NYC_SIZE_COLORS = {
-//   '$0-$10': '#a78bfa',      // violet
-//   '$11-$50': '#60a5fa',     // blue
-//   '$51-$100': '#34d399',    // green
-//   '$101-$400': '#facc15',   // yellow
-//   '$401-$1000': '#f97316',  // orange
-//   'Over $1000': '#dc2626'   // red
-// };
-
-// // Option 3: Saturated rainbow
-// export const NYC_SIZE_COLORS = {
-//   '$0-$10': '#3b82f6',      // blue
-//   '$11-$50': '#06b6d4',     // cyan
-//   '$51-$100': '#10b981',    // emerald
-//   '$101-$400': '#eab308',   // yellow
-//   '$401-$1000': '#ea580c',  // orange
-//   'Over $1000': '#b91c1c'   // dark red
-// };
 
 export const NYC_SIZE_ORDER = [
   '$0-$10',
@@ -220,6 +115,7 @@ export function transformNYCFundraisingTimeline(rows) {
       acc[key] = {
         candidate_id: row.candidate_id,
         candidate_name: row.candidate_name,
+        cfb_candid: row.cfb_candid,
         privatePoints: [],
         publicPoints: []
       };
@@ -259,11 +155,16 @@ export function transformNYCFundraisingTimeline(rows) {
       const color = GENERAL_ELECTION_COLORS[candidate.candidate_name] || getCandidateColor(candidate.candidate_name);
       const candidateId = `nyc_${candidate.candidate_id}`;
       
+      const linkUrl = candidate.cfb_candid 
+        ? `https://www.nyccfb.info/FTMSearch/Candidates/Contributions?ec=2025&rt=can&cand=${candidate.cfb_candid}`
+        : null;
+
       // Private funding line
       lines.push({
         label: candidate.candidate_name,
         dataKey: `${candidate.candidate_name.toLowerCase().replace(/\s+/g, '_')}_private`,
         candidateId: candidateId,
+        linkUrl: linkUrl,
         type: 'private',
         color: color,
         points: candidate.privatePoints
@@ -276,6 +177,7 @@ export function transformNYCFundraisingTimeline(rows) {
           label: candidate.candidate_name,
           dataKey: `${candidate.candidate_name.toLowerCase().replace(/\s+/g, '_')}_public`,
           candidateId: candidateId,
+          linkUrl: linkUrl,
           type: 'public',
           color: color,
           points: candidate.publicPoints
@@ -296,6 +198,7 @@ export function transformNYCExpenditureTimeline(rows) {
       acc[key] = {
         label: row.candidate_name,
         dataKey: row.candidate_name.toLowerCase().replace(/\s+/g, '_'),
+        cfbCandid: row.cfb_candid,
         points: []
       };
     }
@@ -313,6 +216,9 @@ export function transformNYCExpenditureTimeline(rows) {
   
   lines.forEach(line => {
     line.color = getCandidateColor(line.label);
+    line.linkUrl = line.cfbCandid 
+      ? `https://www.nyccfb.info/FTMSearch/Candidates/Contributions?ec=2025&rt=can&cand=${line.cfbCandid}`
+      : null;
   });
 
   return { lines };
@@ -349,7 +255,7 @@ export function transformNYCCashOnHandTimeline(rows) {
   return { lines };
 }
 
-export function transformNYCBarChart(rows, categoryKey, colorMap, categoryOrder = null, valueField = 'donation_count') {
+export function transformNYCBarChart(rows, categoryKey, colorMap, categoryOrder = null, valueField = 'donation_count', cfbCandidLookup = {}) {
   if (!rows || rows.length === 0) return [];
 
   // Sort by last name
@@ -379,6 +285,7 @@ export function transformNYCBarChart(rows, categoryKey, colorMap, categoryOrder 
     if (!acc[key]) {
       acc[key] = {
         label: row.candidate_name,
+        cfbCandid: row.cfb_candid || cfbCandidLookup[row.candidate_name],
         segments: {}
       };
     }
@@ -394,6 +301,7 @@ export function transformNYCBarChart(rows, categoryKey, colorMap, categoryOrder 
 
   // Convert to array format
   const result = Object.values(grouped).map(candidate => {
+    console.log('Bar chart candidate:', candidate.label, 'has linkUrl:', candidate.linkUrl, 'has cfbCandid:', candidate.cfbCandid);
     const segmentArray = Object.entries(candidate.segments)
       .map(([label, value]) => {
         const color = colorMap ? colorMap[label] : getCandidateColor(label);
@@ -409,6 +317,9 @@ export function transformNYCBarChart(rows, categoryKey, colorMap, categoryOrder 
     
     return {
       ...candidate,
+      linkUrl: candidate.cfbCandid 
+        ? `https://www.nyccfb.info/FTMSearch/Candidates/Contributions?ec=2025&rt=can&cand=${candidate.cfbCandid}`
+        : null,
       segments: segmentArray
     };
   });
@@ -416,7 +327,7 @@ export function transformNYCBarChart(rows, categoryKey, colorMap, categoryOrder 
   return result;
 }
 
-export function transformNYCRefundsChart(rows) {
+export function transformNYCRefundsChart(rows, cfbCandidLookup = {}) {
   if (!rows || rows.length === 0) return [];
 
   const sortedRows = [...rows].sort((a, b) => 
@@ -425,6 +336,9 @@ export function transformNYCRefundsChart(rows) {
 
   return sortedRows.map(row => ({
     label: row.candidate_name,
+    linkUrl: (row.cfb_candid || cfbCandidLookup[row.candidate_name])
+      ? `https://www.nyccfb.info/FTMSearch/Candidates/Contributions?ec=2025&rt=can&cand=${row.cfb_candid || cfbCandidLookup[row.candidate_name]}`
+      : null,
     segments: [{
       label: 'Refunded',
       value: Math.abs(parseFloat(row.total_refunded || 0)),
@@ -439,6 +353,7 @@ export function transformAbsoluteBarChart(barChartData, isCountBased = false) {
     
     return {
       ...candidate,
+      cfbCandid: candidate.cfbCandid, // pass through from transformNYCBarChart
       formattedTotal: isCountBased ? formatCount(total) : formatDollars(total),
       segments: candidate.segments.map(seg => {
         const percent = total > 0 ? (seg.value / total) * 100 : 0;

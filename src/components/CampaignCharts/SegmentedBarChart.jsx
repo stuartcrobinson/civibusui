@@ -290,8 +290,10 @@ function SegmentedBarChart({
                       )}
                       
                       <div className="flex items-center flex-shrink-0" style={{ width: `${nameWidth}px` }}>
-                        {item.linkUrl ? (
-                          <a href={item.linkUrl}
+                        {(item.linkUrl || item.cfbCandid) ? (
+                          <a href={item.cfbCandid 
+                            ? `https://www.nyccfb.info/FTMSearch/Candidates/Contributions?ec=2025&rt=can&cand=${item.cfbCandid}`
+                            : item.linkUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:underline"
@@ -337,11 +339,14 @@ function SegmentedBarChart({
                     )}
                     
                     <div className="flex items-center flex-shrink-0" style={{ width: `${nameWidth}px` }}>
-                      {item.linkUrl ? (
-                        <a href={item.linkUrl}
+                      {(item.linkUrl || item.cfbCandid) ? (
+                        <a href={item.cfbCandid 
+                          ? `https://www.nyccfb.info/FTMSearch/Candidates/Contributions?ec=2025&rt=can&cand=${item.cfbCandid}`
+                          : item.linkUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer hover:underline"
+                          className="text-sm font-semibold text-gray-900 dark:text-gray-100 whitespace-nowrap overflow-hidden text-ellipsis hover:underline"
+                          style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                         >
                           {displayLabel}
                         </a>

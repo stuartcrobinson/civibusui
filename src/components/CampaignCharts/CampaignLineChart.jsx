@@ -375,11 +375,11 @@ function CampaignLineChart({
                   style={{ backgroundColor: line.color }}
                 />
                 {linkUrl ? (
-                  
-                   <a href={linkUrl}
+                  <a href={linkUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-gray-900 dark:text-gray-100 relative inline-block hover:underline"
+                    style={{ cursor: 'pointer', pointerEvents: 'auto' }}
                   >
                     <span className="font-bold invisible" aria-hidden="true">{displayLabel}</span>
                     <span className={`absolute inset-0 ${shouldBeBold ? 'font-bold' : ''}`}>

@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { logEvent } from '../utils/analytics';
+import { Link } from 'react-router-dom';
 import { CampaignLineChart, SegmentedBarChart } from './CampaignCharts';
 import { useNYCContestData } from '../hooks/useNYCData';
 import Header from './Header';
@@ -135,41 +136,55 @@ function NYCContestPage() {
     [data?.cashOnHandTimeline, selectedCandidates]
   );
 
+  // Create cfb_candid lookup from timeline data
+  const cfbCandidLookup = useMemo(() => {
+    if (!data?.fundraisingTimeline) return {};
+    console.log('=== FUNDRAISING TIMELINE SAMPLE ROW ===', data.fundraisingTimeline[0]);
+    const lookup = {};
+    data.fundraisingTimeline.forEach(row => {
+      if (row.candidate_name && row.cfb_candid) {
+        lookup[row.candidate_name] = row.cfb_candid;
+      }
+    });
+    console.log('=== CFB CANDID LOOKUP ===', lookup);
+    return lookup;
+  }, [data?.fundraisingTimeline]);
+
   const donationsBySizeData = useMemo(() => 
     transformAbsoluteBarChart(
-      transformNYCBarChart(filterByCandidates(data?.donationsBySize), 'size_bucket', NYC_SIZE_COLORS, NYC_SIZE_ORDER),
+      transformNYCBarChart(filterByCandidates(data?.donationsBySize), 'size_bucket', NYC_SIZE_COLORS, NYC_SIZE_ORDER, 'donation_count', cfbCandidLookup),
       true
     ),
-    [data?.donationsBySize, selectedCandidates]
+    [data?.donationsBySize, selectedCandidates, cfbCandidLookup]
   );
 
   const donationsByLocationData = useMemo(() => 
     transformAbsoluteBarChart(
-      transformNYCBarChart(filterByCandidates(data?.donationsByLocation), 'location_bucket', NYC_LOCATION_COLORS, NYC_LOCATION_ORDER, 'total_amount'),
+      transformNYCBarChart(filterByCandidates(data?.donationsByLocation), 'location_bucket', NYC_LOCATION_COLORS, NYC_LOCATION_ORDER, 'total_amount', cfbCandidLookup),
       false
     ),
-    [data?.donationsByLocation, selectedCandidates]
+    [data?.donationsByLocation, selectedCandidates, cfbCandidLookup]
   );
 
   const donationsByBoroughData = useMemo(() => 
     transformAbsoluteBarChart(
-      transformNYCBarChart(filterByCandidates(data?.donationsByBorough), 'borough', NYC_BOROUGH_COLORS, NYC_BOROUGH_ORDER),
+      transformNYCBarChart(filterByCandidates(data?.donationsByBorough), 'borough', NYC_BOROUGH_COLORS, NYC_BOROUGH_ORDER, 'donation_count', cfbCandidLookup),
       true
     ),
-    [data?.donationsByBorough, selectedCandidates]
+    [data?.donationsByBorough, selectedCandidates, cfbCandidLookup]
   );
 
   const donationsByRealEstateData = useMemo(() => 
     transformAbsoluteBarChart(
-      transformNYCBarChart(filterByCandidates(data?.donationsByRealEstate), 'industry_type', NYC_REALESTATE_COLORS, NYC_REALESTATE_ORDER, 'total_amount'),
+      transformNYCBarChart(filterByCandidates(data?.donationsByRealEstate), 'industry_type', NYC_REALESTATE_COLORS, NYC_REALESTATE_ORDER, 'total_amount', cfbCandidLookup),
       false
     ),
-    [data?.donationsByRealEstate, selectedCandidates]
+    [data?.donationsByRealEstate, selectedCandidates, cfbCandidLookup]
   );
 
   const refundsData = useMemo(() => 
-    transformNYCRefundsChart(filterByCandidates(data?.refunds)),
-    [data?.refunds, selectedCandidates]
+    transformNYCRefundsChart(filterByCandidates(data?.refunds), cfbCandidLookup),
+    [data?.refunds, selectedCandidates, cfbCandidLookup]
   );
 
   if (loading) {
