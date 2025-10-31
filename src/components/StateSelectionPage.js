@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
+import { updateMetaTags } from '../utils/metaTags';
 // 
 // const SHOW_NYC = false; // Toggle this to show/hide NYC button
 const SHOW_NYC = true; // Toggle this to show/hide NYC button
 
 function StateSelectionPage() {
+  useEffect(() => {
+    updateMetaTags({
+      title: 'Civibus - Municipal Campaign Finance',
+      description: 'Campaign Finance\nTransparent data for local elections',
+      url: window.location.href
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
       <Header />

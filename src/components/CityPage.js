@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
 import { logEvent } from '../utils/analytics';
+import { updateMetaTags } from '../utils/metaTags';
 import { CampaignLineChart, SegmentedBarChart, FilterControls } from './CampaignCharts';
 import CandidateSelector from './CandidateSelector';
 import CandidateFinancialDetails from './CandidateFinancialDetails';
@@ -34,9 +35,13 @@ function CityPage() {
     ).join(' ');
   }, [cityName]);
 
-  // Set page title
+  // Set page title and meta tags
   useEffect(() => {
-    document.title = `Civibus - ${cityNameTitleCase}`;
+    updateMetaTags({
+      title: `Civibus - ${cityNameTitleCase}`,
+      description: `Campaign Finance\n${cityNameTitleCase}`,
+      url: window.location.href
+    });
   }, [cityNameTitleCase]);
 
   // Track page view

@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
 import { logEvent } from '../utils/analytics';
+import { updateMetaTags } from '../utils/metaTags';
 import { CampaignLineChart, SegmentedBarChart } from './CampaignCharts';
 import { useNYCContestData, useNYCAggregateData } from '../hooks/useNYCData';
 import Header from './Header';
@@ -129,7 +130,11 @@ function NYCContestPage() {
 
   useEffect(() => {
     if (pageTitle) {
-      document.title = `Civibus - NYC ${pageTitle}`;
+      updateMetaTags({
+        title: `Civibus - NYC ${pageTitle}`,
+        description: `Campaign Finance\nNYC ${pageTitle}`,
+        url: window.location.href
+      });
       logEvent(isAggregate ? 'NYC Aggregate Page' : 'NYC Contest Page', 'View', pageTitle);
     }
   }, [pageTitle, isAggregate]);

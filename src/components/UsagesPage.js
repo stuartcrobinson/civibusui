@@ -3,10 +3,15 @@ import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import { logEvent } from '../utils/analytics';
+import { updateMetaTags } from '../utils/metaTags';
 
-function PressPage() {
+function UsagesPage() {
   useEffect(() => {
-    document.title = 'Civibus - Press';
+    updateMetaTags({
+      title: 'Civibus - Usages',
+      description: 'Usages',
+      url: window.location.href
+    });
     logEvent('Press Page', 'View', 'Press');
   }, []);
 
@@ -15,7 +20,7 @@ function PressPage() {
       <Header />
       <div className="flex-1 p-8 max-w-4xl mx-auto w-full">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-6">
-          Press & Impact
+          Usage & Impact
         </h1>
         
         <p className="text-gray-700 dark:text-gray-300 mb-8">
@@ -77,4 +82,4 @@ function PressPage() {
   );
 }
 
-export default PressPage;
+export default UsagesPage;

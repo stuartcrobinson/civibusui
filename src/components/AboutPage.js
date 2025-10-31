@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import { updateMetaTags } from '../utils/metaTags';
 
 function AboutPage() {
+  useEffect(() => {
+    updateMetaTags({
+      title: 'Civibus - About',
+      description: 'About',
+      url: window.location.href
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
       <Header />

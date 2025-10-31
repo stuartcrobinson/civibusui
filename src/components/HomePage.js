@@ -4,12 +4,21 @@ import { fetchCities } from '../hooks/useCityData';
 import Header from './Header';
 import Footer from './Footer';
 import { logEvent } from '../utils/analytics';
+import { updateMetaTags } from '../utils/metaTags';
 
 function HomePage() {
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    updateMetaTags({
+      title: 'Civibus - North Carolina',
+      description: 'Campaign Finance\nNorth Carolina Municipal Elections',
+      url: window.location.href
+    });
+  }, []);
 
   useEffect(() => {
     async function loadCities() {
