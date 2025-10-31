@@ -201,7 +201,7 @@ function CandidateFinancialDetails({ topDonors, topExpenditures, topSpendingByRe
                     {!hasData ? (
                       <div className="py-8 text-center">
                         <p className="text-sm italic text-gray-500 dark:text-gray-400">
-                          No financial data submitted
+                          data not found
                         </p>
                       </div>
                     ) : (

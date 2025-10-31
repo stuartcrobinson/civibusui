@@ -313,7 +313,7 @@ function SegmentedBarChart({
                       <div className="flex-1 min-w-0 relative flex items-center">
                         <div className="flex h-10 w-full items-center">
                           <div className="text-xs italic text-gray-400 dark:text-gray-500">
-                            No financial data submitted
+                            data not found
                           </div>
                         </div>
                       </div>
