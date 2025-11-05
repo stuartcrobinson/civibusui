@@ -266,7 +266,8 @@ function CityPage() {
             2025 {cityName} Campaign Finance
           </div>
           <div className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-            Last updated: {data.lastUpdated}
+            Last updated: 10/24/2025
+            {/* Last updated: {data.lastUpdated} */}
           </div>
           <FilterControls
             data={candidateData}

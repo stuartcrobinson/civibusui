@@ -414,7 +414,7 @@ function NYCContestPage() {
 
         <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
           <p className="text-sm text-blue-900 dark:text-blue-100">
-            <strong>Data notes:</strong> All charts show campaign finance data from January 2022 onward. 
+            <strong>Data notes:</strong> All charts show campaign finance data from January 2022 to Oct 30 2025. 
             Public funding amounts are shown separately in the fundraising timeline where applicable.
           </p>
         </div>
